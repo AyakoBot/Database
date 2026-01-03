@@ -5,18 +5,48 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
-model afk {
-  userid  String  @db.VarChar
-  text    String?
+//#region Finished
+
+model AfkState {
+  userId  String  @db.VarChar
+  reason  String?
   since   Decimal @db.Decimal
-  guildid String  @db.VarChar
+  guildId String  @db.VarChar
 
-  @@id([userid, guildid])
-  @@index([userid, guildid])
+  @@id([userId, guildId])
+  @@index([userId, guildId])
 }
+
+model AfkSetting {
+  guildId    String @db.VarChar
+  maxLetters Int    @default(250)
+
+  @@id(guildId)
+}
+
+model GuildSetting {
+  guildId           String   @id @db.VarChar
+  prefix            String?
+  interactionsMode  Boolean  @default(true)
+  language          String   @default("en-GB")
+  errorChannel      String?  @db.VarChar
+  rpEnabled         Boolean  @default(false)
+  rpEnableRuns      Decimal  @default(0) @db.Decimal
+  lastRpSyncRun     Decimal? @db.Decimal
+  ptReminderEnabled Boolean  @default(true)
+  legacyRp          Boolean  @default(false)
+  editRpCommands    Boolean  @default(true)
+  enableInvitesAt   Decimal? @db.Decimal
+  statusChannel     String?  @db.VarChar
+  updatesChannel    String?
+  notifyChannel     String?
+
+  @@index([guildId])
+}
+
+//#endregion
 
 model antispam {
   guildid              String         @id(map: "antispamsettings_pkey") @db.VarChar
@@ -47,11 +77,6 @@ model antivirus {
   deletemsg            Boolean        @default(false)
 
   @@index([guildid])
-}
-
-model afksettings {
-  guildid    String  @id @db.VarChar
-  maxLetters Decimal @default(250) @db.Decimal
 }
 
 model appealquestions {
@@ -289,11 +314,11 @@ model expiry {
   @@index([guildid])
 }
 
-model filterscraper {
+model FilteredWord {
   keyword    String
-  filtertype Decimal @db.Decimal
+  filterType Decimal @db.Decimal
 
-  @@id([keyword, filtertype])
+  @@id([keyword, filterType])
 }
 
 model giveawaycollection {
@@ -340,34 +365,15 @@ model guilds {
   @@index([guildid])
 }
 
-model customclients {
-  guildid   String  @id @db.VarChar
-  appid     String? @db.VarChar
+model CustomClient {
+  guildId   String  @db.VarChar
+  appId     String? @db.VarChar
   token     String? @db.VarChar
-  publickey String? @db.VarChar
+  publicKey String? @db.VarChar
   secret    String? @db.VarChar
 
-  @@index([appid])
-}
-
-model guildsettings {
-  guildid           String   @id @db.VarChar
-  prefix            String?
-  interactionsmode  Boolean  @default(true)
-  lan               String   @default("en-GB")
-  errorchannel      String?  @db.VarChar
-  enabledrp         Boolean  @default(false)
-  rpenableruns      Decimal  @default(0) @db.Decimal
-  lastrpsyncrun     Decimal? @db.Decimal
-  ptreminderenabled Boolean  @default(true)
-  legacyrp          Boolean  @default(false)
-  editrpcommands    Boolean  @default(true)
-  enableinvitesat   Decimal? @db.Decimal
-  statuschannel     String?  @db.VarChar
-  updateschannel    String?
-  notifychannel     String?
-
-  @@index([guildid])
+  @@id([guildId])
+  @@index([appId])
 }
 
 model level {

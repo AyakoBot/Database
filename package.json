@@ -13,31 +13,32 @@
   "type": "module",
   "scripts": {
     "build": "swc src -d dist --strip-leading-paths --copy-files",
+    "generate": "pnpx prisma@7.2.0 generate",
     "lint": "eslint src --fix",
     "watch": "swc src -d dist --strip-leading-paths --copy-files --watch"
   },
   "dependencies": {
-    "@prisma/client": "^6.18.0",
+    "@prisma/client": "^7.2.0",
     "dotenv": "^17.2.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.2",
     "@swc/cli": "^0.7.9",
-    "@swc/core": "1.15.3",
+    "@swc/core": "1.15.8",
     "@total-typescript/ts-reset": "^0.6.1",
-    "@types/node": "^24.10.1",
-    "eslint": "^9.39.1",
+    "@types/node": "^25.0.3",
+    "eslint": "^9.39.2",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.4",
-    "globals": "^16.5.0",
+    "globals": "^17.0.0",
     "prettier": "^3.7.4",
-    "prisma": "6.18.0",
+    "prisma": "7.2.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.1"
+    "typescript-eslint": "^8.51.0"
   },
   "packageManager": "pnpm@10.18.2",
   "engines": {
