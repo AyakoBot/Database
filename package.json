@@ -12,14 +12,16 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "swc src -d dist --strip-leading-paths --copy-files",
+    "compile": "swc src -d dist --strip-leading-paths --copy-files",
     "generate": "pnpx prisma@7.2.0 generate",
-    "lint": "eslint src --fix",
-    "watch": "swc src -d dist --strip-leading-paths --copy-files --watch"
+    "gather": "pnpx tsx generator.ts",
+    "format": "pnpx prisma format",
+    "build": "pnpm gather && pnpm generate && pnpm format && pnpm compile"
   },
   "dependencies": {
     "@prisma/client": "^7.2.0",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "glob": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
