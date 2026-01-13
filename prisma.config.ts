@@ -1,9 +1,14 @@
-import 'dotenv/config';
-import { defineConfig } from 'prisma/config';
-// import { defineConfig, env } from 'prisma/config';
+import { config } from 'dotenv';
+import { defineConfig, env } from 'prisma/config';
+
+config({
+ quiet: true,
+ path: '../../.env',
+});
 
 export default defineConfig({
- // TODO: Replace PLACEHOLDER with actual database URL or use env variable
- datasource: { url: 'PLACEHOLDER' },
+ datasource: {
+  url: `${env('MAIN_DATABASE_URL').replace('postgres:5432', process.argv.includes('--local') ? 'localhost:5432' : 'postgres:5432')}/Ayako-v3`,
+ },
  schema: './prisma/schema.prisma',
 });
