@@ -146,6 +146,11 @@ exports.Prisma.CustomClientScalarFieldEnum = {
   secret: 'secret'
 };
 
+exports.Prisma.FilteredWordScalarFieldEnum = {
+  keyword: 'keyword',
+  filterType: 'filterType'
+};
+
 exports.Prisma.AfkStateScalarFieldEnum = {
   userId: 'userId',
   reason: 'reason',
@@ -172,11 +177,16 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.FilterType = exports.$Enums.FilterType = {
+  Profanity: 'Profanity',
+  SexualContent: 'SexualContent',
+  Slurs: 'Slurs'
+};
 
 exports.Prisma.ModelName = {
   GuildSetting: 'GuildSetting',
   CustomClient: 'CustomClient',
+  FilteredWord: 'FilteredWord',
   AfkState: 'AfkState',
   AfkSetting: 'AfkSetting'
 };

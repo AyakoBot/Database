@@ -1,6 +1,12 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../src"
+
+  engineType             = "binaries"
+  runtime                = "nodejs"
+  moduleFormat           = "esm"
+  generatedFileExtension = "ts"
+  importFileExtension    = "js"
 }
 
 datasource db {
@@ -39,6 +45,19 @@ model CustomClient {
 
   @@id([guildId])
   @@index([appId])
+}
+
+model FilteredWord {
+  keyword    String
+  filterType FilterType
+
+  @@id([keyword, filterType])
+}
+
+enum FilterType {
+  Profanity
+  SexualContent
+  Slurs
 }
 
 model AfkState {

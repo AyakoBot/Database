@@ -119,6 +119,11 @@ exports.Prisma.CustomClientScalarFieldEnum = {
   secret: 'secret'
 };
 
+exports.Prisma.FilteredWordScalarFieldEnum = {
+  keyword: 'keyword',
+  filterType: 'filterType'
+};
+
 exports.Prisma.AfkStateScalarFieldEnum = {
   userId: 'userId',
   reason: 'reason',
@@ -145,11 +150,16 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.FilterType = exports.$Enums.FilterType = {
+  Profanity: 'Profanity',
+  SexualContent: 'SexualContent',
+  Slurs: 'Slurs'
+};
 
 exports.Prisma.ModelName = {
   GuildSetting: 'GuildSetting',
   CustomClient: 'CustomClient',
+  FilteredWord: 'FilteredWord',
   AfkState: 'AfkState',
   AfkSetting: 'AfkSetting'
 };
@@ -161,10 +171,10 @@ const config = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n//#region Models\n\nmodel GuildSetting {\n  guildId           String   @db.VarChar\n  prefix            String?\n  interactionsMode  Boolean  @default(true)\n  language          String   @default(\"en-GB\")\n  errorChannel      String?  @db.VarChar\n  rpEnabled         Boolean  @default(false)\n  rpEnableRuns      Decimal  @default(0) @db.Decimal\n  lastRpSyncRun     Decimal? @db.Decimal\n  ptReminderEnabled Boolean  @default(true)\n  legacyRp          Boolean  @default(false)\n  editRpCommands    Boolean  @default(true)\n  enableInvitesAt   Decimal? @db.Decimal\n  statusChannel     String?  @db.VarChar\n  updatesChannel    String?\n  notifyChannel     String?\n\n  @@id([guildId])\n  @@index([guildId])\n}\n\nmodel CustomClient {\n  guildId   String  @db.VarChar\n  appId     String? @db.VarChar\n  token     String? @db.VarChar\n  publicKey String? @db.VarChar\n  secret    String? @db.VarChar\n\n  @@id([guildId])\n  @@index([appId])\n}\n\nmodel AfkState {\n  userId  String  @db.VarChar\n  reason  String?\n  since   Decimal @db.Decimal\n  guildId String  @db.VarChar\n\n  @@id([userId, guildId])\n  @@index([userId, guildId])\n}\n\nmodel AfkSetting {\n  guildId    String @db.VarChar\n  maxLetters Int    @default(250)\n\n  @@id(guildId)\n}\n\n//#endregion\n"
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src\"\n\n  engineType             = \"binaries\"\n  runtime                = \"nodejs\"\n  moduleFormat           = \"esm\"\n  generatedFileExtension = \"ts\"\n  importFileExtension    = \"js\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n//#region Models\n\nmodel GuildSetting {\n  guildId           String   @db.VarChar\n  prefix            String?\n  interactionsMode  Boolean  @default(true)\n  language          String   @default(\"en-GB\")\n  errorChannel      String?  @db.VarChar\n  rpEnabled         Boolean  @default(false)\n  rpEnableRuns      Decimal  @default(0) @db.Decimal\n  lastRpSyncRun     Decimal? @db.Decimal\n  ptReminderEnabled Boolean  @default(true)\n  legacyRp          Boolean  @default(false)\n  editRpCommands    Boolean  @default(true)\n  enableInvitesAt   Decimal? @db.Decimal\n  statusChannel     String?  @db.VarChar\n  updatesChannel    String?\n  notifyChannel     String?\n\n  @@id([guildId])\n  @@index([guildId])\n}\n\nmodel CustomClient {\n  guildId   String  @db.VarChar\n  appId     String? @db.VarChar\n  token     String? @db.VarChar\n  publicKey String? @db.VarChar\n  secret    String? @db.VarChar\n\n  @@id([guildId])\n  @@index([appId])\n}\n\nmodel FilteredWord {\n  keyword    String\n  filterType FilterType\n\n  @@id([keyword, filterType])\n}\n\nenum FilterType {\n  Profanity\n  SexualContent\n  Slurs\n}\n\nmodel AfkState {\n  userId  String  @db.VarChar\n  reason  String?\n  since   Decimal @db.Decimal\n  guildId String  @db.VarChar\n\n  @@id([userId, guildId])\n  @@index([userId, guildId])\n}\n\nmodel AfkSetting {\n  guildId    String @db.VarChar\n  maxLetters Int    @default(250)\n\n  @@id(guildId)\n}\n\n//#endregion\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"GuildSetting\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prefix\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"interactionsMode\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"language\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"errorChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rpEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"rpEnableRuns\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"lastRpSyncRun\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"ptReminderEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"legacyRp\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"editRpCommands\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"enableInvitesAt\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"statusChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"updatesChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notifyChannel\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"CustomClient\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicKey\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"secret\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"AfkState\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"since\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"AfkSetting\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"maxLetters\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"GuildSetting\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prefix\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"interactionsMode\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"language\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"errorChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rpEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"rpEnableRuns\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"lastRpSyncRun\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"ptReminderEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"legacyRp\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"editRpCommands\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"enableInvitesAt\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"statusChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"updatesChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notifyChannel\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"CustomClient\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicKey\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"secret\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"FilteredWord\":{\"fields\":[{\"name\":\"keyword\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"filterType\",\"kind\":\"enum\",\"type\":\"FilterType\"}],\"dbName\":null},\"AfkState\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"since\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"AfkSetting\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"maxLetters\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
       getRuntime: async () => require('./query_compiler_bg.js'),

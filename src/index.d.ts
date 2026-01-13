@@ -24,6 +24,11 @@ export type GuildSetting = $Result.DefaultSelection<Prisma.$GuildSettingPayload>
  */
 export type CustomClient = $Result.DefaultSelection<Prisma.$CustomClientPayload>
 /**
+ * Model FilteredWord
+ * 
+ */
+export type FilteredWord = $Result.DefaultSelection<Prisma.$FilteredWordPayload>
+/**
  * Model AfkState
  * 
  */
@@ -33,6 +38,24 @@ export type AfkState = $Result.DefaultSelection<Prisma.$AfkStatePayload>
  * 
  */
 export type AfkSetting = $Result.DefaultSelection<Prisma.$AfkSettingPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const FilterType: {
+  Profanity: 'Profanity',
+  SexualContent: 'SexualContent',
+  Slurs: 'Slurs'
+};
+
+export type FilterType = (typeof FilterType)[keyof typeof FilterType]
+
+}
+
+export type FilterType = $Enums.FilterType
+
+export const FilterType: typeof $Enums.FilterType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -170,6 +193,16 @@ export class PrismaClient<
     * ```
     */
   get customClient(): Prisma.CustomClientDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.filteredWord`: Exposes CRUD operations for the **FilteredWord** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FilteredWords
+    * const filteredWords = await prisma.filteredWord.findMany()
+    * ```
+    */
+  get filteredWord(): Prisma.FilteredWordDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.afkState`: Exposes CRUD operations for the **AfkState** model.
@@ -626,6 +659,7 @@ export namespace Prisma {
   export const ModelName: {
     GuildSetting: 'GuildSetting',
     CustomClient: 'CustomClient',
+    FilteredWord: 'FilteredWord',
     AfkState: 'AfkState',
     AfkSetting: 'AfkSetting'
   };
@@ -643,7 +677,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "guildSetting" | "customClient" | "afkState" | "afkSetting"
+      modelProps: "guildSetting" | "customClient" | "filteredWord" | "afkState" | "afkSetting"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -792,6 +826,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CustomClientCountArgs<ExtArgs>
             result: $Utils.Optional<CustomClientCountAggregateOutputType> | number
+          }
+        }
+      }
+      FilteredWord: {
+        payload: Prisma.$FilteredWordPayload<ExtArgs>
+        fields: Prisma.FilteredWordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FilteredWordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FilteredWordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+          }
+          findFirst: {
+            args: Prisma.FilteredWordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FilteredWordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+          }
+          findMany: {
+            args: Prisma.FilteredWordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
+          }
+          create: {
+            args: Prisma.FilteredWordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+          }
+          createMany: {
+            args: Prisma.FilteredWordCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FilteredWordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
+          }
+          delete: {
+            args: Prisma.FilteredWordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+          }
+          update: {
+            args: Prisma.FilteredWordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+          }
+          deleteMany: {
+            args: Prisma.FilteredWordDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FilteredWordUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FilteredWordUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
+          }
+          upsert: {
+            args: Prisma.FilteredWordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+          }
+          aggregate: {
+            args: Prisma.FilteredWordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFilteredWord>
+          }
+          groupBy: {
+            args: Prisma.FilteredWordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FilteredWordGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FilteredWordCountArgs<ExtArgs>
+            result: $Utils.Optional<FilteredWordCountAggregateOutputType> | number
           }
         }
       }
@@ -1053,6 +1161,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     guildSetting?: GuildSettingOmit
     customClient?: CustomClientOmit
+    filteredWord?: FilteredWordOmit
     afkState?: AfkStateOmit
     afkSetting?: AfkSettingOmit
   }
@@ -3298,6 +3407,962 @@ export namespace Prisma {
 
 
   /**
+   * Model FilteredWord
+   */
+
+  export type AggregateFilteredWord = {
+    _count: FilteredWordCountAggregateOutputType | null
+    _min: FilteredWordMinAggregateOutputType | null
+    _max: FilteredWordMaxAggregateOutputType | null
+  }
+
+  export type FilteredWordMinAggregateOutputType = {
+    keyword: string | null
+    filterType: $Enums.FilterType | null
+  }
+
+  export type FilteredWordMaxAggregateOutputType = {
+    keyword: string | null
+    filterType: $Enums.FilterType | null
+  }
+
+  export type FilteredWordCountAggregateOutputType = {
+    keyword: number
+    filterType: number
+    _all: number
+  }
+
+
+  export type FilteredWordMinAggregateInputType = {
+    keyword?: true
+    filterType?: true
+  }
+
+  export type FilteredWordMaxAggregateInputType = {
+    keyword?: true
+    filterType?: true
+  }
+
+  export type FilteredWordCountAggregateInputType = {
+    keyword?: true
+    filterType?: true
+    _all?: true
+  }
+
+  export type FilteredWordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FilteredWord to aggregate.
+     */
+    where?: FilteredWordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FilteredWords to fetch.
+     */
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FilteredWordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FilteredWords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FilteredWords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FilteredWords
+    **/
+    _count?: true | FilteredWordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FilteredWordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FilteredWordMaxAggregateInputType
+  }
+
+  export type GetFilteredWordAggregateType<T extends FilteredWordAggregateArgs> = {
+        [P in keyof T & keyof AggregateFilteredWord]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFilteredWord[P]>
+      : GetScalarType<T[P], AggregateFilteredWord[P]>
+  }
+
+
+
+
+  export type FilteredWordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FilteredWordWhereInput
+    orderBy?: FilteredWordOrderByWithAggregationInput | FilteredWordOrderByWithAggregationInput[]
+    by: FilteredWordScalarFieldEnum[] | FilteredWordScalarFieldEnum
+    having?: FilteredWordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FilteredWordCountAggregateInputType | true
+    _min?: FilteredWordMinAggregateInputType
+    _max?: FilteredWordMaxAggregateInputType
+  }
+
+  export type FilteredWordGroupByOutputType = {
+    keyword: string
+    filterType: $Enums.FilterType
+    _count: FilteredWordCountAggregateOutputType | null
+    _min: FilteredWordMinAggregateOutputType | null
+    _max: FilteredWordMaxAggregateOutputType | null
+  }
+
+  type GetFilteredWordGroupByPayload<T extends FilteredWordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FilteredWordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FilteredWordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
+            : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FilteredWordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyword?: boolean
+    filterType?: boolean
+  }, ExtArgs["result"]["filteredWord"]>
+
+  export type FilteredWordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyword?: boolean
+    filterType?: boolean
+  }, ExtArgs["result"]["filteredWord"]>
+
+  export type FilteredWordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyword?: boolean
+    filterType?: boolean
+  }, ExtArgs["result"]["filteredWord"]>
+
+  export type FilteredWordSelectScalar = {
+    keyword?: boolean
+    filterType?: boolean
+  }
+
+  export type FilteredWordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"keyword" | "filterType", ExtArgs["result"]["filteredWord"]>
+
+  export type $FilteredWordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FilteredWord"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      keyword: string
+      filterType: $Enums.FilterType
+    }, ExtArgs["result"]["filteredWord"]>
+    composites: {}
+  }
+
+  type FilteredWordGetPayload<S extends boolean | null | undefined | FilteredWordDefaultArgs> = $Result.GetResult<Prisma.$FilteredWordPayload, S>
+
+  type FilteredWordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FilteredWordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FilteredWordCountAggregateInputType | true
+    }
+
+  export interface FilteredWordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FilteredWord'], meta: { name: 'FilteredWord' } }
+    /**
+     * Find zero or one FilteredWord that matches the filter.
+     * @param {FilteredWordFindUniqueArgs} args - Arguments to find a FilteredWord
+     * @example
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FilteredWordFindUniqueArgs>(args: SelectSubset<T, FilteredWordFindUniqueArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FilteredWord that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FilteredWordFindUniqueOrThrowArgs} args - Arguments to find a FilteredWord
+     * @example
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FilteredWordFindUniqueOrThrowArgs>(args: SelectSubset<T, FilteredWordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FilteredWord that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilteredWordFindFirstArgs} args - Arguments to find a FilteredWord
+     * @example
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FilteredWordFindFirstArgs>(args?: SelectSubset<T, FilteredWordFindFirstArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FilteredWord that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilteredWordFindFirstOrThrowArgs} args - Arguments to find a FilteredWord
+     * @example
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FilteredWordFindFirstOrThrowArgs>(args?: SelectSubset<T, FilteredWordFindFirstOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FilteredWords that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilteredWordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FilteredWords
+     * const filteredWords = await prisma.filteredWord.findMany()
+     * 
+     * // Get first 10 FilteredWords
+     * const filteredWords = await prisma.filteredWord.findMany({ take: 10 })
+     * 
+     * // Only select the `keyword`
+     * const filteredWordWithKeywordOnly = await prisma.filteredWord.findMany({ select: { keyword: true } })
+     * 
+     */
+    findMany<T extends FilteredWordFindManyArgs>(args?: SelectSubset<T, FilteredWordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FilteredWord.
+     * @param {FilteredWordCreateArgs} args - Arguments to create a FilteredWord.
+     * @example
+     * // Create one FilteredWord
+     * const FilteredWord = await prisma.filteredWord.create({
+     *   data: {
+     *     // ... data to create a FilteredWord
+     *   }
+     * })
+     * 
+     */
+    create<T extends FilteredWordCreateArgs>(args: SelectSubset<T, FilteredWordCreateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FilteredWords.
+     * @param {FilteredWordCreateManyArgs} args - Arguments to create many FilteredWords.
+     * @example
+     * // Create many FilteredWords
+     * const filteredWord = await prisma.filteredWord.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FilteredWordCreateManyArgs>(args?: SelectSubset<T, FilteredWordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FilteredWords and returns the data saved in the database.
+     * @param {FilteredWordCreateManyAndReturnArgs} args - Arguments to create many FilteredWords.
+     * @example
+     * // Create many FilteredWords
+     * const filteredWord = await prisma.filteredWord.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FilteredWords and only return the `keyword`
+     * const filteredWordWithKeywordOnly = await prisma.filteredWord.createManyAndReturn({
+     *   select: { keyword: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FilteredWordCreateManyAndReturnArgs>(args?: SelectSubset<T, FilteredWordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FilteredWord.
+     * @param {FilteredWordDeleteArgs} args - Arguments to delete one FilteredWord.
+     * @example
+     * // Delete one FilteredWord
+     * const FilteredWord = await prisma.filteredWord.delete({
+     *   where: {
+     *     // ... filter to delete one FilteredWord
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FilteredWordDeleteArgs>(args: SelectSubset<T, FilteredWordDeleteArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FilteredWord.
+     * @param {FilteredWordUpdateArgs} args - Arguments to update one FilteredWord.
+     * @example
+     * // Update one FilteredWord
+     * const filteredWord = await prisma.filteredWord.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FilteredWordUpdateArgs>(args: SelectSubset<T, FilteredWordUpdateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FilteredWords.
+     * @param {FilteredWordDeleteManyArgs} args - Arguments to filter FilteredWords to delete.
+     * @example
+     * // Delete a few FilteredWords
+     * const { count } = await prisma.filteredWord.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FilteredWordDeleteManyArgs>(args?: SelectSubset<T, FilteredWordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FilteredWords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilteredWordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FilteredWords
+     * const filteredWord = await prisma.filteredWord.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FilteredWordUpdateManyArgs>(args: SelectSubset<T, FilteredWordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FilteredWords and returns the data updated in the database.
+     * @param {FilteredWordUpdateManyAndReturnArgs} args - Arguments to update many FilteredWords.
+     * @example
+     * // Update many FilteredWords
+     * const filteredWord = await prisma.filteredWord.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FilteredWords and only return the `keyword`
+     * const filteredWordWithKeywordOnly = await prisma.filteredWord.updateManyAndReturn({
+     *   select: { keyword: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FilteredWordUpdateManyAndReturnArgs>(args: SelectSubset<T, FilteredWordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FilteredWord.
+     * @param {FilteredWordUpsertArgs} args - Arguments to update or create a FilteredWord.
+     * @example
+     * // Update or create a FilteredWord
+     * const filteredWord = await prisma.filteredWord.upsert({
+     *   create: {
+     *     // ... data to create a FilteredWord
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FilteredWord we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FilteredWordUpsertArgs>(args: SelectSubset<T, FilteredWordUpsertArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FilteredWords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilteredWordCountArgs} args - Arguments to filter FilteredWords to count.
+     * @example
+     * // Count the number of FilteredWords
+     * const count = await prisma.filteredWord.count({
+     *   where: {
+     *     // ... the filter for the FilteredWords we want to count
+     *   }
+     * })
+    **/
+    count<T extends FilteredWordCountArgs>(
+      args?: Subset<T, FilteredWordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FilteredWordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FilteredWord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilteredWordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FilteredWordAggregateArgs>(args: Subset<T, FilteredWordAggregateArgs>): Prisma.PrismaPromise<GetFilteredWordAggregateType<T>>
+
+    /**
+     * Group by FilteredWord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilteredWordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FilteredWordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FilteredWordGroupByArgs['orderBy'] }
+        : { orderBy?: FilteredWordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FilteredWordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFilteredWordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FilteredWord model
+   */
+  readonly fields: FilteredWordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FilteredWord.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FilteredWordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FilteredWord model
+   */
+  interface FilteredWordFieldRefs {
+    readonly keyword: FieldRef<"FilteredWord", 'String'>
+    readonly filterType: FieldRef<"FilteredWord", 'FilterType'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FilteredWord findUnique
+   */
+  export type FilteredWordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * Filter, which FilteredWord to fetch.
+     */
+    where: FilteredWordWhereUniqueInput
+  }
+
+  /**
+   * FilteredWord findUniqueOrThrow
+   */
+  export type FilteredWordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * Filter, which FilteredWord to fetch.
+     */
+    where: FilteredWordWhereUniqueInput
+  }
+
+  /**
+   * FilteredWord findFirst
+   */
+  export type FilteredWordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * Filter, which FilteredWord to fetch.
+     */
+    where?: FilteredWordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FilteredWords to fetch.
+     */
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FilteredWords.
+     */
+    cursor?: FilteredWordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FilteredWords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FilteredWords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FilteredWords.
+     */
+    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
+  }
+
+  /**
+   * FilteredWord findFirstOrThrow
+   */
+  export type FilteredWordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * Filter, which FilteredWord to fetch.
+     */
+    where?: FilteredWordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FilteredWords to fetch.
+     */
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FilteredWords.
+     */
+    cursor?: FilteredWordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FilteredWords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FilteredWords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FilteredWords.
+     */
+    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
+  }
+
+  /**
+   * FilteredWord findMany
+   */
+  export type FilteredWordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * Filter, which FilteredWords to fetch.
+     */
+    where?: FilteredWordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FilteredWords to fetch.
+     */
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FilteredWords.
+     */
+    cursor?: FilteredWordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FilteredWords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FilteredWords.
+     */
+    skip?: number
+    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
+  }
+
+  /**
+   * FilteredWord create
+   */
+  export type FilteredWordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * The data needed to create a FilteredWord.
+     */
+    data: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
+  }
+
+  /**
+   * FilteredWord createMany
+   */
+  export type FilteredWordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FilteredWords.
+     */
+    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FilteredWord createManyAndReturn
+   */
+  export type FilteredWordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * The data used to create many FilteredWords.
+     */
+    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FilteredWord update
+   */
+  export type FilteredWordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * The data needed to update a FilteredWord.
+     */
+    data: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
+    /**
+     * Choose, which FilteredWord to update.
+     */
+    where: FilteredWordWhereUniqueInput
+  }
+
+  /**
+   * FilteredWord updateMany
+   */
+  export type FilteredWordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FilteredWords.
+     */
+    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
+    /**
+     * Filter which FilteredWords to update
+     */
+    where?: FilteredWordWhereInput
+    /**
+     * Limit how many FilteredWords to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FilteredWord updateManyAndReturn
+   */
+  export type FilteredWordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * The data used to update FilteredWords.
+     */
+    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
+    /**
+     * Filter which FilteredWords to update
+     */
+    where?: FilteredWordWhereInput
+    /**
+     * Limit how many FilteredWords to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FilteredWord upsert
+   */
+  export type FilteredWordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * The filter to search for the FilteredWord to update in case it exists.
+     */
+    where: FilteredWordWhereUniqueInput
+    /**
+     * In case the FilteredWord found by the `where` argument doesn't exist, create a new FilteredWord with this data.
+     */
+    create: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
+    /**
+     * In case the FilteredWord was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
+  }
+
+  /**
+   * FilteredWord delete
+   */
+  export type FilteredWordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+    /**
+     * Filter which FilteredWord to delete.
+     */
+    where: FilteredWordWhereUniqueInput
+  }
+
+  /**
+   * FilteredWord deleteMany
+   */
+  export type FilteredWordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FilteredWords to delete
+     */
+    where?: FilteredWordWhereInput
+    /**
+     * Limit how many FilteredWords to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FilteredWord without action
+   */
+  export type FilteredWordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilteredWord
+     */
+    select?: FilteredWordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilteredWord
+     */
+    omit?: FilteredWordOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model AfkState
    */
 
@@ -5349,6 +6414,14 @@ export namespace Prisma {
   export type CustomClientScalarFieldEnum = (typeof CustomClientScalarFieldEnum)[keyof typeof CustomClientScalarFieldEnum]
 
 
+  export const FilteredWordScalarFieldEnum: {
+    keyword: 'keyword',
+    filterType: 'filterType'
+  };
+
+  export type FilteredWordScalarFieldEnum = (typeof FilteredWordScalarFieldEnum)[keyof typeof FilteredWordScalarFieldEnum]
+
+
   export const AfkStateScalarFieldEnum: {
     userId: 'userId',
     reason: 'reason',
@@ -5428,6 +6501,20 @@ export namespace Prisma {
    * Reference to a field of type 'Decimal[]'
    */
   export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FilterType'
+   */
+  export type EnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType'>
+    
+
+
+  /**
+   * Reference to a field of type 'FilterType[]'
+   */
+  export type ListEnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType[]'>
     
 
 
@@ -5616,6 +6703,44 @@ export namespace Prisma {
     token?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
     publicKey?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
     secret?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
+  }
+
+  export type FilteredWordWhereInput = {
+    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    OR?: FilteredWordWhereInput[]
+    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    keyword?: StringFilter<"FilteredWord"> | string
+    filterType?: EnumFilterTypeFilter<"FilteredWord"> | $Enums.FilterType
+  }
+
+  export type FilteredWordOrderByWithRelationInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+  }
+
+  export type FilteredWordWhereUniqueInput = Prisma.AtLeast<{
+    keyword_filterType?: FilteredWordKeywordFilterTypeCompoundUniqueInput
+    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    OR?: FilteredWordWhereInput[]
+    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    keyword?: StringFilter<"FilteredWord"> | string
+    filterType?: EnumFilterTypeFilter<"FilteredWord"> | $Enums.FilterType
+  }, "keyword_filterType">
+
+  export type FilteredWordOrderByWithAggregationInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+    _count?: FilteredWordCountOrderByAggregateInput
+    _max?: FilteredWordMaxOrderByAggregateInput
+    _min?: FilteredWordMinOrderByAggregateInput
+  }
+
+  export type FilteredWordScalarWhereWithAggregatesInput = {
+    AND?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
+    OR?: FilteredWordScalarWhereWithAggregatesInput[]
+    NOT?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
+    keyword?: StringWithAggregatesFilter<"FilteredWord"> | string
+    filterType?: EnumFilterTypeWithAggregatesFilter<"FilteredWord"> | $Enums.FilterType
   }
 
   export type AfkStateWhereInput = {
@@ -5887,6 +7012,41 @@ export namespace Prisma {
     token?: NullableStringFieldUpdateOperationsInput | string | null
     publicKey?: NullableStringFieldUpdateOperationsInput | string | null
     secret?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FilteredWordCreateInput = {
+    keyword: string
+    filterType: $Enums.FilterType
+  }
+
+  export type FilteredWordUncheckedCreateInput = {
+    keyword: string
+    filterType: $Enums.FilterType
+  }
+
+  export type FilteredWordUpdateInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
+  }
+
+  export type FilteredWordUncheckedUpdateInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
+  }
+
+  export type FilteredWordCreateManyInput = {
+    keyword: string
+    filterType: $Enums.FilterType
+  }
+
+  export type FilteredWordUpdateManyMutationInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
+  }
+
+  export type FilteredWordUncheckedUpdateManyInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
   }
 
   export type AfkStateCreateInput = {
@@ -6201,6 +7361,43 @@ export namespace Prisma {
     secret?: SortOrder
   }
 
+  export type EnumFilterTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeFilter<$PrismaModel> | $Enums.FilterType
+  }
+
+  export type FilteredWordKeywordFilterTypeCompoundUniqueInput = {
+    keyword: string
+    filterType: $Enums.FilterType
+  }
+
+  export type FilteredWordCountOrderByAggregateInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+  }
+
+  export type FilteredWordMaxOrderByAggregateInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+  }
+
+  export type FilteredWordMinOrderByAggregateInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+  }
+
+  export type EnumFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.FilterType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFilterTypeFilter<$PrismaModel>
+    _max?: NestedEnumFilterTypeFilter<$PrismaModel>
+  }
+
   export type AfkStateUserIdGuildIdCompoundUniqueInput = {
     userId: string
     guildId: string
@@ -6311,6 +7508,10 @@ export namespace Prisma {
     decrement?: Decimal | DecimalJsLike | number | string
     multiply?: Decimal | DecimalJsLike | number | string
     divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type EnumFilterTypeFieldUpdateOperationsInput = {
+    set?: $Enums.FilterType
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -6470,6 +7671,23 @@ export namespace Prisma {
     _sum?: NestedDecimalNullableFilter<$PrismaModel>
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumFilterTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeFilter<$PrismaModel> | $Enums.FilterType
+  }
+
+  export type NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.FilterType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFilterTypeFilter<$PrismaModel>
+    _max?: NestedEnumFilterTypeFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
