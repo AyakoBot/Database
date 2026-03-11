@@ -14,20 +14,25 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model GuildSetting
+ * Model FilteredWord
  * 
  */
-export type GuildSetting = $Result.DefaultSelection<Prisma.$GuildSettingPayload>
+export type FilteredWord = $Result.DefaultSelection<Prisma.$FilteredWordPayload>
 /**
  * Model CustomClient
  * 
  */
 export type CustomClient = $Result.DefaultSelection<Prisma.$CustomClientPayload>
 /**
- * Model FilteredWord
+ * Model TicketSetting
  * 
  */
-export type FilteredWord = $Result.DefaultSelection<Prisma.$FilteredWordPayload>
+export type TicketSetting = $Result.DefaultSelection<Prisma.$TicketSettingPayload>
+/**
+ * Model DMTicket
+ * 
+ */
+export type DMTicket = $Result.DefaultSelection<Prisma.$DMTicketPayload>
 /**
  * Model AfkState
  * 
@@ -38,6 +43,11 @@ export type AfkState = $Result.DefaultSelection<Prisma.$AfkStatePayload>
  * 
  */
 export type AfkSetting = $Result.DefaultSelection<Prisma.$AfkSettingPayload>
+/**
+ * Model GuildSetting
+ * 
+ */
+export type GuildSetting = $Result.DefaultSelection<Prisma.$GuildSettingPayload>
 
 /**
  * Enums
@@ -51,11 +61,25 @@ export namespace $Enums {
 
 export type FilterType = (typeof FilterType)[keyof typeof FilterType]
 
+
+export const TicketType: {
+  dmToThread: 'dmToThread',
+  dmToChannel: 'dmToChannel',
+  Thread: 'Thread',
+  Channel: 'Channel'
+};
+
+export type TicketType = (typeof TicketType)[keyof typeof TicketType]
+
 }
 
 export type FilterType = $Enums.FilterType
 
 export const FilterType: typeof $Enums.FilterType
+
+export type TicketType = $Enums.TicketType
+
+export const TicketType: typeof $Enums.TicketType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -64,8 +88,8 @@ export const FilterType: typeof $Enums.FilterType
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more GuildSettings
- * const guildSettings = await prisma.guildSetting.findMany()
+ * // Fetch zero or more FilteredWords
+ * const filteredWords = await prisma.filteredWord.findMany()
  * ```
  *
  *
@@ -85,8 +109,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more GuildSettings
-   * const guildSettings = await prisma.guildSetting.findMany()
+   * // Fetch zero or more FilteredWords
+   * const filteredWords = await prisma.filteredWord.findMany()
    * ```
    *
    *
@@ -175,14 +199,14 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.guildSetting`: Exposes CRUD operations for the **GuildSetting** model.
+   * `prisma.filteredWord`: Exposes CRUD operations for the **FilteredWord** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more GuildSettings
-    * const guildSettings = await prisma.guildSetting.findMany()
+    * // Fetch zero or more FilteredWords
+    * const filteredWords = await prisma.filteredWord.findMany()
     * ```
     */
-  get guildSetting(): Prisma.GuildSettingDelegate<ExtArgs, ClientOptions>;
+  get filteredWord(): Prisma.FilteredWordDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.customClient`: Exposes CRUD operations for the **CustomClient** model.
@@ -195,14 +219,24 @@ export class PrismaClient<
   get customClient(): Prisma.CustomClientDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.filteredWord`: Exposes CRUD operations for the **FilteredWord** model.
+   * `prisma.ticketSetting`: Exposes CRUD operations for the **TicketSetting** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more FilteredWords
-    * const filteredWords = await prisma.filteredWord.findMany()
+    * // Fetch zero or more TicketSettings
+    * const ticketSettings = await prisma.ticketSetting.findMany()
     * ```
     */
-  get filteredWord(): Prisma.FilteredWordDelegate<ExtArgs, ClientOptions>;
+  get ticketSetting(): Prisma.TicketSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dMTicket`: Exposes CRUD operations for the **DMTicket** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DMTickets
+    * const dMTickets = await prisma.dMTicket.findMany()
+    * ```
+    */
+  get dMTicket(): Prisma.DMTicketDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.afkState`: Exposes CRUD operations for the **AfkState** model.
@@ -223,6 +257,16 @@ export class PrismaClient<
     * ```
     */
   get afkSetting(): Prisma.AfkSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.guildSetting`: Exposes CRUD operations for the **GuildSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GuildSettings
+    * const guildSettings = await prisma.guildSetting.findMany()
+    * ```
+    */
+  get guildSetting(): Prisma.GuildSettingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -657,11 +701,13 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    GuildSetting: 'GuildSetting',
-    CustomClient: 'CustomClient',
     FilteredWord: 'FilteredWord',
+    CustomClient: 'CustomClient',
+    TicketSetting: 'TicketSetting',
+    DMTicket: 'DMTicket',
     AfkState: 'AfkState',
-    AfkSetting: 'AfkSetting'
+    AfkSetting: 'AfkSetting',
+    GuildSetting: 'GuildSetting'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -677,81 +723,81 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "guildSetting" | "customClient" | "filteredWord" | "afkState" | "afkSetting"
+      modelProps: "filteredWord" | "customClient" | "ticketSetting" | "dMTicket" | "afkState" | "afkSetting" | "guildSetting"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      GuildSetting: {
-        payload: Prisma.$GuildSettingPayload<ExtArgs>
-        fields: Prisma.GuildSettingFieldRefs
+      FilteredWord: {
+        payload: Prisma.$FilteredWordPayload<ExtArgs>
+        fields: Prisma.FilteredWordFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.GuildSettingFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload> | null
+            args: Prisma.FilteredWordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.GuildSettingFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+            args: Prisma.FilteredWordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           findFirst: {
-            args: Prisma.GuildSettingFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload> | null
+            args: Prisma.FilteredWordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.GuildSettingFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+            args: Prisma.FilteredWordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           findMany: {
-            args: Prisma.GuildSettingFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>[]
+            args: Prisma.FilteredWordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
           }
           create: {
-            args: Prisma.GuildSettingCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+            args: Prisma.FilteredWordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           createMany: {
-            args: Prisma.GuildSettingCreateManyArgs<ExtArgs>
+            args: Prisma.FilteredWordCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.GuildSettingCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>[]
+            args: Prisma.FilteredWordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
           }
           delete: {
-            args: Prisma.GuildSettingDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+            args: Prisma.FilteredWordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           update: {
-            args: Prisma.GuildSettingUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+            args: Prisma.FilteredWordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           deleteMany: {
-            args: Prisma.GuildSettingDeleteManyArgs<ExtArgs>
+            args: Prisma.FilteredWordDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.GuildSettingUpdateManyArgs<ExtArgs>
+            args: Prisma.FilteredWordUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.GuildSettingUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>[]
+            args: Prisma.FilteredWordUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
           }
           upsert: {
-            args: Prisma.GuildSettingUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+            args: Prisma.FilteredWordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           aggregate: {
-            args: Prisma.GuildSettingAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateGuildSetting>
+            args: Prisma.FilteredWordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFilteredWord>
           }
           groupBy: {
-            args: Prisma.GuildSettingGroupByArgs<ExtArgs>
-            result: $Utils.Optional<GuildSettingGroupByOutputType>[]
+            args: Prisma.FilteredWordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FilteredWordGroupByOutputType>[]
           }
           count: {
-            args: Prisma.GuildSettingCountArgs<ExtArgs>
-            result: $Utils.Optional<GuildSettingCountAggregateOutputType> | number
+            args: Prisma.FilteredWordCountArgs<ExtArgs>
+            result: $Utils.Optional<FilteredWordCountAggregateOutputType> | number
           }
         }
       }
@@ -829,77 +875,151 @@ export namespace Prisma {
           }
         }
       }
-      FilteredWord: {
-        payload: Prisma.$FilteredWordPayload<ExtArgs>
-        fields: Prisma.FilteredWordFieldRefs
+      TicketSetting: {
+        payload: Prisma.$TicketSettingPayload<ExtArgs>
+        fields: Prisma.TicketSettingFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.FilteredWordFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
+            args: Prisma.TicketSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.FilteredWordFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+            args: Prisma.TicketSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload>
           }
           findFirst: {
-            args: Prisma.FilteredWordFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
+            args: Prisma.TicketSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.FilteredWordFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+            args: Prisma.TicketSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload>
           }
           findMany: {
-            args: Prisma.FilteredWordFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
+            args: Prisma.TicketSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload>[]
           }
           create: {
-            args: Prisma.FilteredWordCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+            args: Prisma.TicketSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload>
           }
           createMany: {
-            args: Prisma.FilteredWordCreateManyArgs<ExtArgs>
+            args: Prisma.TicketSettingCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.FilteredWordCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
+            args: Prisma.TicketSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload>[]
           }
           delete: {
-            args: Prisma.FilteredWordDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+            args: Prisma.TicketSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload>
           }
           update: {
-            args: Prisma.FilteredWordUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+            args: Prisma.TicketSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload>
           }
           deleteMany: {
-            args: Prisma.FilteredWordDeleteManyArgs<ExtArgs>
+            args: Prisma.TicketSettingDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.FilteredWordUpdateManyArgs<ExtArgs>
+            args: Prisma.TicketSettingUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.FilteredWordUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
+            args: Prisma.TicketSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload>[]
           }
           upsert: {
-            args: Prisma.FilteredWordUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
+            args: Prisma.TicketSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TicketSettingPayload>
           }
           aggregate: {
-            args: Prisma.FilteredWordAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateFilteredWord>
+            args: Prisma.TicketSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTicketSetting>
           }
           groupBy: {
-            args: Prisma.FilteredWordGroupByArgs<ExtArgs>
-            result: $Utils.Optional<FilteredWordGroupByOutputType>[]
+            args: Prisma.TicketSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TicketSettingGroupByOutputType>[]
           }
           count: {
-            args: Prisma.FilteredWordCountArgs<ExtArgs>
-            result: $Utils.Optional<FilteredWordCountAggregateOutputType> | number
+            args: Prisma.TicketSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<TicketSettingCountAggregateOutputType> | number
+          }
+        }
+      }
+      DMTicket: {
+        payload: Prisma.$DMTicketPayload<ExtArgs>
+        fields: Prisma.DMTicketFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DMTicketFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DMTicketFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload>
+          }
+          findFirst: {
+            args: Prisma.DMTicketFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DMTicketFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload>
+          }
+          findMany: {
+            args: Prisma.DMTicketFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload>[]
+          }
+          create: {
+            args: Prisma.DMTicketCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload>
+          }
+          createMany: {
+            args: Prisma.DMTicketCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DMTicketCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload>[]
+          }
+          delete: {
+            args: Prisma.DMTicketDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload>
+          }
+          update: {
+            args: Prisma.DMTicketUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload>
+          }
+          deleteMany: {
+            args: Prisma.DMTicketDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DMTicketUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DMTicketUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload>[]
+          }
+          upsert: {
+            args: Prisma.DMTicketUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DMTicketPayload>
+          }
+          aggregate: {
+            args: Prisma.DMTicketAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDMTicket>
+          }
+          groupBy: {
+            args: Prisma.DMTicketGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DMTicketGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DMTicketCountArgs<ExtArgs>
+            result: $Utils.Optional<DMTicketCountAggregateOutputType> | number
           }
         }
       }
@@ -1051,6 +1171,80 @@ export namespace Prisma {
           }
         }
       }
+      GuildSetting: {
+        payload: Prisma.$GuildSettingPayload<ExtArgs>
+        fields: Prisma.GuildSettingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GuildSettingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GuildSettingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+          }
+          findFirst: {
+            args: Prisma.GuildSettingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GuildSettingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+          }
+          findMany: {
+            args: Prisma.GuildSettingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>[]
+          }
+          create: {
+            args: Prisma.GuildSettingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+          }
+          createMany: {
+            args: Prisma.GuildSettingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GuildSettingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>[]
+          }
+          delete: {
+            args: Prisma.GuildSettingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+          }
+          update: {
+            args: Prisma.GuildSettingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+          }
+          deleteMany: {
+            args: Prisma.GuildSettingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GuildSettingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GuildSettingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>[]
+          }
+          upsert: {
+            args: Prisma.GuildSettingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GuildSettingPayload>
+          }
+          aggregate: {
+            args: Prisma.GuildSettingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGuildSetting>
+          }
+          groupBy: {
+            args: Prisma.GuildSettingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GuildSettingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GuildSettingCountArgs<ExtArgs>
+            result: $Utils.Optional<GuildSettingCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1159,11 +1353,13 @@ export namespace Prisma {
     comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
-    guildSetting?: GuildSettingOmit
-    customClient?: CustomClientOmit
     filteredWord?: FilteredWordOmit
+    customClient?: CustomClientOmit
+    ticketSetting?: TicketSettingOmit
+    dMTicket?: DMTicketOmit
     afkState?: AfkStateOmit
     afkSetting?: AfkSettingOmit
+    guildSetting?: GuildSettingOmit
   }
 
   /* Types for Logging */
@@ -1239,505 +1435,337 @@ export namespace Prisma {
    */
 
 
+  /**
+   * Count Type TicketSettingCountOutputType
+   */
+
+  export type TicketSettingCountOutputType = {
+    DMTicket: number
+  }
+
+  export type TicketSettingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    DMTicket?: boolean | TicketSettingCountOutputTypeCountDMTicketArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TicketSettingCountOutputType without action
+   */
+  export type TicketSettingCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketSettingCountOutputType
+     */
+    select?: TicketSettingCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TicketSettingCountOutputType without action
+   */
+  export type TicketSettingCountOutputTypeCountDMTicketArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DMTicketWhereInput
+  }
+
 
   /**
    * Models
    */
 
   /**
-   * Model GuildSetting
+   * Model FilteredWord
    */
 
-  export type AggregateGuildSetting = {
-    _count: GuildSettingCountAggregateOutputType | null
-    _avg: GuildSettingAvgAggregateOutputType | null
-    _sum: GuildSettingSumAggregateOutputType | null
-    _min: GuildSettingMinAggregateOutputType | null
-    _max: GuildSettingMaxAggregateOutputType | null
+  export type AggregateFilteredWord = {
+    _count: FilteredWordCountAggregateOutputType | null
+    _min: FilteredWordMinAggregateOutputType | null
+    _max: FilteredWordMaxAggregateOutputType | null
   }
 
-  export type GuildSettingAvgAggregateOutputType = {
-    rpEnableRuns: Decimal | null
-    lastRpSyncRun: Decimal | null
-    enableInvitesAt: Decimal | null
+  export type FilteredWordMinAggregateOutputType = {
+    keyword: string | null
+    filterType: $Enums.FilterType | null
   }
 
-  export type GuildSettingSumAggregateOutputType = {
-    rpEnableRuns: Decimal | null
-    lastRpSyncRun: Decimal | null
-    enableInvitesAt: Decimal | null
+  export type FilteredWordMaxAggregateOutputType = {
+    keyword: string | null
+    filterType: $Enums.FilterType | null
   }
 
-  export type GuildSettingMinAggregateOutputType = {
-    guildId: string | null
-    prefix: string | null
-    interactionsMode: boolean | null
-    language: string | null
-    errorChannel: string | null
-    rpEnabled: boolean | null
-    rpEnableRuns: Decimal | null
-    lastRpSyncRun: Decimal | null
-    ptReminderEnabled: boolean | null
-    legacyRp: boolean | null
-    editRpCommands: boolean | null
-    enableInvitesAt: Decimal | null
-    statusChannel: string | null
-    updatesChannel: string | null
-    notifyChannel: string | null
-  }
-
-  export type GuildSettingMaxAggregateOutputType = {
-    guildId: string | null
-    prefix: string | null
-    interactionsMode: boolean | null
-    language: string | null
-    errorChannel: string | null
-    rpEnabled: boolean | null
-    rpEnableRuns: Decimal | null
-    lastRpSyncRun: Decimal | null
-    ptReminderEnabled: boolean | null
-    legacyRp: boolean | null
-    editRpCommands: boolean | null
-    enableInvitesAt: Decimal | null
-    statusChannel: string | null
-    updatesChannel: string | null
-    notifyChannel: string | null
-  }
-
-  export type GuildSettingCountAggregateOutputType = {
-    guildId: number
-    prefix: number
-    interactionsMode: number
-    language: number
-    errorChannel: number
-    rpEnabled: number
-    rpEnableRuns: number
-    lastRpSyncRun: number
-    ptReminderEnabled: number
-    legacyRp: number
-    editRpCommands: number
-    enableInvitesAt: number
-    statusChannel: number
-    updatesChannel: number
-    notifyChannel: number
+  export type FilteredWordCountAggregateOutputType = {
+    keyword: number
+    filterType: number
     _all: number
   }
 
 
-  export type GuildSettingAvgAggregateInputType = {
-    rpEnableRuns?: true
-    lastRpSyncRun?: true
-    enableInvitesAt?: true
+  export type FilteredWordMinAggregateInputType = {
+    keyword?: true
+    filterType?: true
   }
 
-  export type GuildSettingSumAggregateInputType = {
-    rpEnableRuns?: true
-    lastRpSyncRun?: true
-    enableInvitesAt?: true
+  export type FilteredWordMaxAggregateInputType = {
+    keyword?: true
+    filterType?: true
   }
 
-  export type GuildSettingMinAggregateInputType = {
-    guildId?: true
-    prefix?: true
-    interactionsMode?: true
-    language?: true
-    errorChannel?: true
-    rpEnabled?: true
-    rpEnableRuns?: true
-    lastRpSyncRun?: true
-    ptReminderEnabled?: true
-    legacyRp?: true
-    editRpCommands?: true
-    enableInvitesAt?: true
-    statusChannel?: true
-    updatesChannel?: true
-    notifyChannel?: true
-  }
-
-  export type GuildSettingMaxAggregateInputType = {
-    guildId?: true
-    prefix?: true
-    interactionsMode?: true
-    language?: true
-    errorChannel?: true
-    rpEnabled?: true
-    rpEnableRuns?: true
-    lastRpSyncRun?: true
-    ptReminderEnabled?: true
-    legacyRp?: true
-    editRpCommands?: true
-    enableInvitesAt?: true
-    statusChannel?: true
-    updatesChannel?: true
-    notifyChannel?: true
-  }
-
-  export type GuildSettingCountAggregateInputType = {
-    guildId?: true
-    prefix?: true
-    interactionsMode?: true
-    language?: true
-    errorChannel?: true
-    rpEnabled?: true
-    rpEnableRuns?: true
-    lastRpSyncRun?: true
-    ptReminderEnabled?: true
-    legacyRp?: true
-    editRpCommands?: true
-    enableInvitesAt?: true
-    statusChannel?: true
-    updatesChannel?: true
-    notifyChannel?: true
+  export type FilteredWordCountAggregateInputType = {
+    keyword?: true
+    filterType?: true
     _all?: true
   }
 
-  export type GuildSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which GuildSetting to aggregate.
+     * Filter which FilteredWord to aggregate.
      */
-    where?: GuildSettingWhereInput
+    where?: FilteredWordWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of GuildSettings to fetch.
+     * Determine the order of FilteredWords to fetch.
      */
-    orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: GuildSettingWhereUniqueInput
+    cursor?: FilteredWordWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` GuildSettings from the position of the cursor.
+     * Take `±n` FilteredWords from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` GuildSettings.
+     * Skip the first `n` FilteredWords.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned GuildSettings
+     * Count returned FilteredWords
     **/
-    _count?: true | GuildSettingCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: GuildSettingAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: GuildSettingSumAggregateInputType
+    _count?: true | FilteredWordCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: GuildSettingMinAggregateInputType
+    _min?: FilteredWordMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: GuildSettingMaxAggregateInputType
+    _max?: FilteredWordMaxAggregateInputType
   }
 
-  export type GetGuildSettingAggregateType<T extends GuildSettingAggregateArgs> = {
-        [P in keyof T & keyof AggregateGuildSetting]: P extends '_count' | 'count'
+  export type GetFilteredWordAggregateType<T extends FilteredWordAggregateArgs> = {
+        [P in keyof T & keyof AggregateFilteredWord]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateGuildSetting[P]>
-      : GetScalarType<T[P], AggregateGuildSetting[P]>
+        : GetScalarType<T[P], AggregateFilteredWord[P]>
+      : GetScalarType<T[P], AggregateFilteredWord[P]>
   }
 
 
 
 
-  export type GuildSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GuildSettingWhereInput
-    orderBy?: GuildSettingOrderByWithAggregationInput | GuildSettingOrderByWithAggregationInput[]
-    by: GuildSettingScalarFieldEnum[] | GuildSettingScalarFieldEnum
-    having?: GuildSettingScalarWhereWithAggregatesInput
+  export type FilteredWordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FilteredWordWhereInput
+    orderBy?: FilteredWordOrderByWithAggregationInput | FilteredWordOrderByWithAggregationInput[]
+    by: FilteredWordScalarFieldEnum[] | FilteredWordScalarFieldEnum
+    having?: FilteredWordScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: GuildSettingCountAggregateInputType | true
-    _avg?: GuildSettingAvgAggregateInputType
-    _sum?: GuildSettingSumAggregateInputType
-    _min?: GuildSettingMinAggregateInputType
-    _max?: GuildSettingMaxAggregateInputType
+    _count?: FilteredWordCountAggregateInputType | true
+    _min?: FilteredWordMinAggregateInputType
+    _max?: FilteredWordMaxAggregateInputType
   }
 
-  export type GuildSettingGroupByOutputType = {
-    guildId: string
-    prefix: string | null
-    interactionsMode: boolean
-    language: string
-    errorChannel: string | null
-    rpEnabled: boolean
-    rpEnableRuns: Decimal
-    lastRpSyncRun: Decimal | null
-    ptReminderEnabled: boolean
-    legacyRp: boolean
-    editRpCommands: boolean
-    enableInvitesAt: Decimal | null
-    statusChannel: string | null
-    updatesChannel: string | null
-    notifyChannel: string | null
-    _count: GuildSettingCountAggregateOutputType | null
-    _avg: GuildSettingAvgAggregateOutputType | null
-    _sum: GuildSettingSumAggregateOutputType | null
-    _min: GuildSettingMinAggregateOutputType | null
-    _max: GuildSettingMaxAggregateOutputType | null
+  export type FilteredWordGroupByOutputType = {
+    keyword: string
+    filterType: $Enums.FilterType
+    _count: FilteredWordCountAggregateOutputType | null
+    _min: FilteredWordMinAggregateOutputType | null
+    _max: FilteredWordMaxAggregateOutputType | null
   }
 
-  type GetGuildSettingGroupByPayload<T extends GuildSettingGroupByArgs> = Prisma.PrismaPromise<
+  type GetFilteredWordGroupByPayload<T extends FilteredWordGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<GuildSettingGroupByOutputType, T['by']> &
+      PickEnumerable<FilteredWordGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof GuildSettingGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof FilteredWordGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], GuildSettingGroupByOutputType[P]>
-            : GetScalarType<T[P], GuildSettingGroupByOutputType[P]>
+              : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
+            : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type GuildSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    guildId?: boolean
-    prefix?: boolean
-    interactionsMode?: boolean
-    language?: boolean
-    errorChannel?: boolean
-    rpEnabled?: boolean
-    rpEnableRuns?: boolean
-    lastRpSyncRun?: boolean
-    ptReminderEnabled?: boolean
-    legacyRp?: boolean
-    editRpCommands?: boolean
-    enableInvitesAt?: boolean
-    statusChannel?: boolean
-    updatesChannel?: boolean
-    notifyChannel?: boolean
-  }, ExtArgs["result"]["guildSetting"]>
+  export type FilteredWordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyword?: boolean
+    filterType?: boolean
+  }, ExtArgs["result"]["filteredWord"]>
 
-  export type GuildSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    guildId?: boolean
-    prefix?: boolean
-    interactionsMode?: boolean
-    language?: boolean
-    errorChannel?: boolean
-    rpEnabled?: boolean
-    rpEnableRuns?: boolean
-    lastRpSyncRun?: boolean
-    ptReminderEnabled?: boolean
-    legacyRp?: boolean
-    editRpCommands?: boolean
-    enableInvitesAt?: boolean
-    statusChannel?: boolean
-    updatesChannel?: boolean
-    notifyChannel?: boolean
-  }, ExtArgs["result"]["guildSetting"]>
+  export type FilteredWordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyword?: boolean
+    filterType?: boolean
+  }, ExtArgs["result"]["filteredWord"]>
 
-  export type GuildSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    guildId?: boolean
-    prefix?: boolean
-    interactionsMode?: boolean
-    language?: boolean
-    errorChannel?: boolean
-    rpEnabled?: boolean
-    rpEnableRuns?: boolean
-    lastRpSyncRun?: boolean
-    ptReminderEnabled?: boolean
-    legacyRp?: boolean
-    editRpCommands?: boolean
-    enableInvitesAt?: boolean
-    statusChannel?: boolean
-    updatesChannel?: boolean
-    notifyChannel?: boolean
-  }, ExtArgs["result"]["guildSetting"]>
+  export type FilteredWordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyword?: boolean
+    filterType?: boolean
+  }, ExtArgs["result"]["filteredWord"]>
 
-  export type GuildSettingSelectScalar = {
-    guildId?: boolean
-    prefix?: boolean
-    interactionsMode?: boolean
-    language?: boolean
-    errorChannel?: boolean
-    rpEnabled?: boolean
-    rpEnableRuns?: boolean
-    lastRpSyncRun?: boolean
-    ptReminderEnabled?: boolean
-    legacyRp?: boolean
-    editRpCommands?: boolean
-    enableInvitesAt?: boolean
-    statusChannel?: boolean
-    updatesChannel?: boolean
-    notifyChannel?: boolean
+  export type FilteredWordSelectScalar = {
+    keyword?: boolean
+    filterType?: boolean
   }
 
-  export type GuildSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"guildId" | "prefix" | "interactionsMode" | "language" | "errorChannel" | "rpEnabled" | "rpEnableRuns" | "lastRpSyncRun" | "ptReminderEnabled" | "legacyRp" | "editRpCommands" | "enableInvitesAt" | "statusChannel" | "updatesChannel" | "notifyChannel", ExtArgs["result"]["guildSetting"]>
+  export type FilteredWordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"keyword" | "filterType", ExtArgs["result"]["filteredWord"]>
 
-  export type $GuildSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "GuildSetting"
+  export type $FilteredWordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FilteredWord"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      guildId: string
-      prefix: string | null
-      interactionsMode: boolean
-      language: string
-      errorChannel: string | null
-      rpEnabled: boolean
-      rpEnableRuns: Prisma.Decimal
-      lastRpSyncRun: Prisma.Decimal | null
-      ptReminderEnabled: boolean
-      legacyRp: boolean
-      editRpCommands: boolean
-      enableInvitesAt: Prisma.Decimal | null
-      statusChannel: string | null
-      updatesChannel: string | null
-      notifyChannel: string | null
-    }, ExtArgs["result"]["guildSetting"]>
+      keyword: string
+      filterType: $Enums.FilterType
+    }, ExtArgs["result"]["filteredWord"]>
     composites: {}
   }
 
-  type GuildSettingGetPayload<S extends boolean | null | undefined | GuildSettingDefaultArgs> = $Result.GetResult<Prisma.$GuildSettingPayload, S>
+  type FilteredWordGetPayload<S extends boolean | null | undefined | FilteredWordDefaultArgs> = $Result.GetResult<Prisma.$FilteredWordPayload, S>
 
-  type GuildSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<GuildSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: GuildSettingCountAggregateInputType | true
+  type FilteredWordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FilteredWordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FilteredWordCountAggregateInputType | true
     }
 
-  export interface GuildSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GuildSetting'], meta: { name: 'GuildSetting' } }
+  export interface FilteredWordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FilteredWord'], meta: { name: 'FilteredWord' } }
     /**
-     * Find zero or one GuildSetting that matches the filter.
-     * @param {GuildSettingFindUniqueArgs} args - Arguments to find a GuildSetting
+     * Find zero or one FilteredWord that matches the filter.
+     * @param {FilteredWordFindUniqueArgs} args - Arguments to find a FilteredWord
      * @example
-     * // Get one GuildSetting
-     * const guildSetting = await prisma.guildSetting.findUnique({
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends GuildSettingFindUniqueArgs>(args: SelectSubset<T, GuildSettingFindUniqueArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends FilteredWordFindUniqueArgs>(args: SelectSubset<T, FilteredWordFindUniqueArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one GuildSetting that matches the filter or throw an error with `error.code='P2025'`
+     * Find one FilteredWord that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {GuildSettingFindUniqueOrThrowArgs} args - Arguments to find a GuildSetting
+     * @param {FilteredWordFindUniqueOrThrowArgs} args - Arguments to find a FilteredWord
      * @example
-     * // Get one GuildSetting
-     * const guildSetting = await prisma.guildSetting.findUniqueOrThrow({
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends GuildSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, GuildSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends FilteredWordFindUniqueOrThrowArgs>(args: SelectSubset<T, FilteredWordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first GuildSetting that matches the filter.
+     * Find the first FilteredWord that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuildSettingFindFirstArgs} args - Arguments to find a GuildSetting
+     * @param {FilteredWordFindFirstArgs} args - Arguments to find a FilteredWord
      * @example
-     * // Get one GuildSetting
-     * const guildSetting = await prisma.guildSetting.findFirst({
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends GuildSettingFindFirstArgs>(args?: SelectSubset<T, GuildSettingFindFirstArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends FilteredWordFindFirstArgs>(args?: SelectSubset<T, FilteredWordFindFirstArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first GuildSetting that matches the filter or
+     * Find the first FilteredWord that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuildSettingFindFirstOrThrowArgs} args - Arguments to find a GuildSetting
+     * @param {FilteredWordFindFirstOrThrowArgs} args - Arguments to find a FilteredWord
      * @example
-     * // Get one GuildSetting
-     * const guildSetting = await prisma.guildSetting.findFirstOrThrow({
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends GuildSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, GuildSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends FilteredWordFindFirstOrThrowArgs>(args?: SelectSubset<T, FilteredWordFindFirstOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more GuildSettings that matches the filter.
+     * Find zero or more FilteredWords that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuildSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {FilteredWordFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all GuildSettings
-     * const guildSettings = await prisma.guildSetting.findMany()
+     * // Get all FilteredWords
+     * const filteredWords = await prisma.filteredWord.findMany()
      * 
-     * // Get first 10 GuildSettings
-     * const guildSettings = await prisma.guildSetting.findMany({ take: 10 })
+     * // Get first 10 FilteredWords
+     * const filteredWords = await prisma.filteredWord.findMany({ take: 10 })
      * 
-     * // Only select the `guildId`
-     * const guildSettingWithGuildIdOnly = await prisma.guildSetting.findMany({ select: { guildId: true } })
+     * // Only select the `keyword`
+     * const filteredWordWithKeywordOnly = await prisma.filteredWord.findMany({ select: { keyword: true } })
      * 
      */
-    findMany<T extends GuildSettingFindManyArgs>(args?: SelectSubset<T, GuildSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends FilteredWordFindManyArgs>(args?: SelectSubset<T, FilteredWordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a GuildSetting.
-     * @param {GuildSettingCreateArgs} args - Arguments to create a GuildSetting.
+     * Create a FilteredWord.
+     * @param {FilteredWordCreateArgs} args - Arguments to create a FilteredWord.
      * @example
-     * // Create one GuildSetting
-     * const GuildSetting = await prisma.guildSetting.create({
+     * // Create one FilteredWord
+     * const FilteredWord = await prisma.filteredWord.create({
      *   data: {
-     *     // ... data to create a GuildSetting
+     *     // ... data to create a FilteredWord
      *   }
      * })
      * 
      */
-    create<T extends GuildSettingCreateArgs>(args: SelectSubset<T, GuildSettingCreateArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends FilteredWordCreateArgs>(args: SelectSubset<T, FilteredWordCreateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many GuildSettings.
-     * @param {GuildSettingCreateManyArgs} args - Arguments to create many GuildSettings.
+     * Create many FilteredWords.
+     * @param {FilteredWordCreateManyArgs} args - Arguments to create many FilteredWords.
      * @example
-     * // Create many GuildSettings
-     * const guildSetting = await prisma.guildSetting.createMany({
+     * // Create many FilteredWords
+     * const filteredWord = await prisma.filteredWord.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends GuildSettingCreateManyArgs>(args?: SelectSubset<T, GuildSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends FilteredWordCreateManyArgs>(args?: SelectSubset<T, FilteredWordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many GuildSettings and returns the data saved in the database.
-     * @param {GuildSettingCreateManyAndReturnArgs} args - Arguments to create many GuildSettings.
+     * Create many FilteredWords and returns the data saved in the database.
+     * @param {FilteredWordCreateManyAndReturnArgs} args - Arguments to create many FilteredWords.
      * @example
-     * // Create many GuildSettings
-     * const guildSetting = await prisma.guildSetting.createManyAndReturn({
+     * // Create many FilteredWords
+     * const filteredWord = await prisma.filteredWord.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many GuildSettings and only return the `guildId`
-     * const guildSettingWithGuildIdOnly = await prisma.guildSetting.createManyAndReturn({
-     *   select: { guildId: true },
+     * // Create many FilteredWords and only return the `keyword`
+     * const filteredWordWithKeywordOnly = await prisma.filteredWord.createManyAndReturn({
+     *   select: { keyword: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -1746,28 +1774,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends GuildSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, GuildSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends FilteredWordCreateManyAndReturnArgs>(args?: SelectSubset<T, FilteredWordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a GuildSetting.
-     * @param {GuildSettingDeleteArgs} args - Arguments to delete one GuildSetting.
+     * Delete a FilteredWord.
+     * @param {FilteredWordDeleteArgs} args - Arguments to delete one FilteredWord.
      * @example
-     * // Delete one GuildSetting
-     * const GuildSetting = await prisma.guildSetting.delete({
+     * // Delete one FilteredWord
+     * const FilteredWord = await prisma.filteredWord.delete({
      *   where: {
-     *     // ... filter to delete one GuildSetting
+     *     // ... filter to delete one FilteredWord
      *   }
      * })
      * 
      */
-    delete<T extends GuildSettingDeleteArgs>(args: SelectSubset<T, GuildSettingDeleteArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends FilteredWordDeleteArgs>(args: SelectSubset<T, FilteredWordDeleteArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one GuildSetting.
-     * @param {GuildSettingUpdateArgs} args - Arguments to update one GuildSetting.
+     * Update one FilteredWord.
+     * @param {FilteredWordUpdateArgs} args - Arguments to update one FilteredWord.
      * @example
-     * // Update one GuildSetting
-     * const guildSetting = await prisma.guildSetting.update({
+     * // Update one FilteredWord
+     * const filteredWord = await prisma.filteredWord.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1777,30 +1805,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends GuildSettingUpdateArgs>(args: SelectSubset<T, GuildSettingUpdateArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends FilteredWordUpdateArgs>(args: SelectSubset<T, FilteredWordUpdateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more GuildSettings.
-     * @param {GuildSettingDeleteManyArgs} args - Arguments to filter GuildSettings to delete.
+     * Delete zero or more FilteredWords.
+     * @param {FilteredWordDeleteManyArgs} args - Arguments to filter FilteredWords to delete.
      * @example
-     * // Delete a few GuildSettings
-     * const { count } = await prisma.guildSetting.deleteMany({
+     * // Delete a few FilteredWords
+     * const { count } = await prisma.filteredWord.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends GuildSettingDeleteManyArgs>(args?: SelectSubset<T, GuildSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends FilteredWordDeleteManyArgs>(args?: SelectSubset<T, FilteredWordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more GuildSettings.
+     * Update zero or more FilteredWords.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuildSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {FilteredWordUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many GuildSettings
-     * const guildSetting = await prisma.guildSetting.updateMany({
+     * // Update many FilteredWords
+     * const filteredWord = await prisma.filteredWord.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1810,14 +1838,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends GuildSettingUpdateManyArgs>(args: SelectSubset<T, GuildSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends FilteredWordUpdateManyArgs>(args: SelectSubset<T, FilteredWordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more GuildSettings and returns the data updated in the database.
-     * @param {GuildSettingUpdateManyAndReturnArgs} args - Arguments to update many GuildSettings.
+     * Update zero or more FilteredWords and returns the data updated in the database.
+     * @param {FilteredWordUpdateManyAndReturnArgs} args - Arguments to update many FilteredWords.
      * @example
-     * // Update many GuildSettings
-     * const guildSetting = await prisma.guildSetting.updateManyAndReturn({
+     * // Update many FilteredWords
+     * const filteredWord = await prisma.filteredWord.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1826,9 +1854,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more GuildSettings and only return the `guildId`
-     * const guildSettingWithGuildIdOnly = await prisma.guildSetting.updateManyAndReturn({
-     *   select: { guildId: true },
+     * // Update zero or more FilteredWords and only return the `keyword`
+     * const filteredWordWithKeywordOnly = await prisma.filteredWord.updateManyAndReturn({
+     *   select: { keyword: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1840,56 +1868,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends GuildSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, GuildSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends FilteredWordUpdateManyAndReturnArgs>(args: SelectSubset<T, FilteredWordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one GuildSetting.
-     * @param {GuildSettingUpsertArgs} args - Arguments to update or create a GuildSetting.
+     * Create or update one FilteredWord.
+     * @param {FilteredWordUpsertArgs} args - Arguments to update or create a FilteredWord.
      * @example
-     * // Update or create a GuildSetting
-     * const guildSetting = await prisma.guildSetting.upsert({
+     * // Update or create a FilteredWord
+     * const filteredWord = await prisma.filteredWord.upsert({
      *   create: {
-     *     // ... data to create a GuildSetting
+     *     // ... data to create a FilteredWord
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the GuildSetting we want to update
+     *     // ... the filter for the FilteredWord we want to update
      *   }
      * })
      */
-    upsert<T extends GuildSettingUpsertArgs>(args: SelectSubset<T, GuildSettingUpsertArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends FilteredWordUpsertArgs>(args: SelectSubset<T, FilteredWordUpsertArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of GuildSettings.
+     * Count the number of FilteredWords.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuildSettingCountArgs} args - Arguments to filter GuildSettings to count.
+     * @param {FilteredWordCountArgs} args - Arguments to filter FilteredWords to count.
      * @example
-     * // Count the number of GuildSettings
-     * const count = await prisma.guildSetting.count({
+     * // Count the number of FilteredWords
+     * const count = await prisma.filteredWord.count({
      *   where: {
-     *     // ... the filter for the GuildSettings we want to count
+     *     // ... the filter for the FilteredWords we want to count
      *   }
      * })
     **/
-    count<T extends GuildSettingCountArgs>(
-      args?: Subset<T, GuildSettingCountArgs>,
+    count<T extends FilteredWordCountArgs>(
+      args?: Subset<T, FilteredWordCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], GuildSettingCountAggregateOutputType>
+          : GetScalarType<T['select'], FilteredWordCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a GuildSetting.
+     * Allows you to perform aggregations operations on a FilteredWord.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuildSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {FilteredWordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -1909,13 +1937,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends GuildSettingAggregateArgs>(args: Subset<T, GuildSettingAggregateArgs>): Prisma.PrismaPromise<GetGuildSettingAggregateType<T>>
+    aggregate<T extends FilteredWordAggregateArgs>(args: Subset<T, FilteredWordAggregateArgs>): Prisma.PrismaPromise<GetFilteredWordAggregateType<T>>
 
     /**
-     * Group by GuildSetting.
+     * Group by FilteredWord.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GuildSettingGroupByArgs} args - Group by arguments.
+     * @param {FilteredWordGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -1930,14 +1958,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends GuildSettingGroupByArgs,
+      T extends FilteredWordGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: GuildSettingGroupByArgs['orderBy'] }
-        : { orderBy?: GuildSettingGroupByArgs['orderBy'] },
+        ? { orderBy: FilteredWordGroupByArgs['orderBy'] }
+        : { orderBy?: FilteredWordGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -1986,20 +2014,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, GuildSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGuildSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, FilteredWordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFilteredWordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the GuildSetting model
+   * Fields of the FilteredWord model
    */
-  readonly fields: GuildSettingFieldRefs;
+  readonly fields: FilteredWordFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for GuildSetting.
+   * The delegate class that acts as a "Promise-like" for FilteredWord.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__GuildSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__FilteredWordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2027,387 +2055,374 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the GuildSetting model
+   * Fields of the FilteredWord model
    */
-  interface GuildSettingFieldRefs {
-    readonly guildId: FieldRef<"GuildSetting", 'String'>
-    readonly prefix: FieldRef<"GuildSetting", 'String'>
-    readonly interactionsMode: FieldRef<"GuildSetting", 'Boolean'>
-    readonly language: FieldRef<"GuildSetting", 'String'>
-    readonly errorChannel: FieldRef<"GuildSetting", 'String'>
-    readonly rpEnabled: FieldRef<"GuildSetting", 'Boolean'>
-    readonly rpEnableRuns: FieldRef<"GuildSetting", 'Decimal'>
-    readonly lastRpSyncRun: FieldRef<"GuildSetting", 'Decimal'>
-    readonly ptReminderEnabled: FieldRef<"GuildSetting", 'Boolean'>
-    readonly legacyRp: FieldRef<"GuildSetting", 'Boolean'>
-    readonly editRpCommands: FieldRef<"GuildSetting", 'Boolean'>
-    readonly enableInvitesAt: FieldRef<"GuildSetting", 'Decimal'>
-    readonly statusChannel: FieldRef<"GuildSetting", 'String'>
-    readonly updatesChannel: FieldRef<"GuildSetting", 'String'>
-    readonly notifyChannel: FieldRef<"GuildSetting", 'String'>
+  interface FilteredWordFieldRefs {
+    readonly keyword: FieldRef<"FilteredWord", 'String'>
+    readonly filterType: FieldRef<"FilteredWord", 'FilterType'>
   }
     
 
   // Custom InputTypes
   /**
-   * GuildSetting findUnique
+   * FilteredWord findUnique
    */
-  export type GuildSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which GuildSetting to fetch.
+     * Filter, which FilteredWord to fetch.
      */
-    where: GuildSettingWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
   }
 
   /**
-   * GuildSetting findUniqueOrThrow
+   * FilteredWord findUniqueOrThrow
    */
-  export type GuildSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which GuildSetting to fetch.
+     * Filter, which FilteredWord to fetch.
      */
-    where: GuildSettingWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
   }
 
   /**
-   * GuildSetting findFirst
+   * FilteredWord findFirst
    */
-  export type GuildSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which GuildSetting to fetch.
+     * Filter, which FilteredWord to fetch.
      */
-    where?: GuildSettingWhereInput
+    where?: FilteredWordWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of GuildSettings to fetch.
+     * Determine the order of FilteredWords to fetch.
      */
-    orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for GuildSettings.
+     * Sets the position for searching for FilteredWords.
      */
-    cursor?: GuildSettingWhereUniqueInput
+    cursor?: FilteredWordWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` GuildSettings from the position of the cursor.
+     * Take `±n` FilteredWords from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` GuildSettings.
+     * Skip the first `n` FilteredWords.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of GuildSettings.
+     * Filter by unique combinations of FilteredWords.
      */
-    distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
+    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
   }
 
   /**
-   * GuildSetting findFirstOrThrow
+   * FilteredWord findFirstOrThrow
    */
-  export type GuildSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which GuildSetting to fetch.
+     * Filter, which FilteredWord to fetch.
      */
-    where?: GuildSettingWhereInput
+    where?: FilteredWordWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of GuildSettings to fetch.
+     * Determine the order of FilteredWords to fetch.
      */
-    orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for GuildSettings.
+     * Sets the position for searching for FilteredWords.
      */
-    cursor?: GuildSettingWhereUniqueInput
+    cursor?: FilteredWordWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` GuildSettings from the position of the cursor.
+     * Take `±n` FilteredWords from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` GuildSettings.
+     * Skip the first `n` FilteredWords.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of GuildSettings.
+     * Filter by unique combinations of FilteredWords.
      */
-    distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
+    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
   }
 
   /**
-   * GuildSetting findMany
+   * FilteredWord findMany
    */
-  export type GuildSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which GuildSettings to fetch.
+     * Filter, which FilteredWords to fetch.
      */
-    where?: GuildSettingWhereInput
+    where?: FilteredWordWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of GuildSettings to fetch.
+     * Determine the order of FilteredWords to fetch.
      */
-    orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing GuildSettings.
+     * Sets the position for listing FilteredWords.
      */
-    cursor?: GuildSettingWhereUniqueInput
+    cursor?: FilteredWordWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` GuildSettings from the position of the cursor.
+     * Take `±n` FilteredWords from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` GuildSettings.
+     * Skip the first `n` FilteredWords.
      */
     skip?: number
-    distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
+    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
   }
 
   /**
-   * GuildSetting create
+   * FilteredWord create
    */
-  export type GuildSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The data needed to create a GuildSetting.
+     * The data needed to create a FilteredWord.
      */
-    data: XOR<GuildSettingCreateInput, GuildSettingUncheckedCreateInput>
+    data: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
   }
 
   /**
-   * GuildSetting createMany
+   * FilteredWord createMany
    */
-  export type GuildSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many GuildSettings.
+     * The data used to create many FilteredWords.
      */
-    data: GuildSettingCreateManyInput | GuildSettingCreateManyInput[]
+    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * GuildSetting createManyAndReturn
+   * FilteredWord createManyAndReturn
    */
-  export type GuildSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelectCreateManyAndReturn<ExtArgs> | null
+    select?: FilteredWordSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The data used to create many GuildSettings.
+     * The data used to create many FilteredWords.
      */
-    data: GuildSettingCreateManyInput | GuildSettingCreateManyInput[]
+    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * GuildSetting update
+   * FilteredWord update
    */
-  export type GuildSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The data needed to update a GuildSetting.
+     * The data needed to update a FilteredWord.
      */
-    data: XOR<GuildSettingUpdateInput, GuildSettingUncheckedUpdateInput>
+    data: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
     /**
-     * Choose, which GuildSetting to update.
+     * Choose, which FilteredWord to update.
      */
-    where: GuildSettingWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
   }
 
   /**
-   * GuildSetting updateMany
+   * FilteredWord updateMany
    */
-  export type GuildSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update GuildSettings.
+     * The data used to update FilteredWords.
      */
-    data: XOR<GuildSettingUpdateManyMutationInput, GuildSettingUncheckedUpdateManyInput>
+    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
     /**
-     * Filter which GuildSettings to update
+     * Filter which FilteredWords to update
      */
-    where?: GuildSettingWhereInput
+    where?: FilteredWordWhereInput
     /**
-     * Limit how many GuildSettings to update.
+     * Limit how many FilteredWords to update.
      */
     limit?: number
   }
 
   /**
-   * GuildSetting updateManyAndReturn
+   * FilteredWord updateManyAndReturn
    */
-  export type GuildSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: FilteredWordSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The data used to update GuildSettings.
+     * The data used to update FilteredWords.
      */
-    data: XOR<GuildSettingUpdateManyMutationInput, GuildSettingUncheckedUpdateManyInput>
+    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
     /**
-     * Filter which GuildSettings to update
+     * Filter which FilteredWords to update
      */
-    where?: GuildSettingWhereInput
+    where?: FilteredWordWhereInput
     /**
-     * Limit how many GuildSettings to update.
+     * Limit how many FilteredWords to update.
      */
     limit?: number
   }
 
   /**
-   * GuildSetting upsert
+   * FilteredWord upsert
    */
-  export type GuildSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The filter to search for the GuildSetting to update in case it exists.
+     * The filter to search for the FilteredWord to update in case it exists.
      */
-    where: GuildSettingWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
     /**
-     * In case the GuildSetting found by the `where` argument doesn't exist, create a new GuildSetting with this data.
+     * In case the FilteredWord found by the `where` argument doesn't exist, create a new FilteredWord with this data.
      */
-    create: XOR<GuildSettingCreateInput, GuildSettingUncheckedCreateInput>
+    create: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
     /**
-     * In case the GuildSetting was found with the provided `where` argument, update it with this data.
+     * In case the FilteredWord was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<GuildSettingUpdateInput, GuildSettingUncheckedUpdateInput>
+    update: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
   }
 
   /**
-   * GuildSetting delete
+   * FilteredWord delete
    */
-  export type GuildSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter which GuildSetting to delete.
+     * Filter which FilteredWord to delete.
      */
-    where: GuildSettingWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
   }
 
   /**
-   * GuildSetting deleteMany
+   * FilteredWord deleteMany
    */
-  export type GuildSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which GuildSettings to delete
+     * Filter which FilteredWords to delete
      */
-    where?: GuildSettingWhereInput
+    where?: FilteredWordWhereInput
     /**
-     * Limit how many GuildSettings to delete.
+     * Limit how many FilteredWords to delete.
      */
     limit?: number
   }
 
   /**
-   * GuildSetting without action
+   * FilteredWord without action
    */
-  export type GuildSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GuildSetting
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: GuildSettingSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GuildSetting
+     * Omit specific fields from the FilteredWord
      */
-    omit?: GuildSettingOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
   }
 
 
@@ -3407,301 +3422,469 @@ export namespace Prisma {
 
 
   /**
-   * Model FilteredWord
+   * Model TicketSetting
    */
 
-  export type AggregateFilteredWord = {
-    _count: FilteredWordCountAggregateOutputType | null
-    _min: FilteredWordMinAggregateOutputType | null
-    _max: FilteredWordMaxAggregateOutputType | null
+  export type AggregateTicketSetting = {
+    _count: TicketSettingCountAggregateOutputType | null
+    _avg: TicketSettingAvgAggregateOutputType | null
+    _sum: TicketSettingSumAggregateOutputType | null
+    _min: TicketSettingMinAggregateOutputType | null
+    _max: TicketSettingMaxAggregateOutputType | null
   }
 
-  export type FilteredWordMinAggregateOutputType = {
-    keyword: string | null
-    filterType: $Enums.FilterType | null
+  export type TicketSettingAvgAggregateOutputType = {
+    id: Decimal | null
+    archiveDuration: Decimal | null
   }
 
-  export type FilteredWordMaxAggregateOutputType = {
-    keyword: string | null
-    filterType: $Enums.FilterType | null
+  export type TicketSettingSumAggregateOutputType = {
+    id: Decimal | null
+    archiveDuration: Decimal | null
   }
 
-  export type FilteredWordCountAggregateOutputType = {
-    keyword: number
-    filterType: number
+  export type TicketSettingMinAggregateOutputType = {
+    id: Decimal | null
+    guild: string | null
+    active: boolean | null
+    archiveCategory: string | null
+    type: $Enums.TicketType | null
+    archiveDuration: Decimal | null
+    channel: string | null
+    category: string | null
+  }
+
+  export type TicketSettingMaxAggregateOutputType = {
+    id: Decimal | null
+    guild: string | null
+    active: boolean | null
+    archiveCategory: string | null
+    type: $Enums.TicketType | null
+    archiveDuration: Decimal | null
+    channel: string | null
+    category: string | null
+  }
+
+  export type TicketSettingCountAggregateOutputType = {
+    id: number
+    guild: number
+    active: number
+    logChannels: number
+    archiveCategory: number
+    type: number
+    archiveDuration: number
+    channel: number
+    category: number
+    sendMessagePrefixes: number
+    mentionRoles: number
+    mentionUsers: number
+    denyUserIds: number
+    denyRoleIds: number
     _all: number
   }
 
 
-  export type FilteredWordMinAggregateInputType = {
-    keyword?: true
-    filterType?: true
+  export type TicketSettingAvgAggregateInputType = {
+    id?: true
+    archiveDuration?: true
   }
 
-  export type FilteredWordMaxAggregateInputType = {
-    keyword?: true
-    filterType?: true
+  export type TicketSettingSumAggregateInputType = {
+    id?: true
+    archiveDuration?: true
   }
 
-  export type FilteredWordCountAggregateInputType = {
-    keyword?: true
-    filterType?: true
+  export type TicketSettingMinAggregateInputType = {
+    id?: true
+    guild?: true
+    active?: true
+    archiveCategory?: true
+    type?: true
+    archiveDuration?: true
+    channel?: true
+    category?: true
+  }
+
+  export type TicketSettingMaxAggregateInputType = {
+    id?: true
+    guild?: true
+    active?: true
+    archiveCategory?: true
+    type?: true
+    archiveDuration?: true
+    channel?: true
+    category?: true
+  }
+
+  export type TicketSettingCountAggregateInputType = {
+    id?: true
+    guild?: true
+    active?: true
+    logChannels?: true
+    archiveCategory?: true
+    type?: true
+    archiveDuration?: true
+    channel?: true
+    category?: true
+    sendMessagePrefixes?: true
+    mentionRoles?: true
+    mentionUsers?: true
+    denyUserIds?: true
+    denyRoleIds?: true
     _all?: true
   }
 
-  export type FilteredWordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which FilteredWord to aggregate.
+     * Filter which TicketSetting to aggregate.
      */
-    where?: FilteredWordWhereInput
+    where?: TicketSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FilteredWords to fetch.
+     * Determine the order of TicketSettings to fetch.
      */
-    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
+    orderBy?: TicketSettingOrderByWithRelationInput | TicketSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: FilteredWordWhereUniqueInput
+    cursor?: TicketSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FilteredWords from the position of the cursor.
+     * Take `±n` TicketSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FilteredWords.
+     * Skip the first `n` TicketSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned FilteredWords
+     * Count returned TicketSettings
     **/
-    _count?: true | FilteredWordCountAggregateInputType
+    _count?: true | TicketSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TicketSettingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TicketSettingSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: FilteredWordMinAggregateInputType
+    _min?: TicketSettingMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: FilteredWordMaxAggregateInputType
+    _max?: TicketSettingMaxAggregateInputType
   }
 
-  export type GetFilteredWordAggregateType<T extends FilteredWordAggregateArgs> = {
-        [P in keyof T & keyof AggregateFilteredWord]: P extends '_count' | 'count'
+  export type GetTicketSettingAggregateType<T extends TicketSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateTicketSetting]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateFilteredWord[P]>
-      : GetScalarType<T[P], AggregateFilteredWord[P]>
+        : GetScalarType<T[P], AggregateTicketSetting[P]>
+      : GetScalarType<T[P], AggregateTicketSetting[P]>
   }
 
 
 
 
-  export type FilteredWordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FilteredWordWhereInput
-    orderBy?: FilteredWordOrderByWithAggregationInput | FilteredWordOrderByWithAggregationInput[]
-    by: FilteredWordScalarFieldEnum[] | FilteredWordScalarFieldEnum
-    having?: FilteredWordScalarWhereWithAggregatesInput
+  export type TicketSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketSettingWhereInput
+    orderBy?: TicketSettingOrderByWithAggregationInput | TicketSettingOrderByWithAggregationInput[]
+    by: TicketSettingScalarFieldEnum[] | TicketSettingScalarFieldEnum
+    having?: TicketSettingScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: FilteredWordCountAggregateInputType | true
-    _min?: FilteredWordMinAggregateInputType
-    _max?: FilteredWordMaxAggregateInputType
+    _count?: TicketSettingCountAggregateInputType | true
+    _avg?: TicketSettingAvgAggregateInputType
+    _sum?: TicketSettingSumAggregateInputType
+    _min?: TicketSettingMinAggregateInputType
+    _max?: TicketSettingMaxAggregateInputType
   }
 
-  export type FilteredWordGroupByOutputType = {
-    keyword: string
-    filterType: $Enums.FilterType
-    _count: FilteredWordCountAggregateOutputType | null
-    _min: FilteredWordMinAggregateOutputType | null
-    _max: FilteredWordMaxAggregateOutputType | null
+  export type TicketSettingGroupByOutputType = {
+    id: Decimal
+    guild: string
+    active: boolean
+    logChannels: string[]
+    archiveCategory: string | null
+    type: $Enums.TicketType
+    archiveDuration: Decimal
+    channel: string | null
+    category: string | null
+    sendMessagePrefixes: string[]
+    mentionRoles: string[]
+    mentionUsers: string[]
+    denyUserIds: string[]
+    denyRoleIds: string[]
+    _count: TicketSettingCountAggregateOutputType | null
+    _avg: TicketSettingAvgAggregateOutputType | null
+    _sum: TicketSettingSumAggregateOutputType | null
+    _min: TicketSettingMinAggregateOutputType | null
+    _max: TicketSettingMaxAggregateOutputType | null
   }
 
-  type GetFilteredWordGroupByPayload<T extends FilteredWordGroupByArgs> = Prisma.PrismaPromise<
+  type GetTicketSettingGroupByPayload<T extends TicketSettingGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<FilteredWordGroupByOutputType, T['by']> &
+      PickEnumerable<TicketSettingGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof FilteredWordGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof TicketSettingGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
-            : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
+              : GetScalarType<T[P], TicketSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], TicketSettingGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type FilteredWordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    keyword?: boolean
-    filterType?: boolean
-  }, ExtArgs["result"]["filteredWord"]>
+  export type TicketSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    guild?: boolean
+    active?: boolean
+    logChannels?: boolean
+    archiveCategory?: boolean
+    type?: boolean
+    archiveDuration?: boolean
+    channel?: boolean
+    category?: boolean
+    sendMessagePrefixes?: boolean
+    mentionRoles?: boolean
+    mentionUsers?: boolean
+    denyUserIds?: boolean
+    denyRoleIds?: boolean
+    DMTicket?: boolean | TicketSetting$DMTicketArgs<ExtArgs>
+    _count?: boolean | TicketSettingCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ticketSetting"]>
 
-  export type FilteredWordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    keyword?: boolean
-    filterType?: boolean
-  }, ExtArgs["result"]["filteredWord"]>
+  export type TicketSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    guild?: boolean
+    active?: boolean
+    logChannels?: boolean
+    archiveCategory?: boolean
+    type?: boolean
+    archiveDuration?: boolean
+    channel?: boolean
+    category?: boolean
+    sendMessagePrefixes?: boolean
+    mentionRoles?: boolean
+    mentionUsers?: boolean
+    denyUserIds?: boolean
+    denyRoleIds?: boolean
+  }, ExtArgs["result"]["ticketSetting"]>
 
-  export type FilteredWordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    keyword?: boolean
-    filterType?: boolean
-  }, ExtArgs["result"]["filteredWord"]>
+  export type TicketSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    guild?: boolean
+    active?: boolean
+    logChannels?: boolean
+    archiveCategory?: boolean
+    type?: boolean
+    archiveDuration?: boolean
+    channel?: boolean
+    category?: boolean
+    sendMessagePrefixes?: boolean
+    mentionRoles?: boolean
+    mentionUsers?: boolean
+    denyUserIds?: boolean
+    denyRoleIds?: boolean
+  }, ExtArgs["result"]["ticketSetting"]>
 
-  export type FilteredWordSelectScalar = {
-    keyword?: boolean
-    filterType?: boolean
+  export type TicketSettingSelectScalar = {
+    id?: boolean
+    guild?: boolean
+    active?: boolean
+    logChannels?: boolean
+    archiveCategory?: boolean
+    type?: boolean
+    archiveDuration?: boolean
+    channel?: boolean
+    category?: boolean
+    sendMessagePrefixes?: boolean
+    mentionRoles?: boolean
+    mentionUsers?: boolean
+    denyUserIds?: boolean
+    denyRoleIds?: boolean
   }
 
-  export type FilteredWordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"keyword" | "filterType", ExtArgs["result"]["filteredWord"]>
+  export type TicketSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "guild" | "active" | "logChannels" | "archiveCategory" | "type" | "archiveDuration" | "channel" | "category" | "sendMessagePrefixes" | "mentionRoles" | "mentionUsers" | "denyUserIds" | "denyRoleIds", ExtArgs["result"]["ticketSetting"]>
+  export type TicketSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    DMTicket?: boolean | TicketSetting$DMTicketArgs<ExtArgs>
+    _count?: boolean | TicketSettingCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TicketSettingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TicketSettingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $FilteredWordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "FilteredWord"
-    objects: {}
+  export type $TicketSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TicketSetting"
+    objects: {
+      DMTicket: Prisma.$DMTicketPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
-      keyword: string
-      filterType: $Enums.FilterType
-    }, ExtArgs["result"]["filteredWord"]>
+      id: Prisma.Decimal
+      guild: string
+      active: boolean
+      logChannels: string[]
+      archiveCategory: string | null
+      type: $Enums.TicketType
+      archiveDuration: Prisma.Decimal
+      channel: string | null
+      category: string | null
+      sendMessagePrefixes: string[]
+      mentionRoles: string[]
+      mentionUsers: string[]
+      denyUserIds: string[]
+      denyRoleIds: string[]
+    }, ExtArgs["result"]["ticketSetting"]>
     composites: {}
   }
 
-  type FilteredWordGetPayload<S extends boolean | null | undefined | FilteredWordDefaultArgs> = $Result.GetResult<Prisma.$FilteredWordPayload, S>
+  type TicketSettingGetPayload<S extends boolean | null | undefined | TicketSettingDefaultArgs> = $Result.GetResult<Prisma.$TicketSettingPayload, S>
 
-  type FilteredWordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<FilteredWordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: FilteredWordCountAggregateInputType | true
+  type TicketSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TicketSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TicketSettingCountAggregateInputType | true
     }
 
-  export interface FilteredWordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FilteredWord'], meta: { name: 'FilteredWord' } }
+  export interface TicketSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TicketSetting'], meta: { name: 'TicketSetting' } }
     /**
-     * Find zero or one FilteredWord that matches the filter.
-     * @param {FilteredWordFindUniqueArgs} args - Arguments to find a FilteredWord
+     * Find zero or one TicketSetting that matches the filter.
+     * @param {TicketSettingFindUniqueArgs} args - Arguments to find a TicketSetting
      * @example
-     * // Get one FilteredWord
-     * const filteredWord = await prisma.filteredWord.findUnique({
+     * // Get one TicketSetting
+     * const ticketSetting = await prisma.ticketSetting.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends FilteredWordFindUniqueArgs>(args: SelectSubset<T, FilteredWordFindUniqueArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends TicketSettingFindUniqueArgs>(args: SelectSubset<T, TicketSettingFindUniqueArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one FilteredWord that matches the filter or throw an error with `error.code='P2025'`
+     * Find one TicketSetting that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {FilteredWordFindUniqueOrThrowArgs} args - Arguments to find a FilteredWord
+     * @param {TicketSettingFindUniqueOrThrowArgs} args - Arguments to find a TicketSetting
      * @example
-     * // Get one FilteredWord
-     * const filteredWord = await prisma.filteredWord.findUniqueOrThrow({
+     * // Get one TicketSetting
+     * const ticketSetting = await prisma.ticketSetting.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends FilteredWordFindUniqueOrThrowArgs>(args: SelectSubset<T, FilteredWordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends TicketSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, TicketSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first FilteredWord that matches the filter.
+     * Find the first TicketSetting that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordFindFirstArgs} args - Arguments to find a FilteredWord
+     * @param {TicketSettingFindFirstArgs} args - Arguments to find a TicketSetting
      * @example
-     * // Get one FilteredWord
-     * const filteredWord = await prisma.filteredWord.findFirst({
+     * // Get one TicketSetting
+     * const ticketSetting = await prisma.ticketSetting.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends FilteredWordFindFirstArgs>(args?: SelectSubset<T, FilteredWordFindFirstArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends TicketSettingFindFirstArgs>(args?: SelectSubset<T, TicketSettingFindFirstArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first FilteredWord that matches the filter or
+     * Find the first TicketSetting that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordFindFirstOrThrowArgs} args - Arguments to find a FilteredWord
+     * @param {TicketSettingFindFirstOrThrowArgs} args - Arguments to find a TicketSetting
      * @example
-     * // Get one FilteredWord
-     * const filteredWord = await prisma.filteredWord.findFirstOrThrow({
+     * // Get one TicketSetting
+     * const ticketSetting = await prisma.ticketSetting.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends FilteredWordFindFirstOrThrowArgs>(args?: SelectSubset<T, FilteredWordFindFirstOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends TicketSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, TicketSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more FilteredWords that matches the filter.
+     * Find zero or more TicketSettings that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {TicketSettingFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all FilteredWords
-     * const filteredWords = await prisma.filteredWord.findMany()
+     * // Get all TicketSettings
+     * const ticketSettings = await prisma.ticketSetting.findMany()
      * 
-     * // Get first 10 FilteredWords
-     * const filteredWords = await prisma.filteredWord.findMany({ take: 10 })
+     * // Get first 10 TicketSettings
+     * const ticketSettings = await prisma.ticketSetting.findMany({ take: 10 })
      * 
-     * // Only select the `keyword`
-     * const filteredWordWithKeywordOnly = await prisma.filteredWord.findMany({ select: { keyword: true } })
+     * // Only select the `id`
+     * const ticketSettingWithIdOnly = await prisma.ticketSetting.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends FilteredWordFindManyArgs>(args?: SelectSubset<T, FilteredWordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends TicketSettingFindManyArgs>(args?: SelectSubset<T, TicketSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a FilteredWord.
-     * @param {FilteredWordCreateArgs} args - Arguments to create a FilteredWord.
+     * Create a TicketSetting.
+     * @param {TicketSettingCreateArgs} args - Arguments to create a TicketSetting.
      * @example
-     * // Create one FilteredWord
-     * const FilteredWord = await prisma.filteredWord.create({
+     * // Create one TicketSetting
+     * const TicketSetting = await prisma.ticketSetting.create({
      *   data: {
-     *     // ... data to create a FilteredWord
+     *     // ... data to create a TicketSetting
      *   }
      * })
      * 
      */
-    create<T extends FilteredWordCreateArgs>(args: SelectSubset<T, FilteredWordCreateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends TicketSettingCreateArgs>(args: SelectSubset<T, TicketSettingCreateArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many FilteredWords.
-     * @param {FilteredWordCreateManyArgs} args - Arguments to create many FilteredWords.
+     * Create many TicketSettings.
+     * @param {TicketSettingCreateManyArgs} args - Arguments to create many TicketSettings.
      * @example
-     * // Create many FilteredWords
-     * const filteredWord = await prisma.filteredWord.createMany({
+     * // Create many TicketSettings
+     * const ticketSetting = await prisma.ticketSetting.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends FilteredWordCreateManyArgs>(args?: SelectSubset<T, FilteredWordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends TicketSettingCreateManyArgs>(args?: SelectSubset<T, TicketSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many FilteredWords and returns the data saved in the database.
-     * @param {FilteredWordCreateManyAndReturnArgs} args - Arguments to create many FilteredWords.
+     * Create many TicketSettings and returns the data saved in the database.
+     * @param {TicketSettingCreateManyAndReturnArgs} args - Arguments to create many TicketSettings.
      * @example
-     * // Create many FilteredWords
-     * const filteredWord = await prisma.filteredWord.createManyAndReturn({
+     * // Create many TicketSettings
+     * const ticketSetting = await prisma.ticketSetting.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many FilteredWords and only return the `keyword`
-     * const filteredWordWithKeywordOnly = await prisma.filteredWord.createManyAndReturn({
-     *   select: { keyword: true },
+     * // Create many TicketSettings and only return the `id`
+     * const ticketSettingWithIdOnly = await prisma.ticketSetting.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -3710,28 +3893,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends FilteredWordCreateManyAndReturnArgs>(args?: SelectSubset<T, FilteredWordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends TicketSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, TicketSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a FilteredWord.
-     * @param {FilteredWordDeleteArgs} args - Arguments to delete one FilteredWord.
+     * Delete a TicketSetting.
+     * @param {TicketSettingDeleteArgs} args - Arguments to delete one TicketSetting.
      * @example
-     * // Delete one FilteredWord
-     * const FilteredWord = await prisma.filteredWord.delete({
+     * // Delete one TicketSetting
+     * const TicketSetting = await prisma.ticketSetting.delete({
      *   where: {
-     *     // ... filter to delete one FilteredWord
+     *     // ... filter to delete one TicketSetting
      *   }
      * })
      * 
      */
-    delete<T extends FilteredWordDeleteArgs>(args: SelectSubset<T, FilteredWordDeleteArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends TicketSettingDeleteArgs>(args: SelectSubset<T, TicketSettingDeleteArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one FilteredWord.
-     * @param {FilteredWordUpdateArgs} args - Arguments to update one FilteredWord.
+     * Update one TicketSetting.
+     * @param {TicketSettingUpdateArgs} args - Arguments to update one TicketSetting.
      * @example
-     * // Update one FilteredWord
-     * const filteredWord = await prisma.filteredWord.update({
+     * // Update one TicketSetting
+     * const ticketSetting = await prisma.ticketSetting.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3741,30 +3924,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends FilteredWordUpdateArgs>(args: SelectSubset<T, FilteredWordUpdateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends TicketSettingUpdateArgs>(args: SelectSubset<T, TicketSettingUpdateArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more FilteredWords.
-     * @param {FilteredWordDeleteManyArgs} args - Arguments to filter FilteredWords to delete.
+     * Delete zero or more TicketSettings.
+     * @param {TicketSettingDeleteManyArgs} args - Arguments to filter TicketSettings to delete.
      * @example
-     * // Delete a few FilteredWords
-     * const { count } = await prisma.filteredWord.deleteMany({
+     * // Delete a few TicketSettings
+     * const { count } = await prisma.ticketSetting.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends FilteredWordDeleteManyArgs>(args?: SelectSubset<T, FilteredWordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends TicketSettingDeleteManyArgs>(args?: SelectSubset<T, TicketSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more FilteredWords.
+     * Update zero or more TicketSettings.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {TicketSettingUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many FilteredWords
-     * const filteredWord = await prisma.filteredWord.updateMany({
+     * // Update many TicketSettings
+     * const ticketSetting = await prisma.ticketSetting.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3774,14 +3957,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends FilteredWordUpdateManyArgs>(args: SelectSubset<T, FilteredWordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends TicketSettingUpdateManyArgs>(args: SelectSubset<T, TicketSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more FilteredWords and returns the data updated in the database.
-     * @param {FilteredWordUpdateManyAndReturnArgs} args - Arguments to update many FilteredWords.
+     * Update zero or more TicketSettings and returns the data updated in the database.
+     * @param {TicketSettingUpdateManyAndReturnArgs} args - Arguments to update many TicketSettings.
      * @example
-     * // Update many FilteredWords
-     * const filteredWord = await prisma.filteredWord.updateManyAndReturn({
+     * // Update many TicketSettings
+     * const ticketSetting = await prisma.ticketSetting.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3790,9 +3973,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more FilteredWords and only return the `keyword`
-     * const filteredWordWithKeywordOnly = await prisma.filteredWord.updateManyAndReturn({
-     *   select: { keyword: true },
+     * // Update zero or more TicketSettings and only return the `id`
+     * const ticketSettingWithIdOnly = await prisma.ticketSetting.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3804,56 +3987,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends FilteredWordUpdateManyAndReturnArgs>(args: SelectSubset<T, FilteredWordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends TicketSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, TicketSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one FilteredWord.
-     * @param {FilteredWordUpsertArgs} args - Arguments to update or create a FilteredWord.
+     * Create or update one TicketSetting.
+     * @param {TicketSettingUpsertArgs} args - Arguments to update or create a TicketSetting.
      * @example
-     * // Update or create a FilteredWord
-     * const filteredWord = await prisma.filteredWord.upsert({
+     * // Update or create a TicketSetting
+     * const ticketSetting = await prisma.ticketSetting.upsert({
      *   create: {
-     *     // ... data to create a FilteredWord
+     *     // ... data to create a TicketSetting
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the FilteredWord we want to update
+     *     // ... the filter for the TicketSetting we want to update
      *   }
      * })
      */
-    upsert<T extends FilteredWordUpsertArgs>(args: SelectSubset<T, FilteredWordUpsertArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends TicketSettingUpsertArgs>(args: SelectSubset<T, TicketSettingUpsertArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of FilteredWords.
+     * Count the number of TicketSettings.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordCountArgs} args - Arguments to filter FilteredWords to count.
+     * @param {TicketSettingCountArgs} args - Arguments to filter TicketSettings to count.
      * @example
-     * // Count the number of FilteredWords
-     * const count = await prisma.filteredWord.count({
+     * // Count the number of TicketSettings
+     * const count = await prisma.ticketSetting.count({
      *   where: {
-     *     // ... the filter for the FilteredWords we want to count
+     *     // ... the filter for the TicketSettings we want to count
      *   }
      * })
     **/
-    count<T extends FilteredWordCountArgs>(
-      args?: Subset<T, FilteredWordCountArgs>,
+    count<T extends TicketSettingCountArgs>(
+      args?: Subset<T, TicketSettingCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], FilteredWordCountAggregateOutputType>
+          : GetScalarType<T['select'], TicketSettingCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a FilteredWord.
+     * Allows you to perform aggregations operations on a TicketSetting.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {TicketSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -3873,13 +4056,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends FilteredWordAggregateArgs>(args: Subset<T, FilteredWordAggregateArgs>): Prisma.PrismaPromise<GetFilteredWordAggregateType<T>>
+    aggregate<T extends TicketSettingAggregateArgs>(args: Subset<T, TicketSettingAggregateArgs>): Prisma.PrismaPromise<GetTicketSettingAggregateType<T>>
 
     /**
-     * Group by FilteredWord.
+     * Group by TicketSetting.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordGroupByArgs} args - Group by arguments.
+     * @param {TicketSettingGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -3894,14 +4077,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends FilteredWordGroupByArgs,
+      T extends TicketSettingGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: FilteredWordGroupByArgs['orderBy'] }
-        : { orderBy?: FilteredWordGroupByArgs['orderBy'] },
+        ? { orderBy: TicketSettingGroupByArgs['orderBy'] }
+        : { orderBy?: TicketSettingGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -3950,21 +4133,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, FilteredWordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFilteredWordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, TicketSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTicketSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the FilteredWord model
+   * Fields of the TicketSetting model
    */
-  readonly fields: FilteredWordFieldRefs;
+  readonly fields: TicketSettingFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for FilteredWord.
+   * The delegate class that acts as a "Promise-like" for TicketSetting.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__FilteredWordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__TicketSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    DMTicket<T extends TicketSetting$DMTicketArgs<ExtArgs> = {}>(args?: Subset<T, TicketSetting$DMTicketArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3991,374 +4175,1529 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the FilteredWord model
+   * Fields of the TicketSetting model
    */
-  interface FilteredWordFieldRefs {
-    readonly keyword: FieldRef<"FilteredWord", 'String'>
-    readonly filterType: FieldRef<"FilteredWord", 'FilterType'>
+  interface TicketSettingFieldRefs {
+    readonly id: FieldRef<"TicketSetting", 'Decimal'>
+    readonly guild: FieldRef<"TicketSetting", 'String'>
+    readonly active: FieldRef<"TicketSetting", 'Boolean'>
+    readonly logChannels: FieldRef<"TicketSetting", 'String[]'>
+    readonly archiveCategory: FieldRef<"TicketSetting", 'String'>
+    readonly type: FieldRef<"TicketSetting", 'TicketType'>
+    readonly archiveDuration: FieldRef<"TicketSetting", 'Decimal'>
+    readonly channel: FieldRef<"TicketSetting", 'String'>
+    readonly category: FieldRef<"TicketSetting", 'String'>
+    readonly sendMessagePrefixes: FieldRef<"TicketSetting", 'String[]'>
+    readonly mentionRoles: FieldRef<"TicketSetting", 'String[]'>
+    readonly mentionUsers: FieldRef<"TicketSetting", 'String[]'>
+    readonly denyUserIds: FieldRef<"TicketSetting", 'String[]'>
+    readonly denyRoleIds: FieldRef<"TicketSetting", 'String[]'>
   }
     
 
   // Custom InputTypes
   /**
-   * FilteredWord findUnique
+   * TicketSetting findUnique
    */
-  export type FilteredWordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: TicketSettingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * Filter, which FilteredWord to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: FilteredWordWhereUniqueInput
+    include?: TicketSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketSetting to fetch.
+     */
+    where: TicketSettingWhereUniqueInput
   }
 
   /**
-   * FilteredWord findUniqueOrThrow
+   * TicketSetting findUniqueOrThrow
    */
-  export type FilteredWordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: TicketSettingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * Filter, which FilteredWord to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: FilteredWordWhereUniqueInput
+    include?: TicketSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketSetting to fetch.
+     */
+    where: TicketSettingWhereUniqueInput
   }
 
   /**
-   * FilteredWord findFirst
+   * TicketSetting findFirst
    */
-  export type FilteredWordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: TicketSettingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * Filter, which FilteredWord to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: FilteredWordWhereInput
+    include?: TicketSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketSetting to fetch.
+     */
+    where?: TicketSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FilteredWords to fetch.
+     * Determine the order of TicketSettings to fetch.
      */
-    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
+    orderBy?: TicketSettingOrderByWithRelationInput | TicketSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for FilteredWords.
+     * Sets the position for searching for TicketSettings.
      */
-    cursor?: FilteredWordWhereUniqueInput
+    cursor?: TicketSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FilteredWords from the position of the cursor.
+     * Take `±n` TicketSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FilteredWords.
+     * Skip the first `n` TicketSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of FilteredWords.
+     * Filter by unique combinations of TicketSettings.
      */
-    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
+    distinct?: TicketSettingScalarFieldEnum | TicketSettingScalarFieldEnum[]
   }
 
   /**
-   * FilteredWord findFirstOrThrow
+   * TicketSetting findFirstOrThrow
    */
-  export type FilteredWordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: TicketSettingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * Filter, which FilteredWord to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: FilteredWordWhereInput
+    include?: TicketSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketSetting to fetch.
+     */
+    where?: TicketSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FilteredWords to fetch.
+     * Determine the order of TicketSettings to fetch.
      */
-    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
+    orderBy?: TicketSettingOrderByWithRelationInput | TicketSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for FilteredWords.
+     * Sets the position for searching for TicketSettings.
      */
-    cursor?: FilteredWordWhereUniqueInput
+    cursor?: TicketSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FilteredWords from the position of the cursor.
+     * Take `±n` TicketSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FilteredWords.
+     * Skip the first `n` TicketSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of FilteredWords.
+     * Filter by unique combinations of TicketSettings.
      */
-    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
+    distinct?: TicketSettingScalarFieldEnum | TicketSettingScalarFieldEnum[]
   }
 
   /**
-   * FilteredWord findMany
+   * TicketSetting findMany
    */
-  export type FilteredWordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: TicketSettingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * Filter, which FilteredWords to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: FilteredWordWhereInput
+    include?: TicketSettingInclude<ExtArgs> | null
+    /**
+     * Filter, which TicketSettings to fetch.
+     */
+    where?: TicketSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of FilteredWords to fetch.
+     * Determine the order of TicketSettings to fetch.
      */
-    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
+    orderBy?: TicketSettingOrderByWithRelationInput | TicketSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing FilteredWords.
+     * Sets the position for listing TicketSettings.
      */
-    cursor?: FilteredWordWhereUniqueInput
+    cursor?: TicketSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` FilteredWords from the position of the cursor.
+     * Take `±n` TicketSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` FilteredWords.
+     * Skip the first `n` TicketSettings.
      */
     skip?: number
-    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
+    distinct?: TicketSettingScalarFieldEnum | TicketSettingScalarFieldEnum[]
   }
 
   /**
-   * FilteredWord create
+   * TicketSetting create
    */
-  export type FilteredWordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: TicketSettingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * The data needed to create a FilteredWord.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
+    include?: TicketSettingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TicketSetting.
+     */
+    data: XOR<TicketSettingCreateInput, TicketSettingUncheckedCreateInput>
   }
 
   /**
-   * FilteredWord createMany
+   * TicketSetting createMany
    */
-  export type FilteredWordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many FilteredWords.
+     * The data used to create many TicketSettings.
      */
-    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
+    data: TicketSettingCreateManyInput | TicketSettingCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * FilteredWord createManyAndReturn
+   * TicketSetting createManyAndReturn
    */
-  export type FilteredWordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelectCreateManyAndReturn<ExtArgs> | null
+    select?: TicketSettingSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * The data used to create many FilteredWords.
+     * The data used to create many TicketSettings.
      */
-    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
+    data: TicketSettingCreateManyInput | TicketSettingCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * FilteredWord update
+   * TicketSetting update
    */
-  export type FilteredWordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: TicketSettingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * The data needed to update a FilteredWord.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
+    include?: TicketSettingInclude<ExtArgs> | null
     /**
-     * Choose, which FilteredWord to update.
+     * The data needed to update a TicketSetting.
      */
-    where: FilteredWordWhereUniqueInput
+    data: XOR<TicketSettingUpdateInput, TicketSettingUncheckedUpdateInput>
+    /**
+     * Choose, which TicketSetting to update.
+     */
+    where: TicketSettingWhereUniqueInput
   }
 
   /**
-   * FilteredWord updateMany
+   * TicketSetting updateMany
    */
-  export type FilteredWordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update FilteredWords.
+     * The data used to update TicketSettings.
      */
-    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
+    data: XOR<TicketSettingUpdateManyMutationInput, TicketSettingUncheckedUpdateManyInput>
     /**
-     * Filter which FilteredWords to update
+     * Filter which TicketSettings to update
      */
-    where?: FilteredWordWhereInput
+    where?: TicketSettingWhereInput
     /**
-     * Limit how many FilteredWords to update.
+     * Limit how many TicketSettings to update.
      */
     limit?: number
   }
 
   /**
-   * FilteredWord updateManyAndReturn
+   * TicketSetting updateManyAndReturn
    */
-  export type FilteredWordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: TicketSettingSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * The data used to update FilteredWords.
+     * The data used to update TicketSettings.
      */
-    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
+    data: XOR<TicketSettingUpdateManyMutationInput, TicketSettingUncheckedUpdateManyInput>
     /**
-     * Filter which FilteredWords to update
+     * Filter which TicketSettings to update
      */
-    where?: FilteredWordWhereInput
+    where?: TicketSettingWhereInput
     /**
-     * Limit how many FilteredWords to update.
+     * Limit how many TicketSettings to update.
      */
     limit?: number
   }
 
   /**
-   * FilteredWord upsert
+   * TicketSetting upsert
    */
-  export type FilteredWordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: TicketSettingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * The filter to search for the FilteredWord to update in case it exists.
+     * Choose, which related nodes to fetch as well
      */
-    where: FilteredWordWhereUniqueInput
+    include?: TicketSettingInclude<ExtArgs> | null
     /**
-     * In case the FilteredWord found by the `where` argument doesn't exist, create a new FilteredWord with this data.
+     * The filter to search for the TicketSetting to update in case it exists.
      */
-    create: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
+    where: TicketSettingWhereUniqueInput
     /**
-     * In case the FilteredWord was found with the provided `where` argument, update it with this data.
+     * In case the TicketSetting found by the `where` argument doesn't exist, create a new TicketSetting with this data.
      */
-    update: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
+    create: XOR<TicketSettingCreateInput, TicketSettingUncheckedCreateInput>
+    /**
+     * In case the TicketSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TicketSettingUpdateInput, TicketSettingUncheckedUpdateInput>
   }
 
   /**
-   * FilteredWord delete
+   * TicketSetting delete
    */
-  export type FilteredWordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the TicketSetting
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: TicketSettingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the TicketSetting
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: TicketSettingOmit<ExtArgs> | null
     /**
-     * Filter which FilteredWord to delete.
+     * Choose, which related nodes to fetch as well
      */
-    where: FilteredWordWhereUniqueInput
+    include?: TicketSettingInclude<ExtArgs> | null
+    /**
+     * Filter which TicketSetting to delete.
+     */
+    where: TicketSettingWhereUniqueInput
   }
 
   /**
-   * FilteredWord deleteMany
+   * TicketSetting deleteMany
    */
-  export type FilteredWordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which FilteredWords to delete
+     * Filter which TicketSettings to delete
      */
-    where?: FilteredWordWhereInput
+    where?: TicketSettingWhereInput
     /**
-     * Limit how many FilteredWords to delete.
+     * Limit how many TicketSettings to delete.
      */
     limit?: number
   }
 
   /**
-   * FilteredWord without action
+   * TicketSetting.DMTicket
    */
-  export type FilteredWordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TicketSetting$DMTicketArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the FilteredWord
+     * Select specific fields to fetch from the DMTicket
      */
-    select?: FilteredWordSelect<ExtArgs> | null
+    select?: DMTicketSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the FilteredWord
+     * Omit specific fields from the DMTicket
      */
-    omit?: FilteredWordOmit<ExtArgs> | null
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    where?: DMTicketWhereInput
+    orderBy?: DMTicketOrderByWithRelationInput | DMTicketOrderByWithRelationInput[]
+    cursor?: DMTicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DMTicketScalarFieldEnum | DMTicketScalarFieldEnum[]
+  }
+
+  /**
+   * TicketSetting without action
+   */
+  export type TicketSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TicketSetting
+     */
+    select?: TicketSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TicketSetting
+     */
+    omit?: TicketSettingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketSettingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DMTicket
+   */
+
+  export type AggregateDMTicket = {
+    _count: DMTicketCountAggregateOutputType | null
+    _avg: DMTicketAvgAggregateOutputType | null
+    _sum: DMTicketSumAggregateOutputType | null
+    _min: DMTicketMinAggregateOutputType | null
+    _max: DMTicketMaxAggregateOutputType | null
+  }
+
+  export type DMTicketAvgAggregateOutputType = {
+    settingsId: Decimal | null
+  }
+
+  export type DMTicketSumAggregateOutputType = {
+    settingsId: Decimal | null
+  }
+
+  export type DMTicketMinAggregateOutputType = {
+    dmId: string | null
+    userId: string | null
+    channelId: string | null
+    settingsId: Decimal | null
+  }
+
+  export type DMTicketMaxAggregateOutputType = {
+    dmId: string | null
+    userId: string | null
+    channelId: string | null
+    settingsId: Decimal | null
+  }
+
+  export type DMTicketCountAggregateOutputType = {
+    dmId: number
+    userId: number
+    channelId: number
+    settingsId: number
+    _all: number
+  }
+
+
+  export type DMTicketAvgAggregateInputType = {
+    settingsId?: true
+  }
+
+  export type DMTicketSumAggregateInputType = {
+    settingsId?: true
+  }
+
+  export type DMTicketMinAggregateInputType = {
+    dmId?: true
+    userId?: true
+    channelId?: true
+    settingsId?: true
+  }
+
+  export type DMTicketMaxAggregateInputType = {
+    dmId?: true
+    userId?: true
+    channelId?: true
+    settingsId?: true
+  }
+
+  export type DMTicketCountAggregateInputType = {
+    dmId?: true
+    userId?: true
+    channelId?: true
+    settingsId?: true
+    _all?: true
+  }
+
+  export type DMTicketAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DMTicket to aggregate.
+     */
+    where?: DMTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DMTickets to fetch.
+     */
+    orderBy?: DMTicketOrderByWithRelationInput | DMTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DMTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DMTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DMTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DMTickets
+    **/
+    _count?: true | DMTicketCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DMTicketAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DMTicketSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DMTicketMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DMTicketMaxAggregateInputType
+  }
+
+  export type GetDMTicketAggregateType<T extends DMTicketAggregateArgs> = {
+        [P in keyof T & keyof AggregateDMTicket]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDMTicket[P]>
+      : GetScalarType<T[P], AggregateDMTicket[P]>
+  }
+
+
+
+
+  export type DMTicketGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DMTicketWhereInput
+    orderBy?: DMTicketOrderByWithAggregationInput | DMTicketOrderByWithAggregationInput[]
+    by: DMTicketScalarFieldEnum[] | DMTicketScalarFieldEnum
+    having?: DMTicketScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DMTicketCountAggregateInputType | true
+    _avg?: DMTicketAvgAggregateInputType
+    _sum?: DMTicketSumAggregateInputType
+    _min?: DMTicketMinAggregateInputType
+    _max?: DMTicketMaxAggregateInputType
+  }
+
+  export type DMTicketGroupByOutputType = {
+    dmId: string
+    userId: string
+    channelId: string
+    settingsId: Decimal
+    _count: DMTicketCountAggregateOutputType | null
+    _avg: DMTicketAvgAggregateOutputType | null
+    _sum: DMTicketSumAggregateOutputType | null
+    _min: DMTicketMinAggregateOutputType | null
+    _max: DMTicketMaxAggregateOutputType | null
+  }
+
+  type GetDMTicketGroupByPayload<T extends DMTicketGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DMTicketGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DMTicketGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DMTicketGroupByOutputType[P]>
+            : GetScalarType<T[P], DMTicketGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DMTicketSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    dmId?: boolean
+    userId?: boolean
+    channelId?: boolean
+    settingsId?: boolean
+    settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dMTicket"]>
+
+  export type DMTicketSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    dmId?: boolean
+    userId?: boolean
+    channelId?: boolean
+    settingsId?: boolean
+    settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dMTicket"]>
+
+  export type DMTicketSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    dmId?: boolean
+    userId?: boolean
+    channelId?: boolean
+    settingsId?: boolean
+    settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dMTicket"]>
+
+  export type DMTicketSelectScalar = {
+    dmId?: boolean
+    userId?: boolean
+    channelId?: boolean
+    settingsId?: boolean
+  }
+
+  export type DMTicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"dmId" | "userId" | "channelId" | "settingsId", ExtArgs["result"]["dMTicket"]>
+  export type DMTicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
+  }
+  export type DMTicketIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
+  }
+  export type DMTicketIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
+  }
+
+  export type $DMTicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DMTicket"
+    objects: {
+      settings: Prisma.$TicketSettingPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      dmId: string
+      userId: string
+      channelId: string
+      settingsId: Prisma.Decimal
+    }, ExtArgs["result"]["dMTicket"]>
+    composites: {}
+  }
+
+  type DMTicketGetPayload<S extends boolean | null | undefined | DMTicketDefaultArgs> = $Result.GetResult<Prisma.$DMTicketPayload, S>
+
+  type DMTicketCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DMTicketFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DMTicketCountAggregateInputType | true
+    }
+
+  export interface DMTicketDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DMTicket'], meta: { name: 'DMTicket' } }
+    /**
+     * Find zero or one DMTicket that matches the filter.
+     * @param {DMTicketFindUniqueArgs} args - Arguments to find a DMTicket
+     * @example
+     * // Get one DMTicket
+     * const dMTicket = await prisma.dMTicket.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DMTicketFindUniqueArgs>(args: SelectSubset<T, DMTicketFindUniqueArgs<ExtArgs>>): Prisma__DMTicketClient<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DMTicket that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DMTicketFindUniqueOrThrowArgs} args - Arguments to find a DMTicket
+     * @example
+     * // Get one DMTicket
+     * const dMTicket = await prisma.dMTicket.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DMTicketFindUniqueOrThrowArgs>(args: SelectSubset<T, DMTicketFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DMTicketClient<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DMTicket that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DMTicketFindFirstArgs} args - Arguments to find a DMTicket
+     * @example
+     * // Get one DMTicket
+     * const dMTicket = await prisma.dMTicket.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DMTicketFindFirstArgs>(args?: SelectSubset<T, DMTicketFindFirstArgs<ExtArgs>>): Prisma__DMTicketClient<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DMTicket that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DMTicketFindFirstOrThrowArgs} args - Arguments to find a DMTicket
+     * @example
+     * // Get one DMTicket
+     * const dMTicket = await prisma.dMTicket.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DMTicketFindFirstOrThrowArgs>(args?: SelectSubset<T, DMTicketFindFirstOrThrowArgs<ExtArgs>>): Prisma__DMTicketClient<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DMTickets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DMTicketFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DMTickets
+     * const dMTickets = await prisma.dMTicket.findMany()
+     * 
+     * // Get first 10 DMTickets
+     * const dMTickets = await prisma.dMTicket.findMany({ take: 10 })
+     * 
+     * // Only select the `dmId`
+     * const dMTicketWithDmIdOnly = await prisma.dMTicket.findMany({ select: { dmId: true } })
+     * 
+     */
+    findMany<T extends DMTicketFindManyArgs>(args?: SelectSubset<T, DMTicketFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DMTicket.
+     * @param {DMTicketCreateArgs} args - Arguments to create a DMTicket.
+     * @example
+     * // Create one DMTicket
+     * const DMTicket = await prisma.dMTicket.create({
+     *   data: {
+     *     // ... data to create a DMTicket
+     *   }
+     * })
+     * 
+     */
+    create<T extends DMTicketCreateArgs>(args: SelectSubset<T, DMTicketCreateArgs<ExtArgs>>): Prisma__DMTicketClient<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DMTickets.
+     * @param {DMTicketCreateManyArgs} args - Arguments to create many DMTickets.
+     * @example
+     * // Create many DMTickets
+     * const dMTicket = await prisma.dMTicket.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DMTicketCreateManyArgs>(args?: SelectSubset<T, DMTicketCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DMTickets and returns the data saved in the database.
+     * @param {DMTicketCreateManyAndReturnArgs} args - Arguments to create many DMTickets.
+     * @example
+     * // Create many DMTickets
+     * const dMTicket = await prisma.dMTicket.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DMTickets and only return the `dmId`
+     * const dMTicketWithDmIdOnly = await prisma.dMTicket.createManyAndReturn({
+     *   select: { dmId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DMTicketCreateManyAndReturnArgs>(args?: SelectSubset<T, DMTicketCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DMTicket.
+     * @param {DMTicketDeleteArgs} args - Arguments to delete one DMTicket.
+     * @example
+     * // Delete one DMTicket
+     * const DMTicket = await prisma.dMTicket.delete({
+     *   where: {
+     *     // ... filter to delete one DMTicket
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DMTicketDeleteArgs>(args: SelectSubset<T, DMTicketDeleteArgs<ExtArgs>>): Prisma__DMTicketClient<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DMTicket.
+     * @param {DMTicketUpdateArgs} args - Arguments to update one DMTicket.
+     * @example
+     * // Update one DMTicket
+     * const dMTicket = await prisma.dMTicket.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DMTicketUpdateArgs>(args: SelectSubset<T, DMTicketUpdateArgs<ExtArgs>>): Prisma__DMTicketClient<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DMTickets.
+     * @param {DMTicketDeleteManyArgs} args - Arguments to filter DMTickets to delete.
+     * @example
+     * // Delete a few DMTickets
+     * const { count } = await prisma.dMTicket.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DMTicketDeleteManyArgs>(args?: SelectSubset<T, DMTicketDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DMTickets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DMTicketUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DMTickets
+     * const dMTicket = await prisma.dMTicket.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DMTicketUpdateManyArgs>(args: SelectSubset<T, DMTicketUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DMTickets and returns the data updated in the database.
+     * @param {DMTicketUpdateManyAndReturnArgs} args - Arguments to update many DMTickets.
+     * @example
+     * // Update many DMTickets
+     * const dMTicket = await prisma.dMTicket.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DMTickets and only return the `dmId`
+     * const dMTicketWithDmIdOnly = await prisma.dMTicket.updateManyAndReturn({
+     *   select: { dmId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DMTicketUpdateManyAndReturnArgs>(args: SelectSubset<T, DMTicketUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DMTicket.
+     * @param {DMTicketUpsertArgs} args - Arguments to update or create a DMTicket.
+     * @example
+     * // Update or create a DMTicket
+     * const dMTicket = await prisma.dMTicket.upsert({
+     *   create: {
+     *     // ... data to create a DMTicket
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DMTicket we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DMTicketUpsertArgs>(args: SelectSubset<T, DMTicketUpsertArgs<ExtArgs>>): Prisma__DMTicketClient<$Result.GetResult<Prisma.$DMTicketPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DMTickets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DMTicketCountArgs} args - Arguments to filter DMTickets to count.
+     * @example
+     * // Count the number of DMTickets
+     * const count = await prisma.dMTicket.count({
+     *   where: {
+     *     // ... the filter for the DMTickets we want to count
+     *   }
+     * })
+    **/
+    count<T extends DMTicketCountArgs>(
+      args?: Subset<T, DMTicketCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DMTicketCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DMTicket.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DMTicketAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DMTicketAggregateArgs>(args: Subset<T, DMTicketAggregateArgs>): Prisma.PrismaPromise<GetDMTicketAggregateType<T>>
+
+    /**
+     * Group by DMTicket.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DMTicketGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DMTicketGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DMTicketGroupByArgs['orderBy'] }
+        : { orderBy?: DMTicketGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DMTicketGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDMTicketGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DMTicket model
+   */
+  readonly fields: DMTicketFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DMTicket.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DMTicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    settings<T extends TicketSettingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TicketSettingDefaultArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DMTicket model
+   */
+  interface DMTicketFieldRefs {
+    readonly dmId: FieldRef<"DMTicket", 'String'>
+    readonly userId: FieldRef<"DMTicket", 'String'>
+    readonly channelId: FieldRef<"DMTicket", 'String'>
+    readonly settingsId: FieldRef<"DMTicket", 'Decimal'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DMTicket findUnique
+   */
+  export type DMTicketFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which DMTicket to fetch.
+     */
+    where: DMTicketWhereUniqueInput
+  }
+
+  /**
+   * DMTicket findUniqueOrThrow
+   */
+  export type DMTicketFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which DMTicket to fetch.
+     */
+    where: DMTicketWhereUniqueInput
+  }
+
+  /**
+   * DMTicket findFirst
+   */
+  export type DMTicketFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which DMTicket to fetch.
+     */
+    where?: DMTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DMTickets to fetch.
+     */
+    orderBy?: DMTicketOrderByWithRelationInput | DMTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DMTickets.
+     */
+    cursor?: DMTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DMTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DMTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DMTickets.
+     */
+    distinct?: DMTicketScalarFieldEnum | DMTicketScalarFieldEnum[]
+  }
+
+  /**
+   * DMTicket findFirstOrThrow
+   */
+  export type DMTicketFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which DMTicket to fetch.
+     */
+    where?: DMTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DMTickets to fetch.
+     */
+    orderBy?: DMTicketOrderByWithRelationInput | DMTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DMTickets.
+     */
+    cursor?: DMTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DMTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DMTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DMTickets.
+     */
+    distinct?: DMTicketScalarFieldEnum | DMTicketScalarFieldEnum[]
+  }
+
+  /**
+   * DMTicket findMany
+   */
+  export type DMTicketFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which DMTickets to fetch.
+     */
+    where?: DMTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DMTickets to fetch.
+     */
+    orderBy?: DMTicketOrderByWithRelationInput | DMTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DMTickets.
+     */
+    cursor?: DMTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DMTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DMTickets.
+     */
+    skip?: number
+    distinct?: DMTicketScalarFieldEnum | DMTicketScalarFieldEnum[]
+  }
+
+  /**
+   * DMTicket create
+   */
+  export type DMTicketCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DMTicket.
+     */
+    data: XOR<DMTicketCreateInput, DMTicketUncheckedCreateInput>
+  }
+
+  /**
+   * DMTicket createMany
+   */
+  export type DMTicketCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DMTickets.
+     */
+    data: DMTicketCreateManyInput | DMTicketCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DMTicket createManyAndReturn
+   */
+  export type DMTicketCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * The data used to create many DMTickets.
+     */
+    data: DMTicketCreateManyInput | DMTicketCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DMTicket update
+   */
+  export type DMTicketUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DMTicket.
+     */
+    data: XOR<DMTicketUpdateInput, DMTicketUncheckedUpdateInput>
+    /**
+     * Choose, which DMTicket to update.
+     */
+    where: DMTicketWhereUniqueInput
+  }
+
+  /**
+   * DMTicket updateMany
+   */
+  export type DMTicketUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DMTickets.
+     */
+    data: XOR<DMTicketUpdateManyMutationInput, DMTicketUncheckedUpdateManyInput>
+    /**
+     * Filter which DMTickets to update
+     */
+    where?: DMTicketWhereInput
+    /**
+     * Limit how many DMTickets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DMTicket updateManyAndReturn
+   */
+  export type DMTicketUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * The data used to update DMTickets.
+     */
+    data: XOR<DMTicketUpdateManyMutationInput, DMTicketUncheckedUpdateManyInput>
+    /**
+     * Filter which DMTickets to update
+     */
+    where?: DMTicketWhereInput
+    /**
+     * Limit how many DMTickets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DMTicket upsert
+   */
+  export type DMTicketUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DMTicket to update in case it exists.
+     */
+    where: DMTicketWhereUniqueInput
+    /**
+     * In case the DMTicket found by the `where` argument doesn't exist, create a new DMTicket with this data.
+     */
+    create: XOR<DMTicketCreateInput, DMTicketUncheckedCreateInput>
+    /**
+     * In case the DMTicket was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DMTicketUpdateInput, DMTicketUncheckedUpdateInput>
+  }
+
+  /**
+   * DMTicket delete
+   */
+  export type DMTicketDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
+    /**
+     * Filter which DMTicket to delete.
+     */
+    where: DMTicketWhereUniqueInput
+  }
+
+  /**
+   * DMTicket deleteMany
+   */
+  export type DMTicketDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DMTickets to delete
+     */
+    where?: DMTicketWhereInput
+    /**
+     * Limit how many DMTickets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DMTicket without action
+   */
+  export type DMTicketDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DMTicket
+     */
+    select?: DMTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DMTicket
+     */
+    omit?: DMTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DMTicketInclude<ExtArgs> | null
   }
 
 
@@ -6369,6 +7708,1173 @@ export namespace Prisma {
 
 
   /**
+   * Model GuildSetting
+   */
+
+  export type AggregateGuildSetting = {
+    _count: GuildSettingCountAggregateOutputType | null
+    _avg: GuildSettingAvgAggregateOutputType | null
+    _sum: GuildSettingSumAggregateOutputType | null
+    _min: GuildSettingMinAggregateOutputType | null
+    _max: GuildSettingMaxAggregateOutputType | null
+  }
+
+  export type GuildSettingAvgAggregateOutputType = {
+    rpEnableRuns: Decimal | null
+    lastRpSyncRun: Decimal | null
+    enableInvitesAt: Decimal | null
+  }
+
+  export type GuildSettingSumAggregateOutputType = {
+    rpEnableRuns: Decimal | null
+    lastRpSyncRun: Decimal | null
+    enableInvitesAt: Decimal | null
+  }
+
+  export type GuildSettingMinAggregateOutputType = {
+    guildId: string | null
+    prefix: string | null
+    interactionsMode: boolean | null
+    language: string | null
+    errorChannel: string | null
+    rpEnabled: boolean | null
+    rpEnableRuns: Decimal | null
+    lastRpSyncRun: Decimal | null
+    ptReminderEnabled: boolean | null
+    legacyRp: boolean | null
+    editRpCommands: boolean | null
+    enableInvitesAt: Decimal | null
+    statusChannel: string | null
+    updatesChannel: string | null
+    notifyChannel: string | null
+  }
+
+  export type GuildSettingMaxAggregateOutputType = {
+    guildId: string | null
+    prefix: string | null
+    interactionsMode: boolean | null
+    language: string | null
+    errorChannel: string | null
+    rpEnabled: boolean | null
+    rpEnableRuns: Decimal | null
+    lastRpSyncRun: Decimal | null
+    ptReminderEnabled: boolean | null
+    legacyRp: boolean | null
+    editRpCommands: boolean | null
+    enableInvitesAt: Decimal | null
+    statusChannel: string | null
+    updatesChannel: string | null
+    notifyChannel: string | null
+  }
+
+  export type GuildSettingCountAggregateOutputType = {
+    guildId: number
+    prefix: number
+    interactionsMode: number
+    language: number
+    errorChannel: number
+    rpEnabled: number
+    rpEnableRuns: number
+    lastRpSyncRun: number
+    ptReminderEnabled: number
+    legacyRp: number
+    editRpCommands: number
+    enableInvitesAt: number
+    statusChannel: number
+    updatesChannel: number
+    notifyChannel: number
+    _all: number
+  }
+
+
+  export type GuildSettingAvgAggregateInputType = {
+    rpEnableRuns?: true
+    lastRpSyncRun?: true
+    enableInvitesAt?: true
+  }
+
+  export type GuildSettingSumAggregateInputType = {
+    rpEnableRuns?: true
+    lastRpSyncRun?: true
+    enableInvitesAt?: true
+  }
+
+  export type GuildSettingMinAggregateInputType = {
+    guildId?: true
+    prefix?: true
+    interactionsMode?: true
+    language?: true
+    errorChannel?: true
+    rpEnabled?: true
+    rpEnableRuns?: true
+    lastRpSyncRun?: true
+    ptReminderEnabled?: true
+    legacyRp?: true
+    editRpCommands?: true
+    enableInvitesAt?: true
+    statusChannel?: true
+    updatesChannel?: true
+    notifyChannel?: true
+  }
+
+  export type GuildSettingMaxAggregateInputType = {
+    guildId?: true
+    prefix?: true
+    interactionsMode?: true
+    language?: true
+    errorChannel?: true
+    rpEnabled?: true
+    rpEnableRuns?: true
+    lastRpSyncRun?: true
+    ptReminderEnabled?: true
+    legacyRp?: true
+    editRpCommands?: true
+    enableInvitesAt?: true
+    statusChannel?: true
+    updatesChannel?: true
+    notifyChannel?: true
+  }
+
+  export type GuildSettingCountAggregateInputType = {
+    guildId?: true
+    prefix?: true
+    interactionsMode?: true
+    language?: true
+    errorChannel?: true
+    rpEnabled?: true
+    rpEnableRuns?: true
+    lastRpSyncRun?: true
+    ptReminderEnabled?: true
+    legacyRp?: true
+    editRpCommands?: true
+    enableInvitesAt?: true
+    statusChannel?: true
+    updatesChannel?: true
+    notifyChannel?: true
+    _all?: true
+  }
+
+  export type GuildSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GuildSetting to aggregate.
+     */
+    where?: GuildSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GuildSettings to fetch.
+     */
+    orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GuildSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GuildSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GuildSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GuildSettings
+    **/
+    _count?: true | GuildSettingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GuildSettingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GuildSettingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GuildSettingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GuildSettingMaxAggregateInputType
+  }
+
+  export type GetGuildSettingAggregateType<T extends GuildSettingAggregateArgs> = {
+        [P in keyof T & keyof AggregateGuildSetting]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGuildSetting[P]>
+      : GetScalarType<T[P], AggregateGuildSetting[P]>
+  }
+
+
+
+
+  export type GuildSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GuildSettingWhereInput
+    orderBy?: GuildSettingOrderByWithAggregationInput | GuildSettingOrderByWithAggregationInput[]
+    by: GuildSettingScalarFieldEnum[] | GuildSettingScalarFieldEnum
+    having?: GuildSettingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GuildSettingCountAggregateInputType | true
+    _avg?: GuildSettingAvgAggregateInputType
+    _sum?: GuildSettingSumAggregateInputType
+    _min?: GuildSettingMinAggregateInputType
+    _max?: GuildSettingMaxAggregateInputType
+  }
+
+  export type GuildSettingGroupByOutputType = {
+    guildId: string
+    prefix: string | null
+    interactionsMode: boolean
+    language: string
+    errorChannel: string | null
+    rpEnabled: boolean
+    rpEnableRuns: Decimal
+    lastRpSyncRun: Decimal | null
+    ptReminderEnabled: boolean
+    legacyRp: boolean
+    editRpCommands: boolean
+    enableInvitesAt: Decimal | null
+    statusChannel: string | null
+    updatesChannel: string | null
+    notifyChannel: string | null
+    _count: GuildSettingCountAggregateOutputType | null
+    _avg: GuildSettingAvgAggregateOutputType | null
+    _sum: GuildSettingSumAggregateOutputType | null
+    _min: GuildSettingMinAggregateOutputType | null
+    _max: GuildSettingMaxAggregateOutputType | null
+  }
+
+  type GetGuildSettingGroupByPayload<T extends GuildSettingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GuildSettingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GuildSettingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GuildSettingGroupByOutputType[P]>
+            : GetScalarType<T[P], GuildSettingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GuildSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    guildId?: boolean
+    prefix?: boolean
+    interactionsMode?: boolean
+    language?: boolean
+    errorChannel?: boolean
+    rpEnabled?: boolean
+    rpEnableRuns?: boolean
+    lastRpSyncRun?: boolean
+    ptReminderEnabled?: boolean
+    legacyRp?: boolean
+    editRpCommands?: boolean
+    enableInvitesAt?: boolean
+    statusChannel?: boolean
+    updatesChannel?: boolean
+    notifyChannel?: boolean
+  }, ExtArgs["result"]["guildSetting"]>
+
+  export type GuildSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    guildId?: boolean
+    prefix?: boolean
+    interactionsMode?: boolean
+    language?: boolean
+    errorChannel?: boolean
+    rpEnabled?: boolean
+    rpEnableRuns?: boolean
+    lastRpSyncRun?: boolean
+    ptReminderEnabled?: boolean
+    legacyRp?: boolean
+    editRpCommands?: boolean
+    enableInvitesAt?: boolean
+    statusChannel?: boolean
+    updatesChannel?: boolean
+    notifyChannel?: boolean
+  }, ExtArgs["result"]["guildSetting"]>
+
+  export type GuildSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    guildId?: boolean
+    prefix?: boolean
+    interactionsMode?: boolean
+    language?: boolean
+    errorChannel?: boolean
+    rpEnabled?: boolean
+    rpEnableRuns?: boolean
+    lastRpSyncRun?: boolean
+    ptReminderEnabled?: boolean
+    legacyRp?: boolean
+    editRpCommands?: boolean
+    enableInvitesAt?: boolean
+    statusChannel?: boolean
+    updatesChannel?: boolean
+    notifyChannel?: boolean
+  }, ExtArgs["result"]["guildSetting"]>
+
+  export type GuildSettingSelectScalar = {
+    guildId?: boolean
+    prefix?: boolean
+    interactionsMode?: boolean
+    language?: boolean
+    errorChannel?: boolean
+    rpEnabled?: boolean
+    rpEnableRuns?: boolean
+    lastRpSyncRun?: boolean
+    ptReminderEnabled?: boolean
+    legacyRp?: boolean
+    editRpCommands?: boolean
+    enableInvitesAt?: boolean
+    statusChannel?: boolean
+    updatesChannel?: boolean
+    notifyChannel?: boolean
+  }
+
+  export type GuildSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"guildId" | "prefix" | "interactionsMode" | "language" | "errorChannel" | "rpEnabled" | "rpEnableRuns" | "lastRpSyncRun" | "ptReminderEnabled" | "legacyRp" | "editRpCommands" | "enableInvitesAt" | "statusChannel" | "updatesChannel" | "notifyChannel", ExtArgs["result"]["guildSetting"]>
+
+  export type $GuildSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GuildSetting"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      guildId: string
+      prefix: string | null
+      interactionsMode: boolean
+      language: string
+      errorChannel: string | null
+      rpEnabled: boolean
+      rpEnableRuns: Prisma.Decimal
+      lastRpSyncRun: Prisma.Decimal | null
+      ptReminderEnabled: boolean
+      legacyRp: boolean
+      editRpCommands: boolean
+      enableInvitesAt: Prisma.Decimal | null
+      statusChannel: string | null
+      updatesChannel: string | null
+      notifyChannel: string | null
+    }, ExtArgs["result"]["guildSetting"]>
+    composites: {}
+  }
+
+  type GuildSettingGetPayload<S extends boolean | null | undefined | GuildSettingDefaultArgs> = $Result.GetResult<Prisma.$GuildSettingPayload, S>
+
+  type GuildSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GuildSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GuildSettingCountAggregateInputType | true
+    }
+
+  export interface GuildSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GuildSetting'], meta: { name: 'GuildSetting' } }
+    /**
+     * Find zero or one GuildSetting that matches the filter.
+     * @param {GuildSettingFindUniqueArgs} args - Arguments to find a GuildSetting
+     * @example
+     * // Get one GuildSetting
+     * const guildSetting = await prisma.guildSetting.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GuildSettingFindUniqueArgs>(args: SelectSubset<T, GuildSettingFindUniqueArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GuildSetting that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GuildSettingFindUniqueOrThrowArgs} args - Arguments to find a GuildSetting
+     * @example
+     * // Get one GuildSetting
+     * const guildSetting = await prisma.guildSetting.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GuildSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, GuildSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GuildSetting that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GuildSettingFindFirstArgs} args - Arguments to find a GuildSetting
+     * @example
+     * // Get one GuildSetting
+     * const guildSetting = await prisma.guildSetting.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GuildSettingFindFirstArgs>(args?: SelectSubset<T, GuildSettingFindFirstArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GuildSetting that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GuildSettingFindFirstOrThrowArgs} args - Arguments to find a GuildSetting
+     * @example
+     * // Get one GuildSetting
+     * const guildSetting = await prisma.guildSetting.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GuildSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, GuildSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GuildSettings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GuildSettingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GuildSettings
+     * const guildSettings = await prisma.guildSetting.findMany()
+     * 
+     * // Get first 10 GuildSettings
+     * const guildSettings = await prisma.guildSetting.findMany({ take: 10 })
+     * 
+     * // Only select the `guildId`
+     * const guildSettingWithGuildIdOnly = await prisma.guildSetting.findMany({ select: { guildId: true } })
+     * 
+     */
+    findMany<T extends GuildSettingFindManyArgs>(args?: SelectSubset<T, GuildSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GuildSetting.
+     * @param {GuildSettingCreateArgs} args - Arguments to create a GuildSetting.
+     * @example
+     * // Create one GuildSetting
+     * const GuildSetting = await prisma.guildSetting.create({
+     *   data: {
+     *     // ... data to create a GuildSetting
+     *   }
+     * })
+     * 
+     */
+    create<T extends GuildSettingCreateArgs>(args: SelectSubset<T, GuildSettingCreateArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GuildSettings.
+     * @param {GuildSettingCreateManyArgs} args - Arguments to create many GuildSettings.
+     * @example
+     * // Create many GuildSettings
+     * const guildSetting = await prisma.guildSetting.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GuildSettingCreateManyArgs>(args?: SelectSubset<T, GuildSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GuildSettings and returns the data saved in the database.
+     * @param {GuildSettingCreateManyAndReturnArgs} args - Arguments to create many GuildSettings.
+     * @example
+     * // Create many GuildSettings
+     * const guildSetting = await prisma.guildSetting.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GuildSettings and only return the `guildId`
+     * const guildSettingWithGuildIdOnly = await prisma.guildSetting.createManyAndReturn({
+     *   select: { guildId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GuildSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, GuildSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GuildSetting.
+     * @param {GuildSettingDeleteArgs} args - Arguments to delete one GuildSetting.
+     * @example
+     * // Delete one GuildSetting
+     * const GuildSetting = await prisma.guildSetting.delete({
+     *   where: {
+     *     // ... filter to delete one GuildSetting
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GuildSettingDeleteArgs>(args: SelectSubset<T, GuildSettingDeleteArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GuildSetting.
+     * @param {GuildSettingUpdateArgs} args - Arguments to update one GuildSetting.
+     * @example
+     * // Update one GuildSetting
+     * const guildSetting = await prisma.guildSetting.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GuildSettingUpdateArgs>(args: SelectSubset<T, GuildSettingUpdateArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GuildSettings.
+     * @param {GuildSettingDeleteManyArgs} args - Arguments to filter GuildSettings to delete.
+     * @example
+     * // Delete a few GuildSettings
+     * const { count } = await prisma.guildSetting.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GuildSettingDeleteManyArgs>(args?: SelectSubset<T, GuildSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GuildSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GuildSettingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GuildSettings
+     * const guildSetting = await prisma.guildSetting.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GuildSettingUpdateManyArgs>(args: SelectSubset<T, GuildSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GuildSettings and returns the data updated in the database.
+     * @param {GuildSettingUpdateManyAndReturnArgs} args - Arguments to update many GuildSettings.
+     * @example
+     * // Update many GuildSettings
+     * const guildSetting = await prisma.guildSetting.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GuildSettings and only return the `guildId`
+     * const guildSettingWithGuildIdOnly = await prisma.guildSetting.updateManyAndReturn({
+     *   select: { guildId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GuildSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, GuildSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GuildSetting.
+     * @param {GuildSettingUpsertArgs} args - Arguments to update or create a GuildSetting.
+     * @example
+     * // Update or create a GuildSetting
+     * const guildSetting = await prisma.guildSetting.upsert({
+     *   create: {
+     *     // ... data to create a GuildSetting
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GuildSetting we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GuildSettingUpsertArgs>(args: SelectSubset<T, GuildSettingUpsertArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GuildSettings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GuildSettingCountArgs} args - Arguments to filter GuildSettings to count.
+     * @example
+     * // Count the number of GuildSettings
+     * const count = await prisma.guildSetting.count({
+     *   where: {
+     *     // ... the filter for the GuildSettings we want to count
+     *   }
+     * })
+    **/
+    count<T extends GuildSettingCountArgs>(
+      args?: Subset<T, GuildSettingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GuildSettingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GuildSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GuildSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GuildSettingAggregateArgs>(args: Subset<T, GuildSettingAggregateArgs>): Prisma.PrismaPromise<GetGuildSettingAggregateType<T>>
+
+    /**
+     * Group by GuildSetting.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GuildSettingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GuildSettingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GuildSettingGroupByArgs['orderBy'] }
+        : { orderBy?: GuildSettingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GuildSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGuildSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GuildSetting model
+   */
+  readonly fields: GuildSettingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GuildSetting.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GuildSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GuildSetting model
+   */
+  interface GuildSettingFieldRefs {
+    readonly guildId: FieldRef<"GuildSetting", 'String'>
+    readonly prefix: FieldRef<"GuildSetting", 'String'>
+    readonly interactionsMode: FieldRef<"GuildSetting", 'Boolean'>
+    readonly language: FieldRef<"GuildSetting", 'String'>
+    readonly errorChannel: FieldRef<"GuildSetting", 'String'>
+    readonly rpEnabled: FieldRef<"GuildSetting", 'Boolean'>
+    readonly rpEnableRuns: FieldRef<"GuildSetting", 'Decimal'>
+    readonly lastRpSyncRun: FieldRef<"GuildSetting", 'Decimal'>
+    readonly ptReminderEnabled: FieldRef<"GuildSetting", 'Boolean'>
+    readonly legacyRp: FieldRef<"GuildSetting", 'Boolean'>
+    readonly editRpCommands: FieldRef<"GuildSetting", 'Boolean'>
+    readonly enableInvitesAt: FieldRef<"GuildSetting", 'Decimal'>
+    readonly statusChannel: FieldRef<"GuildSetting", 'String'>
+    readonly updatesChannel: FieldRef<"GuildSetting", 'String'>
+    readonly notifyChannel: FieldRef<"GuildSetting", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GuildSetting findUnique
+   */
+  export type GuildSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GuildSetting to fetch.
+     */
+    where: GuildSettingWhereUniqueInput
+  }
+
+  /**
+   * GuildSetting findUniqueOrThrow
+   */
+  export type GuildSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GuildSetting to fetch.
+     */
+    where: GuildSettingWhereUniqueInput
+  }
+
+  /**
+   * GuildSetting findFirst
+   */
+  export type GuildSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GuildSetting to fetch.
+     */
+    where?: GuildSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GuildSettings to fetch.
+     */
+    orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GuildSettings.
+     */
+    cursor?: GuildSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GuildSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GuildSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GuildSettings.
+     */
+    distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
+  }
+
+  /**
+   * GuildSetting findFirstOrThrow
+   */
+  export type GuildSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GuildSetting to fetch.
+     */
+    where?: GuildSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GuildSettings to fetch.
+     */
+    orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GuildSettings.
+     */
+    cursor?: GuildSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GuildSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GuildSettings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GuildSettings.
+     */
+    distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
+  }
+
+  /**
+   * GuildSetting findMany
+   */
+  export type GuildSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * Filter, which GuildSettings to fetch.
+     */
+    where?: GuildSettingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GuildSettings to fetch.
+     */
+    orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GuildSettings.
+     */
+    cursor?: GuildSettingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GuildSettings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GuildSettings.
+     */
+    skip?: number
+    distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
+  }
+
+  /**
+   * GuildSetting create
+   */
+  export type GuildSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to create a GuildSetting.
+     */
+    data: XOR<GuildSettingCreateInput, GuildSettingUncheckedCreateInput>
+  }
+
+  /**
+   * GuildSetting createMany
+   */
+  export type GuildSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GuildSettings.
+     */
+    data: GuildSettingCreateManyInput | GuildSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GuildSetting createManyAndReturn
+   */
+  export type GuildSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * The data used to create many GuildSettings.
+     */
+    data: GuildSettingCreateManyInput | GuildSettingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GuildSetting update
+   */
+  export type GuildSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * The data needed to update a GuildSetting.
+     */
+    data: XOR<GuildSettingUpdateInput, GuildSettingUncheckedUpdateInput>
+    /**
+     * Choose, which GuildSetting to update.
+     */
+    where: GuildSettingWhereUniqueInput
+  }
+
+  /**
+   * GuildSetting updateMany
+   */
+  export type GuildSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GuildSettings.
+     */
+    data: XOR<GuildSettingUpdateManyMutationInput, GuildSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which GuildSettings to update
+     */
+    where?: GuildSettingWhereInput
+    /**
+     * Limit how many GuildSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GuildSetting updateManyAndReturn
+   */
+  export type GuildSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * The data used to update GuildSettings.
+     */
+    data: XOR<GuildSettingUpdateManyMutationInput, GuildSettingUncheckedUpdateManyInput>
+    /**
+     * Filter which GuildSettings to update
+     */
+    where?: GuildSettingWhereInput
+    /**
+     * Limit how many GuildSettings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GuildSetting upsert
+   */
+  export type GuildSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * The filter to search for the GuildSetting to update in case it exists.
+     */
+    where: GuildSettingWhereUniqueInput
+    /**
+     * In case the GuildSetting found by the `where` argument doesn't exist, create a new GuildSetting with this data.
+     */
+    create: XOR<GuildSettingCreateInput, GuildSettingUncheckedCreateInput>
+    /**
+     * In case the GuildSetting was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GuildSettingUpdateInput, GuildSettingUncheckedUpdateInput>
+  }
+
+  /**
+   * GuildSetting delete
+   */
+  export type GuildSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+    /**
+     * Filter which GuildSetting to delete.
+     */
+    where: GuildSettingWhereUniqueInput
+  }
+
+  /**
+   * GuildSetting deleteMany
+   */
+  export type GuildSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GuildSettings to delete
+     */
+    where?: GuildSettingWhereInput
+    /**
+     * Limit how many GuildSettings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GuildSetting without action
+   */
+  export type GuildSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GuildSetting
+     */
+    select?: GuildSettingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GuildSetting
+     */
+    omit?: GuildSettingOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6380,6 +8886,73 @@ export namespace Prisma {
   };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const FilteredWordScalarFieldEnum: {
+    keyword: 'keyword',
+    filterType: 'filterType'
+  };
+
+  export type FilteredWordScalarFieldEnum = (typeof FilteredWordScalarFieldEnum)[keyof typeof FilteredWordScalarFieldEnum]
+
+
+  export const CustomClientScalarFieldEnum: {
+    guildId: 'guildId',
+    appId: 'appId',
+    token: 'token',
+    publicKey: 'publicKey',
+    secret: 'secret'
+  };
+
+  export type CustomClientScalarFieldEnum = (typeof CustomClientScalarFieldEnum)[keyof typeof CustomClientScalarFieldEnum]
+
+
+  export const TicketSettingScalarFieldEnum: {
+    id: 'id',
+    guild: 'guild',
+    active: 'active',
+    logChannels: 'logChannels',
+    archiveCategory: 'archiveCategory',
+    type: 'type',
+    archiveDuration: 'archiveDuration',
+    channel: 'channel',
+    category: 'category',
+    sendMessagePrefixes: 'sendMessagePrefixes',
+    mentionRoles: 'mentionRoles',
+    mentionUsers: 'mentionUsers',
+    denyUserIds: 'denyUserIds',
+    denyRoleIds: 'denyRoleIds'
+  };
+
+  export type TicketSettingScalarFieldEnum = (typeof TicketSettingScalarFieldEnum)[keyof typeof TicketSettingScalarFieldEnum]
+
+
+  export const DMTicketScalarFieldEnum: {
+    dmId: 'dmId',
+    userId: 'userId',
+    channelId: 'channelId',
+    settingsId: 'settingsId'
+  };
+
+  export type DMTicketScalarFieldEnum = (typeof DMTicketScalarFieldEnum)[keyof typeof DMTicketScalarFieldEnum]
+
+
+  export const AfkStateScalarFieldEnum: {
+    userId: 'userId',
+    reason: 'reason',
+    since: 'since',
+    guildId: 'guildId'
+  };
+
+  export type AfkStateScalarFieldEnum = (typeof AfkStateScalarFieldEnum)[keyof typeof AfkStateScalarFieldEnum]
+
+
+  export const AfkSettingScalarFieldEnum: {
+    guildId: 'guildId',
+    maxLetters: 'maxLetters'
+  };
+
+  export type AfkSettingScalarFieldEnum = (typeof AfkSettingScalarFieldEnum)[keyof typeof AfkSettingScalarFieldEnum]
 
 
   export const GuildSettingScalarFieldEnum: {
@@ -6401,43 +8974,6 @@ export namespace Prisma {
   };
 
   export type GuildSettingScalarFieldEnum = (typeof GuildSettingScalarFieldEnum)[keyof typeof GuildSettingScalarFieldEnum]
-
-
-  export const CustomClientScalarFieldEnum: {
-    guildId: 'guildId',
-    appId: 'appId',
-    token: 'token',
-    publicKey: 'publicKey',
-    secret: 'secret'
-  };
-
-  export type CustomClientScalarFieldEnum = (typeof CustomClientScalarFieldEnum)[keyof typeof CustomClientScalarFieldEnum]
-
-
-  export const FilteredWordScalarFieldEnum: {
-    keyword: 'keyword',
-    filterType: 'filterType'
-  };
-
-  export type FilteredWordScalarFieldEnum = (typeof FilteredWordScalarFieldEnum)[keyof typeof FilteredWordScalarFieldEnum]
-
-
-  export const AfkStateScalarFieldEnum: {
-    userId: 'userId',
-    reason: 'reason',
-    since: 'since',
-    guildId: 'guildId'
-  };
-
-  export type AfkStateScalarFieldEnum = (typeof AfkStateScalarFieldEnum)[keyof typeof AfkStateScalarFieldEnum]
-
-
-  export const AfkSettingScalarFieldEnum: {
-    guildId: 'guildId',
-    maxLetters: 'maxLetters'
-  };
-
-  export type AfkSettingScalarFieldEnum = (typeof AfkSettingScalarFieldEnum)[keyof typeof AfkSettingScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6484,9 +9020,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'FilterType'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type EnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType'>
+    
+
+
+  /**
+   * Reference to a field of type 'FilterType[]'
+   */
+  export type ListEnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType[]'>
     
 
 
@@ -6505,16 +9048,23 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'FilterType'
+   * Reference to a field of type 'Boolean'
    */
-  export type EnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
   /**
-   * Reference to a field of type 'FilterType[]'
+   * Reference to a field of type 'TicketType'
    */
-  export type ListEnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType[]'>
+  export type EnumTicketTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketType'>
+    
+
+
+  /**
+   * Reference to a field of type 'TicketType[]'
+   */
+  export type ListEnumTicketTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketType[]'>
     
 
 
@@ -6548,6 +9098,339 @@ export namespace Prisma {
    * Deep Input Types
    */
 
+
+  export type FilteredWordWhereInput = {
+    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    OR?: FilteredWordWhereInput[]
+    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    keyword?: StringFilter<"FilteredWord"> | string
+    filterType?: EnumFilterTypeFilter<"FilteredWord"> | $Enums.FilterType
+  }
+
+  export type FilteredWordOrderByWithRelationInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+  }
+
+  export type FilteredWordWhereUniqueInput = Prisma.AtLeast<{
+    keyword_filterType?: FilteredWordKeywordFilterTypeCompoundUniqueInput
+    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    OR?: FilteredWordWhereInput[]
+    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    keyword?: StringFilter<"FilteredWord"> | string
+    filterType?: EnumFilterTypeFilter<"FilteredWord"> | $Enums.FilterType
+  }, "keyword_filterType">
+
+  export type FilteredWordOrderByWithAggregationInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+    _count?: FilteredWordCountOrderByAggregateInput
+    _max?: FilteredWordMaxOrderByAggregateInput
+    _min?: FilteredWordMinOrderByAggregateInput
+  }
+
+  export type FilteredWordScalarWhereWithAggregatesInput = {
+    AND?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
+    OR?: FilteredWordScalarWhereWithAggregatesInput[]
+    NOT?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
+    keyword?: StringWithAggregatesFilter<"FilteredWord"> | string
+    filterType?: EnumFilterTypeWithAggregatesFilter<"FilteredWord"> | $Enums.FilterType
+  }
+
+  export type CustomClientWhereInput = {
+    AND?: CustomClientWhereInput | CustomClientWhereInput[]
+    OR?: CustomClientWhereInput[]
+    NOT?: CustomClientWhereInput | CustomClientWhereInput[]
+    guildId?: StringFilter<"CustomClient"> | string
+    appId?: StringNullableFilter<"CustomClient"> | string | null
+    token?: StringNullableFilter<"CustomClient"> | string | null
+    publicKey?: StringNullableFilter<"CustomClient"> | string | null
+    secret?: StringNullableFilter<"CustomClient"> | string | null
+  }
+
+  export type CustomClientOrderByWithRelationInput = {
+    guildId?: SortOrder
+    appId?: SortOrderInput | SortOrder
+    token?: SortOrderInput | SortOrder
+    publicKey?: SortOrderInput | SortOrder
+    secret?: SortOrderInput | SortOrder
+  }
+
+  export type CustomClientWhereUniqueInput = Prisma.AtLeast<{
+    guildId?: string
+    AND?: CustomClientWhereInput | CustomClientWhereInput[]
+    OR?: CustomClientWhereInput[]
+    NOT?: CustomClientWhereInput | CustomClientWhereInput[]
+    appId?: StringNullableFilter<"CustomClient"> | string | null
+    token?: StringNullableFilter<"CustomClient"> | string | null
+    publicKey?: StringNullableFilter<"CustomClient"> | string | null
+    secret?: StringNullableFilter<"CustomClient"> | string | null
+  }, "guildId">
+
+  export type CustomClientOrderByWithAggregationInput = {
+    guildId?: SortOrder
+    appId?: SortOrderInput | SortOrder
+    token?: SortOrderInput | SortOrder
+    publicKey?: SortOrderInput | SortOrder
+    secret?: SortOrderInput | SortOrder
+    _count?: CustomClientCountOrderByAggregateInput
+    _max?: CustomClientMaxOrderByAggregateInput
+    _min?: CustomClientMinOrderByAggregateInput
+  }
+
+  export type CustomClientScalarWhereWithAggregatesInput = {
+    AND?: CustomClientScalarWhereWithAggregatesInput | CustomClientScalarWhereWithAggregatesInput[]
+    OR?: CustomClientScalarWhereWithAggregatesInput[]
+    NOT?: CustomClientScalarWhereWithAggregatesInput | CustomClientScalarWhereWithAggregatesInput[]
+    guildId?: StringWithAggregatesFilter<"CustomClient"> | string
+    appId?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
+    token?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
+    publicKey?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
+    secret?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
+  }
+
+  export type TicketSettingWhereInput = {
+    AND?: TicketSettingWhereInput | TicketSettingWhereInput[]
+    OR?: TicketSettingWhereInput[]
+    NOT?: TicketSettingWhereInput | TicketSettingWhereInput[]
+    id?: DecimalFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    guild?: StringFilter<"TicketSetting"> | string
+    active?: BoolFilter<"TicketSetting"> | boolean
+    logChannels?: StringNullableListFilter<"TicketSetting">
+    archiveCategory?: StringNullableFilter<"TicketSetting"> | string | null
+    type?: EnumTicketTypeFilter<"TicketSetting"> | $Enums.TicketType
+    archiveDuration?: DecimalFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    channel?: StringNullableFilter<"TicketSetting"> | string | null
+    category?: StringNullableFilter<"TicketSetting"> | string | null
+    sendMessagePrefixes?: StringNullableListFilter<"TicketSetting">
+    mentionRoles?: StringNullableListFilter<"TicketSetting">
+    mentionUsers?: StringNullableListFilter<"TicketSetting">
+    denyUserIds?: StringNullableListFilter<"TicketSetting">
+    denyRoleIds?: StringNullableListFilter<"TicketSetting">
+    DMTicket?: DMTicketListRelationFilter
+  }
+
+  export type TicketSettingOrderByWithRelationInput = {
+    id?: SortOrder
+    guild?: SortOrder
+    active?: SortOrder
+    logChannels?: SortOrder
+    archiveCategory?: SortOrderInput | SortOrder
+    type?: SortOrder
+    archiveDuration?: SortOrder
+    channel?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    sendMessagePrefixes?: SortOrder
+    mentionRoles?: SortOrder
+    mentionUsers?: SortOrder
+    denyUserIds?: SortOrder
+    denyRoleIds?: SortOrder
+    DMTicket?: DMTicketOrderByRelationAggregateInput
+  }
+
+  export type TicketSettingWhereUniqueInput = Prisma.AtLeast<{
+    id?: Decimal | DecimalJsLike | number | string
+    AND?: TicketSettingWhereInput | TicketSettingWhereInput[]
+    OR?: TicketSettingWhereInput[]
+    NOT?: TicketSettingWhereInput | TicketSettingWhereInput[]
+    guild?: StringFilter<"TicketSetting"> | string
+    active?: BoolFilter<"TicketSetting"> | boolean
+    logChannels?: StringNullableListFilter<"TicketSetting">
+    archiveCategory?: StringNullableFilter<"TicketSetting"> | string | null
+    type?: EnumTicketTypeFilter<"TicketSetting"> | $Enums.TicketType
+    archiveDuration?: DecimalFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    channel?: StringNullableFilter<"TicketSetting"> | string | null
+    category?: StringNullableFilter<"TicketSetting"> | string | null
+    sendMessagePrefixes?: StringNullableListFilter<"TicketSetting">
+    mentionRoles?: StringNullableListFilter<"TicketSetting">
+    mentionUsers?: StringNullableListFilter<"TicketSetting">
+    denyUserIds?: StringNullableListFilter<"TicketSetting">
+    denyRoleIds?: StringNullableListFilter<"TicketSetting">
+    DMTicket?: DMTicketListRelationFilter
+  }, "id">
+
+  export type TicketSettingOrderByWithAggregationInput = {
+    id?: SortOrder
+    guild?: SortOrder
+    active?: SortOrder
+    logChannels?: SortOrder
+    archiveCategory?: SortOrderInput | SortOrder
+    type?: SortOrder
+    archiveDuration?: SortOrder
+    channel?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    sendMessagePrefixes?: SortOrder
+    mentionRoles?: SortOrder
+    mentionUsers?: SortOrder
+    denyUserIds?: SortOrder
+    denyRoleIds?: SortOrder
+    _count?: TicketSettingCountOrderByAggregateInput
+    _avg?: TicketSettingAvgOrderByAggregateInput
+    _max?: TicketSettingMaxOrderByAggregateInput
+    _min?: TicketSettingMinOrderByAggregateInput
+    _sum?: TicketSettingSumOrderByAggregateInput
+  }
+
+  export type TicketSettingScalarWhereWithAggregatesInput = {
+    AND?: TicketSettingScalarWhereWithAggregatesInput | TicketSettingScalarWhereWithAggregatesInput[]
+    OR?: TicketSettingScalarWhereWithAggregatesInput[]
+    NOT?: TicketSettingScalarWhereWithAggregatesInput | TicketSettingScalarWhereWithAggregatesInput[]
+    id?: DecimalWithAggregatesFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    guild?: StringWithAggregatesFilter<"TicketSetting"> | string
+    active?: BoolWithAggregatesFilter<"TicketSetting"> | boolean
+    logChannels?: StringNullableListFilter<"TicketSetting">
+    archiveCategory?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
+    type?: EnumTicketTypeWithAggregatesFilter<"TicketSetting"> | $Enums.TicketType
+    archiveDuration?: DecimalWithAggregatesFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    channel?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
+    category?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
+    sendMessagePrefixes?: StringNullableListFilter<"TicketSetting">
+    mentionRoles?: StringNullableListFilter<"TicketSetting">
+    mentionUsers?: StringNullableListFilter<"TicketSetting">
+    denyUserIds?: StringNullableListFilter<"TicketSetting">
+    denyRoleIds?: StringNullableListFilter<"TicketSetting">
+  }
+
+  export type DMTicketWhereInput = {
+    AND?: DMTicketWhereInput | DMTicketWhereInput[]
+    OR?: DMTicketWhereInput[]
+    NOT?: DMTicketWhereInput | DMTicketWhereInput[]
+    dmId?: StringFilter<"DMTicket"> | string
+    userId?: StringFilter<"DMTicket"> | string
+    channelId?: StringFilter<"DMTicket"> | string
+    settingsId?: DecimalFilter<"DMTicket"> | Decimal | DecimalJsLike | number | string
+    settings?: XOR<TicketSettingScalarRelationFilter, TicketSettingWhereInput>
+  }
+
+  export type DMTicketOrderByWithRelationInput = {
+    dmId?: SortOrder
+    userId?: SortOrder
+    channelId?: SortOrder
+    settingsId?: SortOrder
+    settings?: TicketSettingOrderByWithRelationInput
+  }
+
+  export type DMTicketWhereUniqueInput = Prisma.AtLeast<{
+    dmId?: string
+    userId?: string
+    channelId?: string
+    AND?: DMTicketWhereInput | DMTicketWhereInput[]
+    OR?: DMTicketWhereInput[]
+    NOT?: DMTicketWhereInput | DMTicketWhereInput[]
+    settingsId?: DecimalFilter<"DMTicket"> | Decimal | DecimalJsLike | number | string
+    settings?: XOR<TicketSettingScalarRelationFilter, TicketSettingWhereInput>
+  }, "dmId" | "userId" | "channelId">
+
+  export type DMTicketOrderByWithAggregationInput = {
+    dmId?: SortOrder
+    userId?: SortOrder
+    channelId?: SortOrder
+    settingsId?: SortOrder
+    _count?: DMTicketCountOrderByAggregateInput
+    _avg?: DMTicketAvgOrderByAggregateInput
+    _max?: DMTicketMaxOrderByAggregateInput
+    _min?: DMTicketMinOrderByAggregateInput
+    _sum?: DMTicketSumOrderByAggregateInput
+  }
+
+  export type DMTicketScalarWhereWithAggregatesInput = {
+    AND?: DMTicketScalarWhereWithAggregatesInput | DMTicketScalarWhereWithAggregatesInput[]
+    OR?: DMTicketScalarWhereWithAggregatesInput[]
+    NOT?: DMTicketScalarWhereWithAggregatesInput | DMTicketScalarWhereWithAggregatesInput[]
+    dmId?: StringWithAggregatesFilter<"DMTicket"> | string
+    userId?: StringWithAggregatesFilter<"DMTicket"> | string
+    channelId?: StringWithAggregatesFilter<"DMTicket"> | string
+    settingsId?: DecimalWithAggregatesFilter<"DMTicket"> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type AfkStateWhereInput = {
+    AND?: AfkStateWhereInput | AfkStateWhereInput[]
+    OR?: AfkStateWhereInput[]
+    NOT?: AfkStateWhereInput | AfkStateWhereInput[]
+    userId?: StringFilter<"AfkState"> | string
+    reason?: StringNullableFilter<"AfkState"> | string | null
+    since?: DecimalFilter<"AfkState"> | Decimal | DecimalJsLike | number | string
+    guildId?: StringFilter<"AfkState"> | string
+  }
+
+  export type AfkStateOrderByWithRelationInput = {
+    userId?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    since?: SortOrder
+    guildId?: SortOrder
+  }
+
+  export type AfkStateWhereUniqueInput = Prisma.AtLeast<{
+    userId_guildId?: AfkStateUserIdGuildIdCompoundUniqueInput
+    AND?: AfkStateWhereInput | AfkStateWhereInput[]
+    OR?: AfkStateWhereInput[]
+    NOT?: AfkStateWhereInput | AfkStateWhereInput[]
+    userId?: StringFilter<"AfkState"> | string
+    reason?: StringNullableFilter<"AfkState"> | string | null
+    since?: DecimalFilter<"AfkState"> | Decimal | DecimalJsLike | number | string
+    guildId?: StringFilter<"AfkState"> | string
+  }, "userId_guildId">
+
+  export type AfkStateOrderByWithAggregationInput = {
+    userId?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    since?: SortOrder
+    guildId?: SortOrder
+    _count?: AfkStateCountOrderByAggregateInput
+    _avg?: AfkStateAvgOrderByAggregateInput
+    _max?: AfkStateMaxOrderByAggregateInput
+    _min?: AfkStateMinOrderByAggregateInput
+    _sum?: AfkStateSumOrderByAggregateInput
+  }
+
+  export type AfkStateScalarWhereWithAggregatesInput = {
+    AND?: AfkStateScalarWhereWithAggregatesInput | AfkStateScalarWhereWithAggregatesInput[]
+    OR?: AfkStateScalarWhereWithAggregatesInput[]
+    NOT?: AfkStateScalarWhereWithAggregatesInput | AfkStateScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"AfkState"> | string
+    reason?: StringNullableWithAggregatesFilter<"AfkState"> | string | null
+    since?: DecimalWithAggregatesFilter<"AfkState"> | Decimal | DecimalJsLike | number | string
+    guildId?: StringWithAggregatesFilter<"AfkState"> | string
+  }
+
+  export type AfkSettingWhereInput = {
+    AND?: AfkSettingWhereInput | AfkSettingWhereInput[]
+    OR?: AfkSettingWhereInput[]
+    NOT?: AfkSettingWhereInput | AfkSettingWhereInput[]
+    guildId?: StringFilter<"AfkSetting"> | string
+    maxLetters?: IntFilter<"AfkSetting"> | number
+  }
+
+  export type AfkSettingOrderByWithRelationInput = {
+    guildId?: SortOrder
+    maxLetters?: SortOrder
+  }
+
+  export type AfkSettingWhereUniqueInput = Prisma.AtLeast<{
+    guildId?: string
+    AND?: AfkSettingWhereInput | AfkSettingWhereInput[]
+    OR?: AfkSettingWhereInput[]
+    NOT?: AfkSettingWhereInput | AfkSettingWhereInput[]
+    maxLetters?: IntFilter<"AfkSetting"> | number
+  }, "guildId">
+
+  export type AfkSettingOrderByWithAggregationInput = {
+    guildId?: SortOrder
+    maxLetters?: SortOrder
+    _count?: AfkSettingCountOrderByAggregateInput
+    _avg?: AfkSettingAvgOrderByAggregateInput
+    _max?: AfkSettingMaxOrderByAggregateInput
+    _min?: AfkSettingMinOrderByAggregateInput
+    _sum?: AfkSettingSumOrderByAggregateInput
+  }
+
+  export type AfkSettingScalarWhereWithAggregatesInput = {
+    AND?: AfkSettingScalarWhereWithAggregatesInput | AfkSettingScalarWhereWithAggregatesInput[]
+    OR?: AfkSettingScalarWhereWithAggregatesInput[]
+    NOT?: AfkSettingScalarWhereWithAggregatesInput | AfkSettingScalarWhereWithAggregatesInput[]
+    guildId?: StringWithAggregatesFilter<"AfkSetting"> | string
+    maxLetters?: IntWithAggregatesFilter<"AfkSetting"> | number
+  }
 
   export type GuildSettingWhereInput = {
     AND?: GuildSettingWhereInput | GuildSettingWhereInput[]
@@ -6653,183 +9536,350 @@ export namespace Prisma {
     notifyChannel?: StringNullableWithAggregatesFilter<"GuildSetting"> | string | null
   }
 
-  export type CustomClientWhereInput = {
-    AND?: CustomClientWhereInput | CustomClientWhereInput[]
-    OR?: CustomClientWhereInput[]
-    NOT?: CustomClientWhereInput | CustomClientWhereInput[]
-    guildId?: StringFilter<"CustomClient"> | string
-    appId?: StringNullableFilter<"CustomClient"> | string | null
-    token?: StringNullableFilter<"CustomClient"> | string | null
-    publicKey?: StringNullableFilter<"CustomClient"> | string | null
-    secret?: StringNullableFilter<"CustomClient"> | string | null
+  export type FilteredWordCreateInput = {
+    keyword: string
+    filterType: $Enums.FilterType
   }
 
-  export type CustomClientOrderByWithRelationInput = {
-    guildId?: SortOrder
-    appId?: SortOrderInput | SortOrder
-    token?: SortOrderInput | SortOrder
-    publicKey?: SortOrderInput | SortOrder
-    secret?: SortOrderInput | SortOrder
+  export type FilteredWordUncheckedCreateInput = {
+    keyword: string
+    filterType: $Enums.FilterType
   }
 
-  export type CustomClientWhereUniqueInput = Prisma.AtLeast<{
-    guildId?: string
-    AND?: CustomClientWhereInput | CustomClientWhereInput[]
-    OR?: CustomClientWhereInput[]
-    NOT?: CustomClientWhereInput | CustomClientWhereInput[]
-    appId?: StringNullableFilter<"CustomClient"> | string | null
-    token?: StringNullableFilter<"CustomClient"> | string | null
-    publicKey?: StringNullableFilter<"CustomClient"> | string | null
-    secret?: StringNullableFilter<"CustomClient"> | string | null
-  }, "guildId">
-
-  export type CustomClientOrderByWithAggregationInput = {
-    guildId?: SortOrder
-    appId?: SortOrderInput | SortOrder
-    token?: SortOrderInput | SortOrder
-    publicKey?: SortOrderInput | SortOrder
-    secret?: SortOrderInput | SortOrder
-    _count?: CustomClientCountOrderByAggregateInput
-    _max?: CustomClientMaxOrderByAggregateInput
-    _min?: CustomClientMinOrderByAggregateInput
+  export type FilteredWordUpdateInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
   }
 
-  export type CustomClientScalarWhereWithAggregatesInput = {
-    AND?: CustomClientScalarWhereWithAggregatesInput | CustomClientScalarWhereWithAggregatesInput[]
-    OR?: CustomClientScalarWhereWithAggregatesInput[]
-    NOT?: CustomClientScalarWhereWithAggregatesInput | CustomClientScalarWhereWithAggregatesInput[]
-    guildId?: StringWithAggregatesFilter<"CustomClient"> | string
-    appId?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
-    token?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
-    publicKey?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
-    secret?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
+  export type FilteredWordUncheckedUpdateInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
   }
 
-  export type FilteredWordWhereInput = {
-    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
-    OR?: FilteredWordWhereInput[]
-    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
-    keyword?: StringFilter<"FilteredWord"> | string
-    filterType?: EnumFilterTypeFilter<"FilteredWord"> | $Enums.FilterType
+  export type FilteredWordCreateManyInput = {
+    keyword: string
+    filterType: $Enums.FilterType
   }
 
-  export type FilteredWordOrderByWithRelationInput = {
-    keyword?: SortOrder
-    filterType?: SortOrder
+  export type FilteredWordUpdateManyMutationInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
   }
 
-  export type FilteredWordWhereUniqueInput = Prisma.AtLeast<{
-    keyword_filterType?: FilteredWordKeywordFilterTypeCompoundUniqueInput
-    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
-    OR?: FilteredWordWhereInput[]
-    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
-    keyword?: StringFilter<"FilteredWord"> | string
-    filterType?: EnumFilterTypeFilter<"FilteredWord"> | $Enums.FilterType
-  }, "keyword_filterType">
-
-  export type FilteredWordOrderByWithAggregationInput = {
-    keyword?: SortOrder
-    filterType?: SortOrder
-    _count?: FilteredWordCountOrderByAggregateInput
-    _max?: FilteredWordMaxOrderByAggregateInput
-    _min?: FilteredWordMinOrderByAggregateInput
+  export type FilteredWordUncheckedUpdateManyInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
   }
 
-  export type FilteredWordScalarWhereWithAggregatesInput = {
-    AND?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
-    OR?: FilteredWordScalarWhereWithAggregatesInput[]
-    NOT?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
-    keyword?: StringWithAggregatesFilter<"FilteredWord"> | string
-    filterType?: EnumFilterTypeWithAggregatesFilter<"FilteredWord"> | $Enums.FilterType
+  export type CustomClientCreateInput = {
+    guildId: string
+    appId?: string | null
+    token?: string | null
+    publicKey?: string | null
+    secret?: string | null
   }
 
-  export type AfkStateWhereInput = {
-    AND?: AfkStateWhereInput | AfkStateWhereInput[]
-    OR?: AfkStateWhereInput[]
-    NOT?: AfkStateWhereInput | AfkStateWhereInput[]
-    userId?: StringFilter<"AfkState"> | string
-    reason?: StringNullableFilter<"AfkState"> | string | null
-    since?: DecimalFilter<"AfkState"> | Decimal | DecimalJsLike | number | string
-    guildId?: StringFilter<"AfkState"> | string
+  export type CustomClientUncheckedCreateInput = {
+    guildId: string
+    appId?: string | null
+    token?: string | null
+    publicKey?: string | null
+    secret?: string | null
   }
 
-  export type AfkStateOrderByWithRelationInput = {
-    userId?: SortOrder
-    reason?: SortOrderInput | SortOrder
-    since?: SortOrder
-    guildId?: SortOrder
+  export type CustomClientUpdateInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
+    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
+    secret?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AfkStateWhereUniqueInput = Prisma.AtLeast<{
-    userId_guildId?: AfkStateUserIdGuildIdCompoundUniqueInput
-    AND?: AfkStateWhereInput | AfkStateWhereInput[]
-    OR?: AfkStateWhereInput[]
-    NOT?: AfkStateWhereInput | AfkStateWhereInput[]
-    userId?: StringFilter<"AfkState"> | string
-    reason?: StringNullableFilter<"AfkState"> | string | null
-    since?: DecimalFilter<"AfkState"> | Decimal | DecimalJsLike | number | string
-    guildId?: StringFilter<"AfkState"> | string
-  }, "userId_guildId">
-
-  export type AfkStateOrderByWithAggregationInput = {
-    userId?: SortOrder
-    reason?: SortOrderInput | SortOrder
-    since?: SortOrder
-    guildId?: SortOrder
-    _count?: AfkStateCountOrderByAggregateInput
-    _avg?: AfkStateAvgOrderByAggregateInput
-    _max?: AfkStateMaxOrderByAggregateInput
-    _min?: AfkStateMinOrderByAggregateInput
-    _sum?: AfkStateSumOrderByAggregateInput
+  export type CustomClientUncheckedUpdateInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
+    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
+    secret?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AfkStateScalarWhereWithAggregatesInput = {
-    AND?: AfkStateScalarWhereWithAggregatesInput | AfkStateScalarWhereWithAggregatesInput[]
-    OR?: AfkStateScalarWhereWithAggregatesInput[]
-    NOT?: AfkStateScalarWhereWithAggregatesInput | AfkStateScalarWhereWithAggregatesInput[]
-    userId?: StringWithAggregatesFilter<"AfkState"> | string
-    reason?: StringNullableWithAggregatesFilter<"AfkState"> | string | null
-    since?: DecimalWithAggregatesFilter<"AfkState"> | Decimal | DecimalJsLike | number | string
-    guildId?: StringWithAggregatesFilter<"AfkState"> | string
+  export type CustomClientCreateManyInput = {
+    guildId: string
+    appId?: string | null
+    token?: string | null
+    publicKey?: string | null
+    secret?: string | null
   }
 
-  export type AfkSettingWhereInput = {
-    AND?: AfkSettingWhereInput | AfkSettingWhereInput[]
-    OR?: AfkSettingWhereInput[]
-    NOT?: AfkSettingWhereInput | AfkSettingWhereInput[]
-    guildId?: StringFilter<"AfkSetting"> | string
-    maxLetters?: IntFilter<"AfkSetting"> | number
+  export type CustomClientUpdateManyMutationInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
+    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
+    secret?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AfkSettingOrderByWithRelationInput = {
-    guildId?: SortOrder
-    maxLetters?: SortOrder
+  export type CustomClientUncheckedUpdateManyInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
+    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
+    secret?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type AfkSettingWhereUniqueInput = Prisma.AtLeast<{
-    guildId?: string
-    AND?: AfkSettingWhereInput | AfkSettingWhereInput[]
-    OR?: AfkSettingWhereInput[]
-    NOT?: AfkSettingWhereInput | AfkSettingWhereInput[]
-    maxLetters?: IntFilter<"AfkSetting"> | number
-  }, "guildId">
-
-  export type AfkSettingOrderByWithAggregationInput = {
-    guildId?: SortOrder
-    maxLetters?: SortOrder
-    _count?: AfkSettingCountOrderByAggregateInput
-    _avg?: AfkSettingAvgOrderByAggregateInput
-    _max?: AfkSettingMaxOrderByAggregateInput
-    _min?: AfkSettingMinOrderByAggregateInput
-    _sum?: AfkSettingSumOrderByAggregateInput
+  export type TicketSettingCreateInput = {
+    id: Decimal | DecimalJsLike | number | string
+    guild: string
+    active?: boolean
+    logChannels?: TicketSettingCreatelogChannelsInput | string[]
+    archiveCategory?: string | null
+    type?: $Enums.TicketType
+    archiveDuration?: Decimal | DecimalJsLike | number | string
+    channel?: string | null
+    category?: string | null
+    sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingCreatementionRolesInput | string[]
+    mentionUsers?: TicketSettingCreatementionUsersInput | string[]
+    denyUserIds?: TicketSettingCreatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingCreatedenyRoleIdsInput | string[]
+    DMTicket?: DMTicketCreateNestedManyWithoutSettingsInput
   }
 
-  export type AfkSettingScalarWhereWithAggregatesInput = {
-    AND?: AfkSettingScalarWhereWithAggregatesInput | AfkSettingScalarWhereWithAggregatesInput[]
-    OR?: AfkSettingScalarWhereWithAggregatesInput[]
-    NOT?: AfkSettingScalarWhereWithAggregatesInput | AfkSettingScalarWhereWithAggregatesInput[]
-    guildId?: StringWithAggregatesFilter<"AfkSetting"> | string
-    maxLetters?: IntWithAggregatesFilter<"AfkSetting"> | number
+  export type TicketSettingUncheckedCreateInput = {
+    id: Decimal | DecimalJsLike | number | string
+    guild: string
+    active?: boolean
+    logChannels?: TicketSettingCreatelogChannelsInput | string[]
+    archiveCategory?: string | null
+    type?: $Enums.TicketType
+    archiveDuration?: Decimal | DecimalJsLike | number | string
+    channel?: string | null
+    category?: string | null
+    sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingCreatementionRolesInput | string[]
+    mentionUsers?: TicketSettingCreatementionUsersInput | string[]
+    denyUserIds?: TicketSettingCreatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingCreatedenyRoleIdsInput | string[]
+    DMTicket?: DMTicketUncheckedCreateNestedManyWithoutSettingsInput
+  }
+
+  export type TicketSettingUpdateInput = {
+    id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guild?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    logChannels?: TicketSettingUpdatelogChannelsInput | string[]
+    archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
+    archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
+    mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
+    denyUserIds?: TicketSettingUpdatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingUpdatedenyRoleIdsInput | string[]
+    DMTicket?: DMTicketUpdateManyWithoutSettingsNestedInput
+  }
+
+  export type TicketSettingUncheckedUpdateInput = {
+    id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guild?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    logChannels?: TicketSettingUpdatelogChannelsInput | string[]
+    archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
+    archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
+    mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
+    denyUserIds?: TicketSettingUpdatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingUpdatedenyRoleIdsInput | string[]
+    DMTicket?: DMTicketUncheckedUpdateManyWithoutSettingsNestedInput
+  }
+
+  export type TicketSettingCreateManyInput = {
+    id: Decimal | DecimalJsLike | number | string
+    guild: string
+    active?: boolean
+    logChannels?: TicketSettingCreatelogChannelsInput | string[]
+    archiveCategory?: string | null
+    type?: $Enums.TicketType
+    archiveDuration?: Decimal | DecimalJsLike | number | string
+    channel?: string | null
+    category?: string | null
+    sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingCreatementionRolesInput | string[]
+    mentionUsers?: TicketSettingCreatementionUsersInput | string[]
+    denyUserIds?: TicketSettingCreatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingCreatedenyRoleIdsInput | string[]
+  }
+
+  export type TicketSettingUpdateManyMutationInput = {
+    id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guild?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    logChannels?: TicketSettingUpdatelogChannelsInput | string[]
+    archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
+    archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
+    mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
+    denyUserIds?: TicketSettingUpdatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingUpdatedenyRoleIdsInput | string[]
+  }
+
+  export type TicketSettingUncheckedUpdateManyInput = {
+    id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guild?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    logChannels?: TicketSettingUpdatelogChannelsInput | string[]
+    archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
+    archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
+    mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
+    denyUserIds?: TicketSettingUpdatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingUpdatedenyRoleIdsInput | string[]
+  }
+
+  export type DMTicketCreateInput = {
+    dmId: string
+    userId: string
+    channelId: string
+    settings: TicketSettingCreateNestedOneWithoutDMTicketInput
+  }
+
+  export type DMTicketUncheckedCreateInput = {
+    dmId: string
+    userId: string
+    channelId: string
+    settingsId: Decimal | DecimalJsLike | number | string
+  }
+
+  export type DMTicketUpdateInput = {
+    dmId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    settings?: TicketSettingUpdateOneRequiredWithoutDMTicketNestedInput
+  }
+
+  export type DMTicketUncheckedUpdateInput = {
+    dmId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    settingsId?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type DMTicketCreateManyInput = {
+    dmId: string
+    userId: string
+    channelId: string
+    settingsId: Decimal | DecimalJsLike | number | string
+  }
+
+  export type DMTicketUpdateManyMutationInput = {
+    dmId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DMTicketUncheckedUpdateManyInput = {
+    dmId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    settingsId?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+  }
+
+  export type AfkStateCreateInput = {
+    userId: string
+    reason?: string | null
+    since: Decimal | DecimalJsLike | number | string
+    guildId: string
+  }
+
+  export type AfkStateUncheckedCreateInput = {
+    userId: string
+    reason?: string | null
+    since: Decimal | DecimalJsLike | number | string
+    guildId: string
+  }
+
+  export type AfkStateUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    since?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guildId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AfkStateUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    since?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guildId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AfkStateCreateManyInput = {
+    userId: string
+    reason?: string | null
+    since: Decimal | DecimalJsLike | number | string
+    guildId: string
+  }
+
+  export type AfkStateUpdateManyMutationInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    since?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guildId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AfkStateUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    since?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guildId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AfkSettingCreateInput = {
+    guildId: string
+    maxLetters?: number
+  }
+
+  export type AfkSettingUncheckedCreateInput = {
+    guildId: string
+    maxLetters?: number
+  }
+
+  export type AfkSettingUpdateInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    maxLetters?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AfkSettingUncheckedUpdateInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    maxLetters?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AfkSettingCreateManyInput = {
+    guildId: string
+    maxLetters?: number
+  }
+
+  export type AfkSettingUpdateManyMutationInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    maxLetters?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AfkSettingUncheckedUpdateManyInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    maxLetters?: IntFieldUpdateOperationsInput | number
   }
 
   export type GuildSettingCreateInput = {
@@ -6958,181 +10008,6 @@ export namespace Prisma {
     notifyChannel?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type CustomClientCreateInput = {
-    guildId: string
-    appId?: string | null
-    token?: string | null
-    publicKey?: string | null
-    secret?: string | null
-  }
-
-  export type CustomClientUncheckedCreateInput = {
-    guildId: string
-    appId?: string | null
-    token?: string | null
-    publicKey?: string | null
-    secret?: string | null
-  }
-
-  export type CustomClientUpdateInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    appId?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
-    secret?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type CustomClientUncheckedUpdateInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    appId?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
-    secret?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type CustomClientCreateManyInput = {
-    guildId: string
-    appId?: string | null
-    token?: string | null
-    publicKey?: string | null
-    secret?: string | null
-  }
-
-  export type CustomClientUpdateManyMutationInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    appId?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
-    secret?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type CustomClientUncheckedUpdateManyInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    appId?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
-    secret?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type FilteredWordCreateInput = {
-    keyword: string
-    filterType: $Enums.FilterType
-  }
-
-  export type FilteredWordUncheckedCreateInput = {
-    keyword: string
-    filterType: $Enums.FilterType
-  }
-
-  export type FilteredWordUpdateInput = {
-    keyword?: StringFieldUpdateOperationsInput | string
-    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
-  }
-
-  export type FilteredWordUncheckedUpdateInput = {
-    keyword?: StringFieldUpdateOperationsInput | string
-    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
-  }
-
-  export type FilteredWordCreateManyInput = {
-    keyword: string
-    filterType: $Enums.FilterType
-  }
-
-  export type FilteredWordUpdateManyMutationInput = {
-    keyword?: StringFieldUpdateOperationsInput | string
-    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
-  }
-
-  export type FilteredWordUncheckedUpdateManyInput = {
-    keyword?: StringFieldUpdateOperationsInput | string
-    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
-  }
-
-  export type AfkStateCreateInput = {
-    userId: string
-    reason?: string | null
-    since: Decimal | DecimalJsLike | number | string
-    guildId: string
-  }
-
-  export type AfkStateUncheckedCreateInput = {
-    userId: string
-    reason?: string | null
-    since: Decimal | DecimalJsLike | number | string
-    guildId: string
-  }
-
-  export type AfkStateUpdateInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    since?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    guildId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AfkStateUncheckedUpdateInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    since?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    guildId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AfkStateCreateManyInput = {
-    userId: string
-    reason?: string | null
-    since: Decimal | DecimalJsLike | number | string
-    guildId: string
-  }
-
-  export type AfkStateUpdateManyMutationInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    since?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    guildId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AfkStateUncheckedUpdateManyInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-    reason?: NullableStringFieldUpdateOperationsInput | string | null
-    since?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    guildId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AfkSettingCreateInput = {
-    guildId: string
-    maxLetters?: number
-  }
-
-  export type AfkSettingUncheckedCreateInput = {
-    guildId: string
-    maxLetters?: number
-  }
-
-  export type AfkSettingUpdateInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    maxLetters?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type AfkSettingUncheckedUpdateInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    maxLetters?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type AfkSettingCreateManyInput = {
-    guildId: string
-    maxLetters?: number
-  }
-
-  export type AfkSettingUpdateManyMutationInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    maxLetters?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type AfkSettingUncheckedUpdateManyInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    maxLetters?: IntFieldUpdateOperationsInput | number
-  }
-
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -7146,219 +10021,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
-  }
-
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type DecimalNullableFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type GuildSettingCountOrderByAggregateInput = {
-    guildId?: SortOrder
-    prefix?: SortOrder
-    interactionsMode?: SortOrder
-    language?: SortOrder
-    errorChannel?: SortOrder
-    rpEnabled?: SortOrder
-    rpEnableRuns?: SortOrder
-    lastRpSyncRun?: SortOrder
-    ptReminderEnabled?: SortOrder
-    legacyRp?: SortOrder
-    editRpCommands?: SortOrder
-    enableInvitesAt?: SortOrder
-    statusChannel?: SortOrder
-    updatesChannel?: SortOrder
-    notifyChannel?: SortOrder
-  }
-
-  export type GuildSettingAvgOrderByAggregateInput = {
-    rpEnableRuns?: SortOrder
-    lastRpSyncRun?: SortOrder
-    enableInvitesAt?: SortOrder
-  }
-
-  export type GuildSettingMaxOrderByAggregateInput = {
-    guildId?: SortOrder
-    prefix?: SortOrder
-    interactionsMode?: SortOrder
-    language?: SortOrder
-    errorChannel?: SortOrder
-    rpEnabled?: SortOrder
-    rpEnableRuns?: SortOrder
-    lastRpSyncRun?: SortOrder
-    ptReminderEnabled?: SortOrder
-    legacyRp?: SortOrder
-    editRpCommands?: SortOrder
-    enableInvitesAt?: SortOrder
-    statusChannel?: SortOrder
-    updatesChannel?: SortOrder
-    notifyChannel?: SortOrder
-  }
-
-  export type GuildSettingMinOrderByAggregateInput = {
-    guildId?: SortOrder
-    prefix?: SortOrder
-    interactionsMode?: SortOrder
-    language?: SortOrder
-    errorChannel?: SortOrder
-    rpEnabled?: SortOrder
-    rpEnableRuns?: SortOrder
-    lastRpSyncRun?: SortOrder
-    ptReminderEnabled?: SortOrder
-    legacyRp?: SortOrder
-    editRpCommands?: SortOrder
-    enableInvitesAt?: SortOrder
-    statusChannel?: SortOrder
-    updatesChannel?: SortOrder
-    notifyChannel?: SortOrder
-  }
-
-  export type GuildSettingSumOrderByAggregateInput = {
-    rpEnableRuns?: SortOrder
-    lastRpSyncRun?: SortOrder
-    enableInvitesAt?: SortOrder
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
-
-  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
-  export type CustomClientCountOrderByAggregateInput = {
-    guildId?: SortOrder
-    appId?: SortOrder
-    token?: SortOrder
-    publicKey?: SortOrder
-    secret?: SortOrder
-  }
-
-  export type CustomClientMaxOrderByAggregateInput = {
-    guildId?: SortOrder
-    appId?: SortOrder
-    token?: SortOrder
-    publicKey?: SortOrder
-    secret?: SortOrder
-  }
-
-  export type CustomClientMinOrderByAggregateInput = {
-    guildId?: SortOrder
-    appId?: SortOrder
-    token?: SortOrder
-    publicKey?: SortOrder
-    secret?: SortOrder
   }
 
   export type EnumFilterTypeFilter<$PrismaModel = never> = {
@@ -7388,6 +10050,24 @@ export namespace Prisma {
     filterType?: SortOrder
   }
 
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
   export type EnumFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
     in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
@@ -7396,6 +10076,226 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumFilterTypeFilter<$PrismaModel>
     _max?: NestedEnumFilterTypeFilter<$PrismaModel>
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type CustomClientCountOrderByAggregateInput = {
+    guildId?: SortOrder
+    appId?: SortOrder
+    token?: SortOrder
+    publicKey?: SortOrder
+    secret?: SortOrder
+  }
+
+  export type CustomClientMaxOrderByAggregateInput = {
+    guildId?: SortOrder
+    appId?: SortOrder
+    token?: SortOrder
+    publicKey?: SortOrder
+    secret?: SortOrder
+  }
+
+  export type CustomClientMinOrderByAggregateInput = {
+    guildId?: SortOrder
+    appId?: SortOrder
+    token?: SortOrder
+    publicKey?: SortOrder
+    secret?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type EnumTicketTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketType | EnumTicketTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketType[] | ListEnumTicketTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketType[] | ListEnumTicketTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketTypeFilter<$PrismaModel> | $Enums.TicketType
+  }
+
+  export type DMTicketListRelationFilter = {
+    every?: DMTicketWhereInput
+    some?: DMTicketWhereInput
+    none?: DMTicketWhereInput
+  }
+
+  export type DMTicketOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TicketSettingCountOrderByAggregateInput = {
+    id?: SortOrder
+    guild?: SortOrder
+    active?: SortOrder
+    logChannels?: SortOrder
+    archiveCategory?: SortOrder
+    type?: SortOrder
+    archiveDuration?: SortOrder
+    channel?: SortOrder
+    category?: SortOrder
+    sendMessagePrefixes?: SortOrder
+    mentionRoles?: SortOrder
+    mentionUsers?: SortOrder
+    denyUserIds?: SortOrder
+    denyRoleIds?: SortOrder
+  }
+
+  export type TicketSettingAvgOrderByAggregateInput = {
+    id?: SortOrder
+    archiveDuration?: SortOrder
+  }
+
+  export type TicketSettingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    guild?: SortOrder
+    active?: SortOrder
+    archiveCategory?: SortOrder
+    type?: SortOrder
+    archiveDuration?: SortOrder
+    channel?: SortOrder
+    category?: SortOrder
+  }
+
+  export type TicketSettingMinOrderByAggregateInput = {
+    id?: SortOrder
+    guild?: SortOrder
+    active?: SortOrder
+    archiveCategory?: SortOrder
+    type?: SortOrder
+    archiveDuration?: SortOrder
+    channel?: SortOrder
+    category?: SortOrder
+  }
+
+  export type TicketSettingSumOrderByAggregateInput = {
+    id?: SortOrder
+    archiveDuration?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumTicketTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketType | EnumTicketTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketType[] | ListEnumTicketTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketType[] | ListEnumTicketTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketTypeWithAggregatesFilter<$PrismaModel> | $Enums.TicketType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTicketTypeFilter<$PrismaModel>
+    _max?: NestedEnumTicketTypeFilter<$PrismaModel>
+  }
+
+  export type TicketSettingScalarRelationFilter = {
+    is?: TicketSettingWhereInput
+    isNot?: TicketSettingWhereInput
+  }
+
+  export type DMTicketCountOrderByAggregateInput = {
+    dmId?: SortOrder
+    userId?: SortOrder
+    channelId?: SortOrder
+    settingsId?: SortOrder
+  }
+
+  export type DMTicketAvgOrderByAggregateInput = {
+    settingsId?: SortOrder
+  }
+
+  export type DMTicketMaxOrderByAggregateInput = {
+    dmId?: SortOrder
+    userId?: SortOrder
+    channelId?: SortOrder
+    settingsId?: SortOrder
+  }
+
+  export type DMTicketMinOrderByAggregateInput = {
+    dmId?: SortOrder
+    userId?: SortOrder
+    channelId?: SortOrder
+    settingsId?: SortOrder
+  }
+
+  export type DMTicketSumOrderByAggregateInput = {
+    settingsId?: SortOrder
   }
 
   export type AfkStateUserIdGuildIdCompoundUniqueInput = {
@@ -7482,16 +10382,147 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type GuildSettingCountOrderByAggregateInput = {
+    guildId?: SortOrder
+    prefix?: SortOrder
+    interactionsMode?: SortOrder
+    language?: SortOrder
+    errorChannel?: SortOrder
+    rpEnabled?: SortOrder
+    rpEnableRuns?: SortOrder
+    lastRpSyncRun?: SortOrder
+    ptReminderEnabled?: SortOrder
+    legacyRp?: SortOrder
+    editRpCommands?: SortOrder
+    enableInvitesAt?: SortOrder
+    statusChannel?: SortOrder
+    updatesChannel?: SortOrder
+    notifyChannel?: SortOrder
+  }
+
+  export type GuildSettingAvgOrderByAggregateInput = {
+    rpEnableRuns?: SortOrder
+    lastRpSyncRun?: SortOrder
+    enableInvitesAt?: SortOrder
+  }
+
+  export type GuildSettingMaxOrderByAggregateInput = {
+    guildId?: SortOrder
+    prefix?: SortOrder
+    interactionsMode?: SortOrder
+    language?: SortOrder
+    errorChannel?: SortOrder
+    rpEnabled?: SortOrder
+    rpEnableRuns?: SortOrder
+    lastRpSyncRun?: SortOrder
+    ptReminderEnabled?: SortOrder
+    legacyRp?: SortOrder
+    editRpCommands?: SortOrder
+    enableInvitesAt?: SortOrder
+    statusChannel?: SortOrder
+    updatesChannel?: SortOrder
+    notifyChannel?: SortOrder
+  }
+
+  export type GuildSettingMinOrderByAggregateInput = {
+    guildId?: SortOrder
+    prefix?: SortOrder
+    interactionsMode?: SortOrder
+    language?: SortOrder
+    errorChannel?: SortOrder
+    rpEnabled?: SortOrder
+    rpEnableRuns?: SortOrder
+    lastRpSyncRun?: SortOrder
+    ptReminderEnabled?: SortOrder
+    legacyRp?: SortOrder
+    editRpCommands?: SortOrder
+    enableInvitesAt?: SortOrder
+    statusChannel?: SortOrder
+    updatesChannel?: SortOrder
+    notifyChannel?: SortOrder
+  }
+
+  export type GuildSettingSumOrderByAggregateInput = {
+    rpEnableRuns?: SortOrder
+    lastRpSyncRun?: SortOrder
+    enableInvitesAt?: SortOrder
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type EnumFilterTypeFieldUpdateOperationsInput = {
+    set?: $Enums.FilterType
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type TicketSettingCreatelogChannelsInput = {
+    set: string[]
+  }
+
+  export type TicketSettingCreatesendMessagePrefixesInput = {
+    set: string[]
+  }
+
+  export type TicketSettingCreatementionRolesInput = {
+    set: string[]
+  }
+
+  export type TicketSettingCreatementionUsersInput = {
+    set: string[]
+  }
+
+  export type TicketSettingCreatedenyUserIdsInput = {
+    set: string[]
+  }
+
+  export type TicketSettingCreatedenyRoleIdsInput = {
+    set: string[]
+  }
+
+  export type DMTicketCreateNestedManyWithoutSettingsInput = {
+    create?: XOR<DMTicketCreateWithoutSettingsInput, DMTicketUncheckedCreateWithoutSettingsInput> | DMTicketCreateWithoutSettingsInput[] | DMTicketUncheckedCreateWithoutSettingsInput[]
+    connectOrCreate?: DMTicketCreateOrConnectWithoutSettingsInput | DMTicketCreateOrConnectWithoutSettingsInput[]
+    createMany?: DMTicketCreateManySettingsInputEnvelope
+    connect?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
+  }
+
+  export type DMTicketUncheckedCreateNestedManyWithoutSettingsInput = {
+    create?: XOR<DMTicketCreateWithoutSettingsInput, DMTicketUncheckedCreateWithoutSettingsInput> | DMTicketCreateWithoutSettingsInput[] | DMTicketUncheckedCreateWithoutSettingsInput[]
+    connectOrCreate?: DMTicketCreateOrConnectWithoutSettingsInput | DMTicketCreateOrConnectWithoutSettingsInput[]
+    createMany?: DMTicketCreateManySettingsInputEnvelope
+    connect?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
   }
 
   export type DecimalFieldUpdateOperationsInput = {
@@ -7502,16 +10533,84 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type NullableDecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string | null
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
-  export type EnumFilterTypeFieldUpdateOperationsInput = {
-    set?: $Enums.FilterType
+  export type TicketSettingUpdatelogChannelsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type EnumTicketTypeFieldUpdateOperationsInput = {
+    set?: $Enums.TicketType
+  }
+
+  export type TicketSettingUpdatesendMessagePrefixesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TicketSettingUpdatementionRolesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TicketSettingUpdatementionUsersInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TicketSettingUpdatedenyUserIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TicketSettingUpdatedenyRoleIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type DMTicketUpdateManyWithoutSettingsNestedInput = {
+    create?: XOR<DMTicketCreateWithoutSettingsInput, DMTicketUncheckedCreateWithoutSettingsInput> | DMTicketCreateWithoutSettingsInput[] | DMTicketUncheckedCreateWithoutSettingsInput[]
+    connectOrCreate?: DMTicketCreateOrConnectWithoutSettingsInput | DMTicketCreateOrConnectWithoutSettingsInput[]
+    upsert?: DMTicketUpsertWithWhereUniqueWithoutSettingsInput | DMTicketUpsertWithWhereUniqueWithoutSettingsInput[]
+    createMany?: DMTicketCreateManySettingsInputEnvelope
+    set?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
+    disconnect?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
+    delete?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
+    connect?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
+    update?: DMTicketUpdateWithWhereUniqueWithoutSettingsInput | DMTicketUpdateWithWhereUniqueWithoutSettingsInput[]
+    updateMany?: DMTicketUpdateManyWithWhereWithoutSettingsInput | DMTicketUpdateManyWithWhereWithoutSettingsInput[]
+    deleteMany?: DMTicketScalarWhereInput | DMTicketScalarWhereInput[]
+  }
+
+  export type DMTicketUncheckedUpdateManyWithoutSettingsNestedInput = {
+    create?: XOR<DMTicketCreateWithoutSettingsInput, DMTicketUncheckedCreateWithoutSettingsInput> | DMTicketCreateWithoutSettingsInput[] | DMTicketUncheckedCreateWithoutSettingsInput[]
+    connectOrCreate?: DMTicketCreateOrConnectWithoutSettingsInput | DMTicketCreateOrConnectWithoutSettingsInput[]
+    upsert?: DMTicketUpsertWithWhereUniqueWithoutSettingsInput | DMTicketUpsertWithWhereUniqueWithoutSettingsInput[]
+    createMany?: DMTicketCreateManySettingsInputEnvelope
+    set?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
+    disconnect?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
+    delete?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
+    connect?: DMTicketWhereUniqueInput | DMTicketWhereUniqueInput[]
+    update?: DMTicketUpdateWithWhereUniqueWithoutSettingsInput | DMTicketUpdateWithWhereUniqueWithoutSettingsInput[]
+    updateMany?: DMTicketUpdateManyWithWhereWithoutSettingsInput | DMTicketUpdateManyWithWhereWithoutSettingsInput[]
+    deleteMany?: DMTicketScalarWhereInput | DMTicketScalarWhereInput[]
+  }
+
+  export type TicketSettingCreateNestedOneWithoutDMTicketInput = {
+    create?: XOR<TicketSettingCreateWithoutDMTicketInput, TicketSettingUncheckedCreateWithoutDMTicketInput>
+    connectOrCreate?: TicketSettingCreateOrConnectWithoutDMTicketInput
+    connect?: TicketSettingWhereUniqueInput
+  }
+
+  export type TicketSettingUpdateOneRequiredWithoutDMTicketNestedInput = {
+    create?: XOR<TicketSettingCreateWithoutDMTicketInput, TicketSettingUncheckedCreateWithoutDMTicketInput>
+    connectOrCreate?: TicketSettingCreateOrConnectWithoutDMTicketInput
+    upsert?: TicketSettingUpsertWithoutDMTicketInput
+    connect?: TicketSettingWhereUniqueInput
+    update?: XOR<XOR<TicketSettingUpdateToOneWithWhereWithoutDMTicketInput, TicketSettingUpdateWithoutDMTicketInput>, TicketSettingUncheckedUpdateWithoutDMTicketInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -7520,6 +10619,14 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -7536,45 +10643,11 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  export type NestedEnumFilterTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeFilter<$PrismaModel> | $Enums.FilterType
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -7605,6 +10678,30 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.FilterType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFilterTypeFilter<$PrismaModel>
+    _max?: NestedEnumFilterTypeFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -7633,12 +10730,27 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedEnumTicketTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketType | EnumTicketTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketType[] | ListEnumTicketTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketType[] | ListEnumTicketTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketTypeFilter<$PrismaModel> | $Enums.TicketType
   }
 
   export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -7657,37 +10769,22 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
-  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
-  export type NestedEnumFilterTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFilterTypeFilter<$PrismaModel> | $Enums.FilterType
-  }
-
-  export type NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.FilterType
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumFilterTypeFilter<$PrismaModel>
-    _max?: NestedEnumFilterTypeFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTicketTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketType | EnumTicketTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketType[] | ListEnumTicketTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketType[] | ListEnumTicketTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketTypeWithAggregatesFilter<$PrismaModel> | $Enums.TicketType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTicketTypeFilter<$PrismaModel>
+    _max?: NestedEnumTicketTypeFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7715,6 +10812,189 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type DMTicketCreateWithoutSettingsInput = {
+    dmId: string
+    userId: string
+    channelId: string
+  }
+
+  export type DMTicketUncheckedCreateWithoutSettingsInput = {
+    dmId: string
+    userId: string
+    channelId: string
+  }
+
+  export type DMTicketCreateOrConnectWithoutSettingsInput = {
+    where: DMTicketWhereUniqueInput
+    create: XOR<DMTicketCreateWithoutSettingsInput, DMTicketUncheckedCreateWithoutSettingsInput>
+  }
+
+  export type DMTicketCreateManySettingsInputEnvelope = {
+    data: DMTicketCreateManySettingsInput | DMTicketCreateManySettingsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DMTicketUpsertWithWhereUniqueWithoutSettingsInput = {
+    where: DMTicketWhereUniqueInput
+    update: XOR<DMTicketUpdateWithoutSettingsInput, DMTicketUncheckedUpdateWithoutSettingsInput>
+    create: XOR<DMTicketCreateWithoutSettingsInput, DMTicketUncheckedCreateWithoutSettingsInput>
+  }
+
+  export type DMTicketUpdateWithWhereUniqueWithoutSettingsInput = {
+    where: DMTicketWhereUniqueInput
+    data: XOR<DMTicketUpdateWithoutSettingsInput, DMTicketUncheckedUpdateWithoutSettingsInput>
+  }
+
+  export type DMTicketUpdateManyWithWhereWithoutSettingsInput = {
+    where: DMTicketScalarWhereInput
+    data: XOR<DMTicketUpdateManyMutationInput, DMTicketUncheckedUpdateManyWithoutSettingsInput>
+  }
+
+  export type DMTicketScalarWhereInput = {
+    AND?: DMTicketScalarWhereInput | DMTicketScalarWhereInput[]
+    OR?: DMTicketScalarWhereInput[]
+    NOT?: DMTicketScalarWhereInput | DMTicketScalarWhereInput[]
+    dmId?: StringFilter<"DMTicket"> | string
+    userId?: StringFilter<"DMTicket"> | string
+    channelId?: StringFilter<"DMTicket"> | string
+    settingsId?: DecimalFilter<"DMTicket"> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type TicketSettingCreateWithoutDMTicketInput = {
+    id: Decimal | DecimalJsLike | number | string
+    guild: string
+    active?: boolean
+    logChannels?: TicketSettingCreatelogChannelsInput | string[]
+    archiveCategory?: string | null
+    type?: $Enums.TicketType
+    archiveDuration?: Decimal | DecimalJsLike | number | string
+    channel?: string | null
+    category?: string | null
+    sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingCreatementionRolesInput | string[]
+    mentionUsers?: TicketSettingCreatementionUsersInput | string[]
+    denyUserIds?: TicketSettingCreatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingCreatedenyRoleIdsInput | string[]
+  }
+
+  export type TicketSettingUncheckedCreateWithoutDMTicketInput = {
+    id: Decimal | DecimalJsLike | number | string
+    guild: string
+    active?: boolean
+    logChannels?: TicketSettingCreatelogChannelsInput | string[]
+    archiveCategory?: string | null
+    type?: $Enums.TicketType
+    archiveDuration?: Decimal | DecimalJsLike | number | string
+    channel?: string | null
+    category?: string | null
+    sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingCreatementionRolesInput | string[]
+    mentionUsers?: TicketSettingCreatementionUsersInput | string[]
+    denyUserIds?: TicketSettingCreatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingCreatedenyRoleIdsInput | string[]
+  }
+
+  export type TicketSettingCreateOrConnectWithoutDMTicketInput = {
+    where: TicketSettingWhereUniqueInput
+    create: XOR<TicketSettingCreateWithoutDMTicketInput, TicketSettingUncheckedCreateWithoutDMTicketInput>
+  }
+
+  export type TicketSettingUpsertWithoutDMTicketInput = {
+    update: XOR<TicketSettingUpdateWithoutDMTicketInput, TicketSettingUncheckedUpdateWithoutDMTicketInput>
+    create: XOR<TicketSettingCreateWithoutDMTicketInput, TicketSettingUncheckedCreateWithoutDMTicketInput>
+    where?: TicketSettingWhereInput
+  }
+
+  export type TicketSettingUpdateToOneWithWhereWithoutDMTicketInput = {
+    where?: TicketSettingWhereInput
+    data: XOR<TicketSettingUpdateWithoutDMTicketInput, TicketSettingUncheckedUpdateWithoutDMTicketInput>
+  }
+
+  export type TicketSettingUpdateWithoutDMTicketInput = {
+    id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guild?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    logChannels?: TicketSettingUpdatelogChannelsInput | string[]
+    archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
+    archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
+    mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
+    denyUserIds?: TicketSettingUpdatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingUpdatedenyRoleIdsInput | string[]
+  }
+
+  export type TicketSettingUncheckedUpdateWithoutDMTicketInput = {
+    id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    guild?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+    logChannels?: TicketSettingUpdatelogChannelsInput | string[]
+    archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
+    archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    channel?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
+    mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
+    denyUserIds?: TicketSettingUpdatedenyUserIdsInput | string[]
+    denyRoleIds?: TicketSettingUpdatedenyRoleIdsInput | string[]
+  }
+
+  export type DMTicketCreateManySettingsInput = {
+    dmId: string
+    userId: string
+    channelId: string
+  }
+
+  export type DMTicketUpdateWithoutSettingsInput = {
+    dmId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DMTicketUncheckedUpdateWithoutSettingsInput = {
+    dmId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DMTicketUncheckedUpdateManyWithoutSettingsInput = {
+    dmId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    channelId?: StringFieldUpdateOperationsInput | string
   }
 
 
