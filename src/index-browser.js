@@ -120,55 +120,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.FilteredWordScalarFieldEnum = {
-  keyword: 'keyword',
-  filterType: 'filterType'
-};
-
-exports.Prisma.CustomClientScalarFieldEnum = {
-  guildId: 'guildId',
-  appId: 'appId',
-  token: 'token',
-  publicKey: 'publicKey',
-  secret: 'secret'
-};
-
-exports.Prisma.TicketSettingScalarFieldEnum = {
-  id: 'id',
-  guild: 'guild',
-  active: 'active',
-  logChannels: 'logChannels',
-  archiveCategory: 'archiveCategory',
-  type: 'type',
-  archiveDuration: 'archiveDuration',
-  channel: 'channel',
-  category: 'category',
-  sendMessagePrefixes: 'sendMessagePrefixes',
-  mentionRoles: 'mentionRoles',
-  mentionUsers: 'mentionUsers',
-  denyUserIds: 'denyUserIds',
-  denyRoleIds: 'denyRoleIds'
-};
-
-exports.Prisma.DMTicketScalarFieldEnum = {
-  dmId: 'dmId',
-  userId: 'userId',
-  channelId: 'channelId',
-  settingsId: 'settingsId'
-};
-
-exports.Prisma.AfkStateScalarFieldEnum = {
-  userId: 'userId',
-  reason: 'reason',
-  since: 'since',
-  guildId: 'guildId'
-};
-
-exports.Prisma.AfkSettingScalarFieldEnum = {
-  guildId: 'guildId',
-  maxLetters: 'maxLetters'
-};
-
 exports.Prisma.GuildSettingScalarFieldEnum = {
   guildId: 'guildId',
   prefix: 'prefix',
@@ -185,6 +136,55 @@ exports.Prisma.GuildSettingScalarFieldEnum = {
   statusChannel: 'statusChannel',
   updatesChannel: 'updatesChannel',
   notifyChannel: 'notifyChannel'
+};
+
+exports.Prisma.FilteredWordScalarFieldEnum = {
+  keyword: 'keyword',
+  filterType: 'filterType'
+};
+
+exports.Prisma.TicketSettingScalarFieldEnum = {
+  id: 'id',
+  guild: 'guild',
+  active: 'active',
+  logChannels: 'logChannels',
+  archiveCategory: 'archiveCategory',
+  type: 'type',
+  archiveDuration: 'archiveDuration',
+  channel: 'channel',
+  category: 'category',
+  sendMessagePrefixes: 'sendMessagePrefixes',
+  mentionRoles: 'mentionRoles',
+  mentionUsers: 'mentionUsers',
+  denyUsers: 'denyUsers',
+  denyRoles: 'denyRoles'
+};
+
+exports.Prisma.DMTicketScalarFieldEnum = {
+  dm: 'dm',
+  user: 'user',
+  channel: 'channel',
+  settingsId: 'settingsId'
+};
+
+exports.Prisma.CustomClientScalarFieldEnum = {
+  guildId: 'guildId',
+  appId: 'appId',
+  token: 'token',
+  publicKey: 'publicKey',
+  secret: 'secret'
+};
+
+exports.Prisma.AfkStateScalarFieldEnum = {
+  userId: 'userId',
+  reason: 'reason',
+  since: 'since',
+  guildId: 'guildId'
+};
+
+exports.Prisma.AfkSettingScalarFieldEnum = {
+  guildId: 'guildId',
+  maxLetters: 'maxLetters'
 };
 
 exports.Prisma.SortOrder = {
@@ -215,13 +215,13 @@ exports.TicketType = exports.$Enums.TicketType = {
 };
 
 exports.Prisma.ModelName = {
+  GuildSetting: 'GuildSetting',
   FilteredWord: 'FilteredWord',
-  CustomClient: 'CustomClient',
   TicketSetting: 'TicketSetting',
   DMTicket: 'DMTicket',
+  CustomClient: 'CustomClient',
   AfkState: 'AfkState',
-  AfkSetting: 'AfkSetting',
-  GuildSetting: 'GuildSetting'
+  AfkSetting: 'AfkSetting'
 };
 
 /**
