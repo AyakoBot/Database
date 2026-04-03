@@ -8,7 +8,7 @@ config({
 
 export default defineConfig({
  datasource: {
-  url: `${env('MAIN_DATABASE_URL').replace('postgres:5432', process.argv.includes('--local') ? 'localhost:5432' : 'postgres:5432')}/Ayako-v3`,
+  url: `${env('MAIN_DATABASE_URL').replace('postgres:5432', process.env.LOCAL === 'true' ? 'localhost:5432' : 'postgres:5432')}/Ayako-v3`,
  },
  schema: './prisma/schema.prisma',
 });
