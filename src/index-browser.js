@@ -120,6 +120,32 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.TicketSettingScalarFieldEnum = {
+  id: 'id',
+  guild: 'guild',
+  active: 'active',
+  logChannels: 'logChannels',
+  appliedTags: 'appliedTags',
+  archiveCategory: 'archiveCategory',
+  archiveDuration: 'archiveDuration',
+  type: 'type',
+  channel: 'channel',
+  category: 'category',
+  sendMessagePrefixes: 'sendMessagePrefixes',
+  mentionRoles: 'mentionRoles',
+  mentionUsers: 'mentionUsers',
+  denyUsers: 'denyUsers',
+  denyRoles: 'denyRoles'
+};
+
+exports.Prisma.TicketScalarFieldEnum = {
+  id: 'id',
+  dm: 'dm',
+  user: 'user',
+  channel: 'channel',
+  settingsId: 'settingsId'
+};
+
 exports.Prisma.GuildSettingScalarFieldEnum = {
   guildId: 'guildId',
   prefix: 'prefix',
@@ -141,30 +167,6 @@ exports.Prisma.GuildSettingScalarFieldEnum = {
 exports.Prisma.FilteredWordScalarFieldEnum = {
   keyword: 'keyword',
   filterType: 'filterType'
-};
-
-exports.Prisma.TicketSettingScalarFieldEnum = {
-  id: 'id',
-  guild: 'guild',
-  active: 'active',
-  logChannels: 'logChannels',
-  archiveCategory: 'archiveCategory',
-  type: 'type',
-  archiveDuration: 'archiveDuration',
-  channel: 'channel',
-  category: 'category',
-  sendMessagePrefixes: 'sendMessagePrefixes',
-  mentionRoles: 'mentionRoles',
-  mentionUsers: 'mentionUsers',
-  denyUsers: 'denyUsers',
-  denyRoles: 'denyRoles'
-};
-
-exports.Prisma.DMTicketScalarFieldEnum = {
-  dm: 'dm',
-  user: 'user',
-  channel: 'channel',
-  settingsId: 'settingsId'
 };
 
 exports.Prisma.CustomClientScalarFieldEnum = {
@@ -201,12 +203,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.FilterType = exports.$Enums.FilterType = {
-  Profanity: 'Profanity',
-  SexualContent: 'SexualContent',
-  Slurs: 'Slurs'
-};
-
 exports.TicketType = exports.$Enums.TicketType = {
   dmToThread: 'dmToThread',
   dmToChannel: 'dmToChannel',
@@ -214,11 +210,17 @@ exports.TicketType = exports.$Enums.TicketType = {
   Channel: 'Channel'
 };
 
+exports.FilterType = exports.$Enums.FilterType = {
+  Profanity: 'Profanity',
+  SexualContent: 'SexualContent',
+  Slurs: 'Slurs'
+};
+
 exports.Prisma.ModelName = {
+  TicketSetting: 'TicketSetting',
+  Ticket: 'Ticket',
   GuildSetting: 'GuildSetting',
   FilteredWord: 'FilteredWord',
-  TicketSetting: 'TicketSetting',
-  DMTicket: 'DMTicket',
   CustomClient: 'CustomClient',
   AfkState: 'AfkState',
   AfkSetting: 'AfkSetting'

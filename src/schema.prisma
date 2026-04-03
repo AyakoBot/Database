@@ -15,6 +15,58 @@ datasource db {
 
 //#region Models
 
+model TicketSetting {
+  id     Decimal @id @db.Decimal
+  guild  String  @db.VarChar
+  active Boolean @default(false)
+
+  // Text Channel or Forum Channel
+  logChannels String[] @db.VarChar
+  appliedTags String[] @db.VarChar
+
+  // Only if type is dmToChannel or Channel
+  archiveCategory String? @db.VarChar
+  archiveDuration Decimal @default(60) @db.Decimal
+
+  // Only need on dmToThread & Thread
+  type                TicketType @default(Thread)
+  channel             String?    @db.VarChar
+  // Only need on dmToChannel & Channel
+  category            String?    @db.VarChar
+  // Only need on dmToThread & dmToChannel
+  sendMessagePrefixes String[]   @db.Text
+
+  mentionRoles String[] @db.VarChar
+  mentionUsers String[] @db.VarChar
+
+  denyUsers String[] @db.VarChar
+  denyRoles String[] @db.VarChar
+  Ticket    Ticket[]
+
+  @@index(guild)
+  @@index(type)
+}
+
+model Ticket {
+  id         Decimal @id @db.Decimal
+  dm         String  @db.VarChar
+  user       String  @unique @db.VarChar
+  channel    String  @unique @db.VarChar
+  settingsId Decimal @db.Decimal
+
+  settings TicketSetting @relation(fields: [settingsId], references: [id])
+
+  @@index(dm)
+  @@index(channel)
+}
+
+enum TicketType {
+  dmToThread
+  dmToChannel
+  Thread
+  Channel
+}
+
 model GuildSetting {
   guildId           String   @db.VarChar // TODO: rename col once sync fns are obsolete
   prefix            String?
@@ -47,51 +99,6 @@ enum FilterType {
   Profanity
   SexualContent
   Slurs
-}
-
-model TicketSetting {
-  id                  Decimal    @id @db.Decimal
-  guild               String     @db.VarChar
-  active              Boolean    @default(false)
-  logChannels         String[]   @db.VarChar
-  archiveCategory     String?    @db.VarChar
-  type                TicketType @default(Thread)
-  // Only need on dmToThread & Thread
-  archiveDuration     Decimal    @default(60) @db.Decimal
-  channel             String?    @db.VarChar
-  // Only need on dmToChannel & Channel
-  category            String?    @db.VarChar
-  // Only need on dmToThread & dmToChannel
-  sendMessagePrefixes String[]   @db.Text
-
-  mentionRoles String[] @db.VarChar
-  mentionUsers String[] @db.VarChar
-
-  denyUsers String[]   @db.VarChar
-  denyRoles String[]   @db.VarChar
-  DMTicket  DMTicket[]
-
-  @@index(guild)
-  @@index(type)
-}
-
-model DMTicket {
-  dm         String  @id @db.VarChar
-  user       String  @unique @db.VarChar
-  channel    String  @unique @db.VarChar
-  settingsId Decimal @db.Decimal
-
-  settings TicketSetting @relation(fields: [settingsId], references: [id])
-
-  @@index(dm)
-  @@index(channel)
-}
-
-enum TicketType {
-  dmToThread
-  dmToChannel
-  Thread
-  Channel
 }
 
 model CustomClient {

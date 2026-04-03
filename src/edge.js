@@ -92,6 +92,32 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.TicketSettingScalarFieldEnum = {
+  id: 'id',
+  guild: 'guild',
+  active: 'active',
+  logChannels: 'logChannels',
+  appliedTags: 'appliedTags',
+  archiveCategory: 'archiveCategory',
+  archiveDuration: 'archiveDuration',
+  type: 'type',
+  channel: 'channel',
+  category: 'category',
+  sendMessagePrefixes: 'sendMessagePrefixes',
+  mentionRoles: 'mentionRoles',
+  mentionUsers: 'mentionUsers',
+  denyUsers: 'denyUsers',
+  denyRoles: 'denyRoles'
+};
+
+exports.Prisma.TicketScalarFieldEnum = {
+  id: 'id',
+  dm: 'dm',
+  user: 'user',
+  channel: 'channel',
+  settingsId: 'settingsId'
+};
+
 exports.Prisma.GuildSettingScalarFieldEnum = {
   guildId: 'guildId',
   prefix: 'prefix',
@@ -113,30 +139,6 @@ exports.Prisma.GuildSettingScalarFieldEnum = {
 exports.Prisma.FilteredWordScalarFieldEnum = {
   keyword: 'keyword',
   filterType: 'filterType'
-};
-
-exports.Prisma.TicketSettingScalarFieldEnum = {
-  id: 'id',
-  guild: 'guild',
-  active: 'active',
-  logChannels: 'logChannels',
-  archiveCategory: 'archiveCategory',
-  type: 'type',
-  archiveDuration: 'archiveDuration',
-  channel: 'channel',
-  category: 'category',
-  sendMessagePrefixes: 'sendMessagePrefixes',
-  mentionRoles: 'mentionRoles',
-  mentionUsers: 'mentionUsers',
-  denyUsers: 'denyUsers',
-  denyRoles: 'denyRoles'
-};
-
-exports.Prisma.DMTicketScalarFieldEnum = {
-  dm: 'dm',
-  user: 'user',
-  channel: 'channel',
-  settingsId: 'settingsId'
 };
 
 exports.Prisma.CustomClientScalarFieldEnum = {
@@ -173,12 +175,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.FilterType = exports.$Enums.FilterType = {
-  Profanity: 'Profanity',
-  SexualContent: 'SexualContent',
-  Slurs: 'Slurs'
-};
-
 exports.TicketType = exports.$Enums.TicketType = {
   dmToThread: 'dmToThread',
   dmToChannel: 'dmToChannel',
@@ -186,11 +182,17 @@ exports.TicketType = exports.$Enums.TicketType = {
   Channel: 'Channel'
 };
 
+exports.FilterType = exports.$Enums.FilterType = {
+  Profanity: 'Profanity',
+  SexualContent: 'SexualContent',
+  Slurs: 'Slurs'
+};
+
 exports.Prisma.ModelName = {
+  TicketSetting: 'TicketSetting',
+  Ticket: 'Ticket',
   GuildSetting: 'GuildSetting',
   FilteredWord: 'FilteredWord',
-  TicketSetting: 'TicketSetting',
-  DMTicket: 'DMTicket',
   CustomClient: 'CustomClient',
   AfkState: 'AfkState',
   AfkSetting: 'AfkSetting'
@@ -203,10 +205,10 @@ const config = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src\"\n\n  engineType             = \"binaries\"\n  runtime                = \"nodejs\"\n  moduleFormat           = \"esm\"\n  generatedFileExtension = \"ts\"\n  importFileExtension    = \"js\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n//#region Models\n\nmodel GuildSetting {\n  guildId           String   @db.VarChar // TODO: rename col once sync fns are obsolete\n  prefix            String?\n  interactionsMode  Boolean  @default(true)\n  language          String   @default(\"en-GB\")\n  errorChannel      String?  @db.VarChar\n  rpEnabled         Boolean  @default(false)\n  rpEnableRuns      Decimal  @default(0) @db.Decimal\n  lastRpSyncRun     Decimal? @db.Decimal\n  ptReminderEnabled Boolean  @default(true)\n  legacyRp          Boolean  @default(false)\n  editRpCommands    Boolean  @default(true)\n  enableInvitesAt   Decimal? @db.Decimal\n  statusChannel     String?  @db.VarChar\n  updatesChannel    String?\n  notifyChannel     String?\n\n  @@id([guildId])\n  @@index([guildId])\n}\n\nmodel FilteredWord {\n  keyword    String\n  filterType FilterType\n\n  @@id([keyword, filterType])\n}\n\nenum FilterType {\n  Profanity\n  SexualContent\n  Slurs\n}\n\nmodel TicketSetting {\n  id                  Decimal    @id @db.Decimal\n  guild               String     @db.VarChar\n  active              Boolean    @default(false)\n  logChannels         String[]   @db.VarChar\n  archiveCategory     String?    @db.VarChar\n  type                TicketType @default(Thread)\n  // Only need on dmToThread & Thread\n  archiveDuration     Decimal    @default(60) @db.Decimal\n  channel             String?    @db.VarChar\n  // Only need on dmToChannel & Channel\n  category            String?    @db.VarChar\n  // Only need on dmToThread & dmToChannel\n  sendMessagePrefixes String[]   @db.Text\n\n  mentionRoles String[] @db.VarChar\n  mentionUsers String[] @db.VarChar\n\n  denyUsers String[]   @db.VarChar\n  denyRoles String[]   @db.VarChar\n  DMTicket  DMTicket[]\n\n  @@index(guild)\n  @@index(type)\n}\n\nmodel DMTicket {\n  dm         String  @id @db.VarChar\n  user       String  @unique @db.VarChar\n  channel    String  @unique @db.VarChar\n  settingsId Decimal @db.Decimal\n\n  settings TicketSetting @relation(fields: [settingsId], references: [id])\n\n  @@index(dm)\n  @@index(channel)\n}\n\nenum TicketType {\n  dmToThread\n  dmToChannel\n  Thread\n  Channel\n}\n\nmodel CustomClient {\n  guildId   String  @db.VarChar // TODO: rename col once sync fns are obsolete\n  appId     String? @db.VarChar // TODO: rename col once sync fns are obsolete\n  token     String? @db.VarChar\n  publicKey String? @db.VarChar\n  secret    String? @db.VarChar\n\n  @@id([guildId])\n  @@index([appId])\n}\n\nmodel AfkState {\n  userId  String  @db.VarChar // TODO: rename col once sync fns are obsolete\n  reason  String?\n  since   Decimal @db.Decimal\n  guildId String  @db.VarChar // TODO: rename col once sync fns are obsolete\n\n  @@id([userId, guildId])\n  @@index([userId, guildId])\n}\n\nmodel AfkSetting {\n  guildId    String @db.VarChar // TODO: rename col once sync fns are obsolete\n  maxLetters Int    @default(250)\n\n  @@id(guildId)\n}\n\n//#endregion\n"
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src\"\n\n  engineType             = \"binaries\"\n  runtime                = \"nodejs\"\n  moduleFormat           = \"esm\"\n  generatedFileExtension = \"ts\"\n  importFileExtension    = \"js\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n//#region Models\n\nmodel TicketSetting {\n  id     Decimal @id @db.Decimal\n  guild  String  @db.VarChar\n  active Boolean @default(false)\n\n  // Text Channel or Forum Channel\n  logChannels String[] @db.VarChar\n  appliedTags String[] @db.VarChar\n\n  // Only if type is dmToChannel or Channel\n  archiveCategory String? @db.VarChar\n  archiveDuration Decimal @default(60) @db.Decimal\n\n  // Only need on dmToThread & Thread\n  type                TicketType @default(Thread)\n  channel             String?    @db.VarChar\n  // Only need on dmToChannel & Channel\n  category            String?    @db.VarChar\n  // Only need on dmToThread & dmToChannel\n  sendMessagePrefixes String[]   @db.Text\n\n  mentionRoles String[] @db.VarChar\n  mentionUsers String[] @db.VarChar\n\n  denyUsers String[] @db.VarChar\n  denyRoles String[] @db.VarChar\n  Ticket    Ticket[]\n\n  @@index(guild)\n  @@index(type)\n}\n\nmodel Ticket {\n  id         Decimal @id @db.Decimal\n  dm         String  @db.VarChar\n  user       String  @unique @db.VarChar\n  channel    String  @unique @db.VarChar\n  settingsId Decimal @db.Decimal\n\n  settings TicketSetting @relation(fields: [settingsId], references: [id])\n\n  @@index(dm)\n  @@index(channel)\n}\n\nenum TicketType {\n  dmToThread\n  dmToChannel\n  Thread\n  Channel\n}\n\nmodel GuildSetting {\n  guildId           String   @db.VarChar // TODO: rename col once sync fns are obsolete\n  prefix            String?\n  interactionsMode  Boolean  @default(true)\n  language          String   @default(\"en-GB\")\n  errorChannel      String?  @db.VarChar\n  rpEnabled         Boolean  @default(false)\n  rpEnableRuns      Decimal  @default(0) @db.Decimal\n  lastRpSyncRun     Decimal? @db.Decimal\n  ptReminderEnabled Boolean  @default(true)\n  legacyRp          Boolean  @default(false)\n  editRpCommands    Boolean  @default(true)\n  enableInvitesAt   Decimal? @db.Decimal\n  statusChannel     String?  @db.VarChar\n  updatesChannel    String?\n  notifyChannel     String?\n\n  @@id([guildId])\n  @@index([guildId])\n}\n\nmodel FilteredWord {\n  keyword    String\n  filterType FilterType\n\n  @@id([keyword, filterType])\n}\n\nenum FilterType {\n  Profanity\n  SexualContent\n  Slurs\n}\n\nmodel CustomClient {\n  guildId   String  @db.VarChar // TODO: rename col once sync fns are obsolete\n  appId     String? @db.VarChar // TODO: rename col once sync fns are obsolete\n  token     String? @db.VarChar\n  publicKey String? @db.VarChar\n  secret    String? @db.VarChar\n\n  @@id([guildId])\n  @@index([appId])\n}\n\nmodel AfkState {\n  userId  String  @db.VarChar // TODO: rename col once sync fns are obsolete\n  reason  String?\n  since   Decimal @db.Decimal\n  guildId String  @db.VarChar // TODO: rename col once sync fns are obsolete\n\n  @@id([userId, guildId])\n  @@index([userId, guildId])\n}\n\nmodel AfkSetting {\n  guildId    String @db.VarChar // TODO: rename col once sync fns are obsolete\n  maxLetters Int    @default(250)\n\n  @@id(guildId)\n}\n\n//#endregion\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"GuildSetting\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prefix\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"interactionsMode\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"language\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"errorChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rpEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"rpEnableRuns\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"lastRpSyncRun\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"ptReminderEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"legacyRp\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"editRpCommands\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"enableInvitesAt\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"statusChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"updatesChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notifyChannel\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"FilteredWord\":{\"fields\":[{\"name\":\"keyword\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"filterType\",\"kind\":\"enum\",\"type\":\"FilterType\"}],\"dbName\":null},\"TicketSetting\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"guild\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"logChannels\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"archiveCategory\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"TicketType\"},{\"name\":\"archiveDuration\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"channel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sendMessagePrefixes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mentionRoles\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mentionUsers\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"denyUsers\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"denyRoles\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"DMTicket\",\"kind\":\"object\",\"type\":\"DMTicket\",\"relationName\":\"DMTicketToTicketSetting\"}],\"dbName\":null},\"DMTicket\":{\"fields\":[{\"name\":\"dm\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"channel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"settingsId\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"settings\",\"kind\":\"object\",\"type\":\"TicketSetting\",\"relationName\":\"DMTicketToTicketSetting\"}],\"dbName\":null},\"CustomClient\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicKey\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"secret\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"AfkState\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"since\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"AfkSetting\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"maxLetters\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"TicketSetting\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"guild\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"logChannels\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appliedTags\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"archiveCategory\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"archiveDuration\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"TicketType\"},{\"name\":\"channel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sendMessagePrefixes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mentionRoles\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mentionUsers\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"denyUsers\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"denyRoles\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"Ticket\",\"kind\":\"object\",\"type\":\"Ticket\",\"relationName\":\"TicketToTicketSetting\"}],\"dbName\":null},\"Ticket\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"dm\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"channel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"settingsId\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"settings\",\"kind\":\"object\",\"type\":\"TicketSetting\",\"relationName\":\"TicketToTicketSetting\"}],\"dbName\":null},\"GuildSetting\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"prefix\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"interactionsMode\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"language\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"errorChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rpEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"rpEnableRuns\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"lastRpSyncRun\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"ptReminderEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"legacyRp\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"editRpCommands\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"enableInvitesAt\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"statusChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"updatesChannel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notifyChannel\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"FilteredWord\":{\"fields\":[{\"name\":\"keyword\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"filterType\",\"kind\":\"enum\",\"type\":\"FilterType\"}],\"dbName\":null},\"CustomClient\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicKey\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"secret\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"AfkState\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"since\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"AfkSetting\":{\"fields\":[{\"name\":\"guildId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"maxLetters\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
   getRuntime: async () => require('./query_compiler_bg.js'),
