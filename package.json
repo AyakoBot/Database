@@ -19,29 +19,29 @@
     "build": "pnpm gather && pnpm generate && pnpm format && pnpm compile"
   },
   "dependencies": {
-    "@prisma/client": "^7.2.0",
-    "@prisma/client-runtime-utils": "^7.2.0",
-    "dotenv": "^17.2.3",
-    "glob": "^13.0.0"
+    "@prisma/client": "^7.6.0",
+    "@prisma/client-runtime-utils": "^7.6.0",
+    "dotenv": "^17.4.0",
+    "glob": "^13.0.6"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.3",
-    "@eslint/js": "^9.39.2",
-    "@swc/cli": "^0.7.9",
-    "@swc/core": "1.15.8",
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^10.0.1",
+    "@swc/cli": "^0.8.1",
+    "@swc/core": "1.15.21",
     "@total-typescript/ts-reset": "^0.6.1",
-    "@types/node": "^25.0.7",
-    "eslint": "^9.39.2",
+    "@types/node": "^25.5.2",
+    "eslint": "^10.1.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.5.4",
-    "globals": "^17.0.0",
-    "prettier": "^3.7.4",
-    "prisma": "7.2.0",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.53.0"
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
+    "prisma": "7.6.0",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.0"
   },
   "packageManager": "pnpm@10.19.0",
   "engines": {
