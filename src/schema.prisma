@@ -49,7 +49,7 @@ model TicketSetting {
 
 model Ticket {
   id         Decimal @id @db.Decimal
-  dm         String  @db.VarChar
+  dm         String? @db.VarChar
   user       String  @unique @db.VarChar
   channel    String  @unique @db.VarChar
   settingsId Decimal @db.Decimal

@@ -87,7 +87,9 @@ export const FilterType: typeof $Enums.FilterType
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more TicketSettings
  * const ticketSettings = await prisma.ticketSetting.findMany()
  * ```
@@ -108,7 +110,9 @@ export class PrismaClient<
    * Type-safe database client for TypeScript & Node.js
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more TicketSettings
    * const ticketSettings = await prisma.ticketSetting.findMany()
    * ```
@@ -188,7 +192,7 @@ export class PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
@@ -317,8 +321,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.2.0
-   * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+   * Prisma Client JS version: 7.6.0
+   * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
    */
   export type PrismaVersion = {
     client: string
@@ -2446,6 +2450,11 @@ export namespace Prisma {
      * Skip the first `n` TicketSettings.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TicketSettings.
+     */
     distinct?: TicketSettingScalarFieldEnum | TicketSettingScalarFieldEnum[]
   }
 
@@ -2851,7 +2860,7 @@ export namespace Prisma {
 
   export type TicketGroupByOutputType = {
     id: Decimal
-    dm: string
+    dm: string | null
     user: string
     channel: string
     settingsId: Decimal
@@ -2929,7 +2938,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: Prisma.Decimal
-      dm: string
+      dm: string | null
       user: string
       channel: string
       settingsId: Prisma.Decimal
@@ -3558,6 +3567,11 @@ export namespace Prisma {
      * Skip the first `n` Tickets.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tickets.
+     */
     distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
   }
 
@@ -4753,6 +4767,11 @@ export namespace Prisma {
      * Skip the first `n` GuildSettings.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GuildSettings.
+     */
     distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
   }
 
@@ -5709,6 +5728,11 @@ export namespace Prisma {
      * Skip the first `n` FilteredWords.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FilteredWords.
+     */
     distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
   }
 
@@ -6704,6 +6728,11 @@ export namespace Prisma {
      * Skip the first `n` CustomClients.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomClients.
+     */
     distinct?: CustomClientScalarFieldEnum | CustomClientScalarFieldEnum[]
   }
 
@@ -7720,6 +7749,11 @@ export namespace Prisma {
      * Skip the first `n` AfkStates.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AfkStates.
+     */
     distinct?: AfkStateScalarFieldEnum | AfkStateScalarFieldEnum[]
   }
 
@@ -8710,6 +8744,11 @@ export namespace Prisma {
      * Skip the first `n` AfkSettings.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AfkSettings.
+     */
     distinct?: AfkSettingScalarFieldEnum | AfkSettingScalarFieldEnum[]
   }
 
@@ -9239,7 +9278,7 @@ export namespace Prisma {
     OR?: TicketWhereInput[]
     NOT?: TicketWhereInput | TicketWhereInput[]
     id?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
-    dm?: StringFilter<"Ticket"> | string
+    dm?: StringNullableFilter<"Ticket"> | string | null
     user?: StringFilter<"Ticket"> | string
     channel?: StringFilter<"Ticket"> | string
     settingsId?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
@@ -9248,7 +9287,7 @@ export namespace Prisma {
 
   export type TicketOrderByWithRelationInput = {
     id?: SortOrder
-    dm?: SortOrder
+    dm?: SortOrderInput | SortOrder
     user?: SortOrder
     channel?: SortOrder
     settingsId?: SortOrder
@@ -9262,14 +9301,14 @@ export namespace Prisma {
     AND?: TicketWhereInput | TicketWhereInput[]
     OR?: TicketWhereInput[]
     NOT?: TicketWhereInput | TicketWhereInput[]
-    dm?: StringFilter<"Ticket"> | string
+    dm?: StringNullableFilter<"Ticket"> | string | null
     settingsId?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
     settings?: XOR<TicketSettingScalarRelationFilter, TicketSettingWhereInput>
   }, "id" | "user" | "channel">
 
   export type TicketOrderByWithAggregationInput = {
     id?: SortOrder
-    dm?: SortOrder
+    dm?: SortOrderInput | SortOrder
     user?: SortOrder
     channel?: SortOrder
     settingsId?: SortOrder
@@ -9285,7 +9324,7 @@ export namespace Prisma {
     OR?: TicketScalarWhereWithAggregatesInput[]
     NOT?: TicketScalarWhereWithAggregatesInput | TicketScalarWhereWithAggregatesInput[]
     id?: DecimalWithAggregatesFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
-    dm?: StringWithAggregatesFilter<"Ticket"> | string
+    dm?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     user?: StringWithAggregatesFilter<"Ticket"> | string
     channel?: StringWithAggregatesFilter<"Ticket"> | string
     settingsId?: DecimalWithAggregatesFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
@@ -9706,7 +9745,7 @@ export namespace Prisma {
 
   export type TicketCreateInput = {
     id: Decimal | DecimalJsLike | number | string
-    dm: string
+    dm?: string | null
     user: string
     channel: string
     settings: TicketSettingCreateNestedOneWithoutTicketInput
@@ -9714,7 +9753,7 @@ export namespace Prisma {
 
   export type TicketUncheckedCreateInput = {
     id: Decimal | DecimalJsLike | number | string
-    dm: string
+    dm?: string | null
     user: string
     channel: string
     settingsId: Decimal | DecimalJsLike | number | string
@@ -9722,7 +9761,7 @@ export namespace Prisma {
 
   export type TicketUpdateInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dm?: StringFieldUpdateOperationsInput | string
+    dm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
     settings?: TicketSettingUpdateOneRequiredWithoutTicketNestedInput
@@ -9730,7 +9769,7 @@ export namespace Prisma {
 
   export type TicketUncheckedUpdateInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dm?: StringFieldUpdateOperationsInput | string
+    dm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
     settingsId?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -9738,7 +9777,7 @@ export namespace Prisma {
 
   export type TicketCreateManyInput = {
     id: Decimal | DecimalJsLike | number | string
-    dm: string
+    dm?: string | null
     user: string
     channel: string
     settingsId: Decimal | DecimalJsLike | number | string
@@ -9746,14 +9785,14 @@ export namespace Prisma {
 
   export type TicketUpdateManyMutationInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dm?: StringFieldUpdateOperationsInput | string
+    dm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
   }
 
   export type TicketUncheckedUpdateManyInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dm?: StringFieldUpdateOperationsInput | string
+    dm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
     settingsId?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -10910,14 +10949,14 @@ export namespace Prisma {
 
   export type TicketCreateWithoutSettingsInput = {
     id: Decimal | DecimalJsLike | number | string
-    dm: string
+    dm?: string | null
     user: string
     channel: string
   }
 
   export type TicketUncheckedCreateWithoutSettingsInput = {
     id: Decimal | DecimalJsLike | number | string
-    dm: string
+    dm?: string | null
     user: string
     channel: string
   }
@@ -10953,7 +10992,7 @@ export namespace Prisma {
     OR?: TicketScalarWhereInput[]
     NOT?: TicketScalarWhereInput | TicketScalarWhereInput[]
     id?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
-    dm?: StringFilter<"Ticket"> | string
+    dm?: StringNullableFilter<"Ticket"> | string | null
     user?: StringFilter<"Ticket"> | string
     channel?: StringFilter<"Ticket"> | string
     settingsId?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
@@ -11049,28 +11088,28 @@ export namespace Prisma {
 
   export type TicketCreateManySettingsInput = {
     id: Decimal | DecimalJsLike | number | string
-    dm: string
+    dm?: string | null
     user: string
     channel: string
   }
 
   export type TicketUpdateWithoutSettingsInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dm?: StringFieldUpdateOperationsInput | string
+    dm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
   }
 
   export type TicketUncheckedUpdateWithoutSettingsInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dm?: StringFieldUpdateOperationsInput | string
+    dm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
   }
 
   export type TicketUncheckedUpdateManyWithoutSettingsInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    dm?: StringFieldUpdateOperationsInput | string
+    dm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
   }
