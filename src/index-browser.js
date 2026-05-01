@@ -124,6 +124,7 @@ exports.Prisma.TicketSettingScalarFieldEnum = {
   id: 'id',
   guild: 'guild',
   active: 'active',
+  logMode: 'logMode',
   logChannels: 'logChannels',
   appliedTags: 'appliedTags',
   archiveCategory: 'archiveCategory',
@@ -132,6 +133,7 @@ exports.Prisma.TicketSettingScalarFieldEnum = {
   channel: 'channel',
   category: 'category',
   sendMessagePrefixes: 'sendMessagePrefixes',
+  allowCreatorClose: 'allowCreatorClose',
   mentionRoles: 'mentionRoles',
   mentionUsers: 'mentionUsers',
   denyUsers: 'denyUsers',
@@ -141,9 +143,11 @@ exports.Prisma.TicketSettingScalarFieldEnum = {
 exports.Prisma.TicketScalarFieldEnum = {
   id: 'id',
   dm: 'dm',
+  starterDm: 'starterDm',
   user: 'user',
   channel: 'channel',
-  settingsId: 'settingsId'
+  settingsId: 'settingsId',
+  state: 'state'
 };
 
 exports.Prisma.GuildSettingScalarFieldEnum = {
@@ -203,11 +207,22 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.TicketLogMode = exports.$Enums.TicketLogMode = {
+  Channel: 'Channel',
+  Thread: 'Thread'
+};
+
 exports.TicketType = exports.$Enums.TicketType = {
   dmToThread: 'dmToThread',
   dmToChannel: 'dmToChannel',
   Thread: 'Thread',
   Channel: 'Channel'
+};
+
+exports.TicketState = exports.$Enums.TicketState = {
+  opened: 'opened',
+  closed: 'closed',
+  claimed: 'claimed'
 };
 
 exports.FilterType = exports.$Enums.FilterType = {

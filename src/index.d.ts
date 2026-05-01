@@ -53,7 +53,16 @@ export type AfkSetting = $Result.DefaultSelection<Prisma.$AfkSettingPayload>
  * Enums
  */
 export namespace $Enums {
-  export const TicketType: {
+  export const TicketState: {
+  opened: 'opened',
+  closed: 'closed',
+  claimed: 'claimed'
+};
+
+export type TicketState = (typeof TicketState)[keyof typeof TicketState]
+
+
+export const TicketType: {
   dmToThread: 'dmToThread',
   dmToChannel: 'dmToChannel',
   Thread: 'Thread',
@@ -61,6 +70,14 @@ export namespace $Enums {
 };
 
 export type TicketType = (typeof TicketType)[keyof typeof TicketType]
+
+
+export const TicketLogMode: {
+  Channel: 'Channel',
+  Thread: 'Thread'
+};
+
+export type TicketLogMode = (typeof TicketLogMode)[keyof typeof TicketLogMode]
 
 
 export const FilterType: {
@@ -73,9 +90,17 @@ export type FilterType = (typeof FilterType)[keyof typeof FilterType]
 
 }
 
+export type TicketState = $Enums.TicketState
+
+export const TicketState: typeof $Enums.TicketState
+
 export type TicketType = $Enums.TicketType
 
 export const TicketType: typeof $Enums.TicketType
+
+export type TicketLogMode = $Enums.TicketLogMode
+
+export const TicketLogMode: typeof $Enums.TicketLogMode
 
 export type FilterType = $Enums.FilterType
 
@@ -1500,28 +1525,33 @@ export namespace Prisma {
     id: Decimal | null
     guild: string | null
     active: boolean | null
+    logMode: $Enums.TicketLogMode | null
     archiveCategory: string | null
     archiveDuration: Decimal | null
     type: $Enums.TicketType | null
     channel: string | null
     category: string | null
+    allowCreatorClose: boolean | null
   }
 
   export type TicketSettingMaxAggregateOutputType = {
     id: Decimal | null
     guild: string | null
     active: boolean | null
+    logMode: $Enums.TicketLogMode | null
     archiveCategory: string | null
     archiveDuration: Decimal | null
     type: $Enums.TicketType | null
     channel: string | null
     category: string | null
+    allowCreatorClose: boolean | null
   }
 
   export type TicketSettingCountAggregateOutputType = {
     id: number
     guild: number
     active: number
+    logMode: number
     logChannels: number
     appliedTags: number
     archiveCategory: number
@@ -1530,6 +1560,7 @@ export namespace Prisma {
     channel: number
     category: number
     sendMessagePrefixes: number
+    allowCreatorClose: number
     mentionRoles: number
     mentionUsers: number
     denyUsers: number
@@ -1552,28 +1583,33 @@ export namespace Prisma {
     id?: true
     guild?: true
     active?: true
+    logMode?: true
     archiveCategory?: true
     archiveDuration?: true
     type?: true
     channel?: true
     category?: true
+    allowCreatorClose?: true
   }
 
   export type TicketSettingMaxAggregateInputType = {
     id?: true
     guild?: true
     active?: true
+    logMode?: true
     archiveCategory?: true
     archiveDuration?: true
     type?: true
     channel?: true
     category?: true
+    allowCreatorClose?: true
   }
 
   export type TicketSettingCountAggregateInputType = {
     id?: true
     guild?: true
     active?: true
+    logMode?: true
     logChannels?: true
     appliedTags?: true
     archiveCategory?: true
@@ -1582,6 +1618,7 @@ export namespace Prisma {
     channel?: true
     category?: true
     sendMessagePrefixes?: true
+    allowCreatorClose?: true
     mentionRoles?: true
     mentionUsers?: true
     denyUsers?: true
@@ -1679,6 +1716,7 @@ export namespace Prisma {
     id: Decimal
     guild: string
     active: boolean
+    logMode: $Enums.TicketLogMode
     logChannels: string[]
     appliedTags: string[]
     archiveCategory: string | null
@@ -1687,6 +1725,7 @@ export namespace Prisma {
     channel: string | null
     category: string | null
     sendMessagePrefixes: string[]
+    allowCreatorClose: boolean
     mentionRoles: string[]
     mentionUsers: string[]
     denyUsers: string[]
@@ -1716,6 +1755,7 @@ export namespace Prisma {
     id?: boolean
     guild?: boolean
     active?: boolean
+    logMode?: boolean
     logChannels?: boolean
     appliedTags?: boolean
     archiveCategory?: boolean
@@ -1724,6 +1764,7 @@ export namespace Prisma {
     channel?: boolean
     category?: boolean
     sendMessagePrefixes?: boolean
+    allowCreatorClose?: boolean
     mentionRoles?: boolean
     mentionUsers?: boolean
     denyUsers?: boolean
@@ -1736,6 +1777,7 @@ export namespace Prisma {
     id?: boolean
     guild?: boolean
     active?: boolean
+    logMode?: boolean
     logChannels?: boolean
     appliedTags?: boolean
     archiveCategory?: boolean
@@ -1744,6 +1786,7 @@ export namespace Prisma {
     channel?: boolean
     category?: boolean
     sendMessagePrefixes?: boolean
+    allowCreatorClose?: boolean
     mentionRoles?: boolean
     mentionUsers?: boolean
     denyUsers?: boolean
@@ -1754,6 +1797,7 @@ export namespace Prisma {
     id?: boolean
     guild?: boolean
     active?: boolean
+    logMode?: boolean
     logChannels?: boolean
     appliedTags?: boolean
     archiveCategory?: boolean
@@ -1762,6 +1806,7 @@ export namespace Prisma {
     channel?: boolean
     category?: boolean
     sendMessagePrefixes?: boolean
+    allowCreatorClose?: boolean
     mentionRoles?: boolean
     mentionUsers?: boolean
     denyUsers?: boolean
@@ -1772,6 +1817,7 @@ export namespace Prisma {
     id?: boolean
     guild?: boolean
     active?: boolean
+    logMode?: boolean
     logChannels?: boolean
     appliedTags?: boolean
     archiveCategory?: boolean
@@ -1780,13 +1826,14 @@ export namespace Prisma {
     channel?: boolean
     category?: boolean
     sendMessagePrefixes?: boolean
+    allowCreatorClose?: boolean
     mentionRoles?: boolean
     mentionUsers?: boolean
     denyUsers?: boolean
     denyRoles?: boolean
   }
 
-  export type TicketSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "guild" | "active" | "logChannels" | "appliedTags" | "archiveCategory" | "archiveDuration" | "type" | "channel" | "category" | "sendMessagePrefixes" | "mentionRoles" | "mentionUsers" | "denyUsers" | "denyRoles", ExtArgs["result"]["ticketSetting"]>
+  export type TicketSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "guild" | "active" | "logMode" | "logChannels" | "appliedTags" | "archiveCategory" | "archiveDuration" | "type" | "channel" | "category" | "sendMessagePrefixes" | "allowCreatorClose" | "mentionRoles" | "mentionUsers" | "denyUsers" | "denyRoles", ExtArgs["result"]["ticketSetting"]>
   export type TicketSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Ticket?: boolean | TicketSetting$TicketArgs<ExtArgs>
     _count?: boolean | TicketSettingCountOutputTypeDefaultArgs<ExtArgs>
@@ -1803,6 +1850,7 @@ export namespace Prisma {
       id: Prisma.Decimal
       guild: string
       active: boolean
+      logMode: $Enums.TicketLogMode
       logChannels: string[]
       appliedTags: string[]
       archiveCategory: string | null
@@ -1811,6 +1859,7 @@ export namespace Prisma {
       channel: string | null
       category: string | null
       sendMessagePrefixes: string[]
+      allowCreatorClose: boolean
       mentionRoles: string[]
       mentionUsers: string[]
       denyUsers: string[]
@@ -2242,6 +2291,7 @@ export namespace Prisma {
     readonly id: FieldRef<"TicketSetting", 'Decimal'>
     readonly guild: FieldRef<"TicketSetting", 'String'>
     readonly active: FieldRef<"TicketSetting", 'Boolean'>
+    readonly logMode: FieldRef<"TicketSetting", 'TicketLogMode'>
     readonly logChannels: FieldRef<"TicketSetting", 'String[]'>
     readonly appliedTags: FieldRef<"TicketSetting", 'String[]'>
     readonly archiveCategory: FieldRef<"TicketSetting", 'String'>
@@ -2250,6 +2300,7 @@ export namespace Prisma {
     readonly channel: FieldRef<"TicketSetting", 'String'>
     readonly category: FieldRef<"TicketSetting", 'String'>
     readonly sendMessagePrefixes: FieldRef<"TicketSetting", 'String[]'>
+    readonly allowCreatorClose: FieldRef<"TicketSetting", 'Boolean'>
     readonly mentionRoles: FieldRef<"TicketSetting", 'String[]'>
     readonly mentionUsers: FieldRef<"TicketSetting", 'String[]'>
     readonly denyUsers: FieldRef<"TicketSetting", 'String[]'>
@@ -2714,25 +2765,31 @@ export namespace Prisma {
   export type TicketMinAggregateOutputType = {
     id: Decimal | null
     dm: string | null
+    starterDm: string | null
     user: string | null
     channel: string | null
     settingsId: Decimal | null
+    state: $Enums.TicketState | null
   }
 
   export type TicketMaxAggregateOutputType = {
     id: Decimal | null
     dm: string | null
+    starterDm: string | null
     user: string | null
     channel: string | null
     settingsId: Decimal | null
+    state: $Enums.TicketState | null
   }
 
   export type TicketCountAggregateOutputType = {
     id: number
     dm: number
+    starterDm: number
     user: number
     channel: number
     settingsId: number
+    state: number
     _all: number
   }
 
@@ -2750,25 +2807,31 @@ export namespace Prisma {
   export type TicketMinAggregateInputType = {
     id?: true
     dm?: true
+    starterDm?: true
     user?: true
     channel?: true
     settingsId?: true
+    state?: true
   }
 
   export type TicketMaxAggregateInputType = {
     id?: true
     dm?: true
+    starterDm?: true
     user?: true
     channel?: true
     settingsId?: true
+    state?: true
   }
 
   export type TicketCountAggregateInputType = {
     id?: true
     dm?: true
+    starterDm?: true
     user?: true
     channel?: true
     settingsId?: true
+    state?: true
     _all?: true
   }
 
@@ -2861,9 +2924,11 @@ export namespace Prisma {
   export type TicketGroupByOutputType = {
     id: Decimal
     dm: string | null
+    starterDm: string | null
     user: string
     channel: string
     settingsId: Decimal
+    state: $Enums.TicketState
     _count: TicketCountAggregateOutputType | null
     _avg: TicketAvgAggregateOutputType | null
     _sum: TicketSumAggregateOutputType | null
@@ -2888,39 +2953,47 @@ export namespace Prisma {
   export type TicketSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     dm?: boolean
+    starterDm?: boolean
     user?: boolean
     channel?: boolean
     settingsId?: boolean
+    state?: boolean
     settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     dm?: boolean
+    starterDm?: boolean
     user?: boolean
     channel?: boolean
     settingsId?: boolean
+    state?: boolean
     settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     dm?: boolean
+    starterDm?: boolean
     user?: boolean
     channel?: boolean
     settingsId?: boolean
+    state?: boolean
     settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectScalar = {
     id?: boolean
     dm?: boolean
+    starterDm?: boolean
     user?: boolean
     channel?: boolean
     settingsId?: boolean
+    state?: boolean
   }
 
-  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dm" | "user" | "channel" | "settingsId", ExtArgs["result"]["ticket"]>
+  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dm" | "starterDm" | "user" | "channel" | "settingsId" | "state", ExtArgs["result"]["ticket"]>
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
   }
@@ -2939,9 +3012,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: Prisma.Decimal
       dm: string | null
+      starterDm: string | null
       user: string
       channel: string
       settingsId: Prisma.Decimal
+      state: $Enums.TicketState
     }, ExtArgs["result"]["ticket"]>
     composites: {}
   }
@@ -3368,9 +3443,11 @@ export namespace Prisma {
   interface TicketFieldRefs {
     readonly id: FieldRef<"Ticket", 'Decimal'>
     readonly dm: FieldRef<"Ticket", 'String'>
+    readonly starterDm: FieldRef<"Ticket", 'String'>
     readonly user: FieldRef<"Ticket", 'String'>
     readonly channel: FieldRef<"Ticket", 'String'>
     readonly settingsId: FieldRef<"Ticket", 'Decimal'>
+    readonly state: FieldRef<"Ticket", 'TicketState'>
   }
     
 
@@ -8957,6 +9034,7 @@ export namespace Prisma {
     id: 'id',
     guild: 'guild',
     active: 'active',
+    logMode: 'logMode',
     logChannels: 'logChannels',
     appliedTags: 'appliedTags',
     archiveCategory: 'archiveCategory',
@@ -8965,6 +9043,7 @@ export namespace Prisma {
     channel: 'channel',
     category: 'category',
     sendMessagePrefixes: 'sendMessagePrefixes',
+    allowCreatorClose: 'allowCreatorClose',
     mentionRoles: 'mentionRoles',
     mentionUsers: 'mentionUsers',
     denyUsers: 'denyUsers',
@@ -8977,9 +9056,11 @@ export namespace Prisma {
   export const TicketScalarFieldEnum: {
     id: 'id',
     dm: 'dm',
+    starterDm: 'starterDm',
     user: 'user',
     channel: 'channel',
-    settingsId: 'settingsId'
+    settingsId: 'settingsId',
+    state: 'state'
   };
 
   export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
@@ -9108,6 +9189,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'TicketLogMode'
+   */
+  export type EnumTicketLogModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketLogMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'TicketLogMode[]'
+   */
+  export type ListEnumTicketLogModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketLogMode[]'>
+    
+
+
+  /**
    * Reference to a field of type 'TicketType'
    */
   export type EnumTicketTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketType'>
@@ -9118,6 +9213,20 @@ export namespace Prisma {
    * Reference to a field of type 'TicketType[]'
    */
   export type ListEnumTicketTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TicketState'
+   */
+  export type EnumTicketStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketState'>
+    
+
+
+  /**
+   * Reference to a field of type 'TicketState[]'
+   */
+  export type ListEnumTicketStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketState[]'>
     
 
 
@@ -9173,6 +9282,7 @@ export namespace Prisma {
     id?: DecimalFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
     guild?: StringFilter<"TicketSetting"> | string
     active?: BoolFilter<"TicketSetting"> | boolean
+    logMode?: EnumTicketLogModeFilter<"TicketSetting"> | $Enums.TicketLogMode
     logChannels?: StringNullableListFilter<"TicketSetting">
     appliedTags?: StringNullableListFilter<"TicketSetting">
     archiveCategory?: StringNullableFilter<"TicketSetting"> | string | null
@@ -9181,6 +9291,7 @@ export namespace Prisma {
     channel?: StringNullableFilter<"TicketSetting"> | string | null
     category?: StringNullableFilter<"TicketSetting"> | string | null
     sendMessagePrefixes?: StringNullableListFilter<"TicketSetting">
+    allowCreatorClose?: BoolFilter<"TicketSetting"> | boolean
     mentionRoles?: StringNullableListFilter<"TicketSetting">
     mentionUsers?: StringNullableListFilter<"TicketSetting">
     denyUsers?: StringNullableListFilter<"TicketSetting">
@@ -9192,6 +9303,7 @@ export namespace Prisma {
     id?: SortOrder
     guild?: SortOrder
     active?: SortOrder
+    logMode?: SortOrder
     logChannels?: SortOrder
     appliedTags?: SortOrder
     archiveCategory?: SortOrderInput | SortOrder
@@ -9200,6 +9312,7 @@ export namespace Prisma {
     channel?: SortOrderInput | SortOrder
     category?: SortOrderInput | SortOrder
     sendMessagePrefixes?: SortOrder
+    allowCreatorClose?: SortOrder
     mentionRoles?: SortOrder
     mentionUsers?: SortOrder
     denyUsers?: SortOrder
@@ -9214,6 +9327,7 @@ export namespace Prisma {
     NOT?: TicketSettingWhereInput | TicketSettingWhereInput[]
     guild?: StringFilter<"TicketSetting"> | string
     active?: BoolFilter<"TicketSetting"> | boolean
+    logMode?: EnumTicketLogModeFilter<"TicketSetting"> | $Enums.TicketLogMode
     logChannels?: StringNullableListFilter<"TicketSetting">
     appliedTags?: StringNullableListFilter<"TicketSetting">
     archiveCategory?: StringNullableFilter<"TicketSetting"> | string | null
@@ -9222,6 +9336,7 @@ export namespace Prisma {
     channel?: StringNullableFilter<"TicketSetting"> | string | null
     category?: StringNullableFilter<"TicketSetting"> | string | null
     sendMessagePrefixes?: StringNullableListFilter<"TicketSetting">
+    allowCreatorClose?: BoolFilter<"TicketSetting"> | boolean
     mentionRoles?: StringNullableListFilter<"TicketSetting">
     mentionUsers?: StringNullableListFilter<"TicketSetting">
     denyUsers?: StringNullableListFilter<"TicketSetting">
@@ -9233,6 +9348,7 @@ export namespace Prisma {
     id?: SortOrder
     guild?: SortOrder
     active?: SortOrder
+    logMode?: SortOrder
     logChannels?: SortOrder
     appliedTags?: SortOrder
     archiveCategory?: SortOrderInput | SortOrder
@@ -9241,6 +9357,7 @@ export namespace Prisma {
     channel?: SortOrderInput | SortOrder
     category?: SortOrderInput | SortOrder
     sendMessagePrefixes?: SortOrder
+    allowCreatorClose?: SortOrder
     mentionRoles?: SortOrder
     mentionUsers?: SortOrder
     denyUsers?: SortOrder
@@ -9259,6 +9376,7 @@ export namespace Prisma {
     id?: DecimalWithAggregatesFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
     guild?: StringWithAggregatesFilter<"TicketSetting"> | string
     active?: BoolWithAggregatesFilter<"TicketSetting"> | boolean
+    logMode?: EnumTicketLogModeWithAggregatesFilter<"TicketSetting"> | $Enums.TicketLogMode
     logChannels?: StringNullableListFilter<"TicketSetting">
     appliedTags?: StringNullableListFilter<"TicketSetting">
     archiveCategory?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
@@ -9267,6 +9385,7 @@ export namespace Prisma {
     channel?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
     category?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
     sendMessagePrefixes?: StringNullableListFilter<"TicketSetting">
+    allowCreatorClose?: BoolWithAggregatesFilter<"TicketSetting"> | boolean
     mentionRoles?: StringNullableListFilter<"TicketSetting">
     mentionUsers?: StringNullableListFilter<"TicketSetting">
     denyUsers?: StringNullableListFilter<"TicketSetting">
@@ -9279,39 +9398,47 @@ export namespace Prisma {
     NOT?: TicketWhereInput | TicketWhereInput[]
     id?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
     dm?: StringNullableFilter<"Ticket"> | string | null
+    starterDm?: StringNullableFilter<"Ticket"> | string | null
     user?: StringFilter<"Ticket"> | string
     channel?: StringFilter<"Ticket"> | string
     settingsId?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateFilter<"Ticket"> | $Enums.TicketState
     settings?: XOR<TicketSettingScalarRelationFilter, TicketSettingWhereInput>
   }
 
   export type TicketOrderByWithRelationInput = {
     id?: SortOrder
     dm?: SortOrderInput | SortOrder
+    starterDm?: SortOrderInput | SortOrder
     user?: SortOrder
     channel?: SortOrder
     settingsId?: SortOrder
+    state?: SortOrder
     settings?: TicketSettingOrderByWithRelationInput
   }
 
   export type TicketWhereUniqueInput = Prisma.AtLeast<{
     id?: Decimal | DecimalJsLike | number | string
-    user?: string
+    dm?: string
+    starterDm?: string
     channel?: string
     AND?: TicketWhereInput | TicketWhereInput[]
     OR?: TicketWhereInput[]
     NOT?: TicketWhereInput | TicketWhereInput[]
-    dm?: StringNullableFilter<"Ticket"> | string | null
+    user?: StringFilter<"Ticket"> | string
     settingsId?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateFilter<"Ticket"> | $Enums.TicketState
     settings?: XOR<TicketSettingScalarRelationFilter, TicketSettingWhereInput>
-  }, "id" | "user" | "channel">
+  }, "id" | "dm" | "starterDm" | "channel">
 
   export type TicketOrderByWithAggregationInput = {
     id?: SortOrder
     dm?: SortOrderInput | SortOrder
+    starterDm?: SortOrderInput | SortOrder
     user?: SortOrder
     channel?: SortOrder
     settingsId?: SortOrder
+    state?: SortOrder
     _count?: TicketCountOrderByAggregateInput
     _avg?: TicketAvgOrderByAggregateInput
     _max?: TicketMaxOrderByAggregateInput
@@ -9325,9 +9452,11 @@ export namespace Prisma {
     NOT?: TicketScalarWhereWithAggregatesInput | TicketScalarWhereWithAggregatesInput[]
     id?: DecimalWithAggregatesFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
     dm?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    starterDm?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     user?: StringWithAggregatesFilter<"Ticket"> | string
     channel?: StringWithAggregatesFilter<"Ticket"> | string
     settingsId?: DecimalWithAggregatesFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateWithAggregatesFilter<"Ticket"> | $Enums.TicketState
   }
 
   export type GuildSettingWhereInput = {
@@ -9617,6 +9746,7 @@ export namespace Prisma {
     id: Decimal | DecimalJsLike | number | string
     guild: string
     active?: boolean
+    logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
     appliedTags?: TicketSettingCreateappliedTagsInput | string[]
     archiveCategory?: string | null
@@ -9625,6 +9755,7 @@ export namespace Prisma {
     channel?: string | null
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: boolean
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     denyUsers?: TicketSettingCreatedenyUsersInput | string[]
@@ -9636,6 +9767,7 @@ export namespace Prisma {
     id: Decimal | DecimalJsLike | number | string
     guild: string
     active?: boolean
+    logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
     appliedTags?: TicketSettingCreateappliedTagsInput | string[]
     archiveCategory?: string | null
@@ -9644,6 +9776,7 @@ export namespace Prisma {
     channel?: string | null
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: boolean
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     denyUsers?: TicketSettingCreatedenyUsersInput | string[]
@@ -9655,6 +9788,7 @@ export namespace Prisma {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     guild?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
     appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9663,6 +9797,7 @@ export namespace Prisma {
     channel?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     denyUsers?: TicketSettingUpdatedenyUsersInput | string[]
@@ -9674,6 +9809,7 @@ export namespace Prisma {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     guild?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
     appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9682,6 +9818,7 @@ export namespace Prisma {
     channel?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     denyUsers?: TicketSettingUpdatedenyUsersInput | string[]
@@ -9693,6 +9830,7 @@ export namespace Prisma {
     id: Decimal | DecimalJsLike | number | string
     guild: string
     active?: boolean
+    logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
     appliedTags?: TicketSettingCreateappliedTagsInput | string[]
     archiveCategory?: string | null
@@ -9701,6 +9839,7 @@ export namespace Prisma {
     channel?: string | null
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: boolean
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     denyUsers?: TicketSettingCreatedenyUsersInput | string[]
@@ -9711,6 +9850,7 @@ export namespace Prisma {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     guild?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
     appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9719,6 +9859,7 @@ export namespace Prisma {
     channel?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     denyUsers?: TicketSettingUpdatedenyUsersInput | string[]
@@ -9729,6 +9870,7 @@ export namespace Prisma {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     guild?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
     appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9737,6 +9879,7 @@ export namespace Prisma {
     channel?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     denyUsers?: TicketSettingUpdatedenyUsersInput | string[]
@@ -9746,56 +9889,70 @@ export namespace Prisma {
   export type TicketCreateInput = {
     id: Decimal | DecimalJsLike | number | string
     dm?: string | null
+    starterDm?: string | null
     user: string
     channel: string
+    state?: $Enums.TicketState
     settings: TicketSettingCreateNestedOneWithoutTicketInput
   }
 
   export type TicketUncheckedCreateInput = {
     id: Decimal | DecimalJsLike | number | string
     dm?: string | null
+    starterDm?: string | null
     user: string
     channel: string
     settingsId: Decimal | DecimalJsLike | number | string
+    state?: $Enums.TicketState
   }
 
   export type TicketUpdateInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dm?: NullableStringFieldUpdateOperationsInput | string | null
+    starterDm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
+    state?: EnumTicketStateFieldUpdateOperationsInput | $Enums.TicketState
     settings?: TicketSettingUpdateOneRequiredWithoutTicketNestedInput
   }
 
   export type TicketUncheckedUpdateInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dm?: NullableStringFieldUpdateOperationsInput | string | null
+    starterDm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
     settingsId?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateFieldUpdateOperationsInput | $Enums.TicketState
   }
 
   export type TicketCreateManyInput = {
     id: Decimal | DecimalJsLike | number | string
     dm?: string | null
+    starterDm?: string | null
     user: string
     channel: string
     settingsId: Decimal | DecimalJsLike | number | string
+    state?: $Enums.TicketState
   }
 
   export type TicketUpdateManyMutationInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dm?: NullableStringFieldUpdateOperationsInput | string | null
+    starterDm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
+    state?: EnumTicketStateFieldUpdateOperationsInput | $Enums.TicketState
   }
 
   export type TicketUncheckedUpdateManyInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dm?: NullableStringFieldUpdateOperationsInput | string | null
+    starterDm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
     settingsId?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateFieldUpdateOperationsInput | $Enums.TicketState
   }
 
   export type GuildSettingCreateInput = {
@@ -10130,6 +10287,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type EnumTicketLogModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketLogMode | EnumTicketLogModeFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketLogMode[] | ListEnumTicketLogModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketLogMode[] | ListEnumTicketLogModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketLogModeFilter<$PrismaModel> | $Enums.TicketLogMode
+  }
+
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -10179,6 +10343,7 @@ export namespace Prisma {
     id?: SortOrder
     guild?: SortOrder
     active?: SortOrder
+    logMode?: SortOrder
     logChannels?: SortOrder
     appliedTags?: SortOrder
     archiveCategory?: SortOrder
@@ -10187,6 +10352,7 @@ export namespace Prisma {
     channel?: SortOrder
     category?: SortOrder
     sendMessagePrefixes?: SortOrder
+    allowCreatorClose?: SortOrder
     mentionRoles?: SortOrder
     mentionUsers?: SortOrder
     denyUsers?: SortOrder
@@ -10202,22 +10368,26 @@ export namespace Prisma {
     id?: SortOrder
     guild?: SortOrder
     active?: SortOrder
+    logMode?: SortOrder
     archiveCategory?: SortOrder
     archiveDuration?: SortOrder
     type?: SortOrder
     channel?: SortOrder
     category?: SortOrder
+    allowCreatorClose?: SortOrder
   }
 
   export type TicketSettingMinOrderByAggregateInput = {
     id?: SortOrder
     guild?: SortOrder
     active?: SortOrder
+    logMode?: SortOrder
     archiveCategory?: SortOrder
     archiveDuration?: SortOrder
     type?: SortOrder
     channel?: SortOrder
     category?: SortOrder
+    allowCreatorClose?: SortOrder
   }
 
   export type TicketSettingSumOrderByAggregateInput = {
@@ -10267,6 +10437,16 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type EnumTicketLogModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketLogMode | EnumTicketLogModeFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketLogMode[] | ListEnumTicketLogModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketLogMode[] | ListEnumTicketLogModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketLogModeWithAggregatesFilter<$PrismaModel> | $Enums.TicketLogMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTicketLogModeFilter<$PrismaModel>
+    _max?: NestedEnumTicketLogModeFilter<$PrismaModel>
+  }
+
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -10295,6 +10475,13 @@ export namespace Prisma {
     _max?: NestedEnumTicketTypeFilter<$PrismaModel>
   }
 
+  export type EnumTicketStateFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketState | EnumTicketStateFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketState[] | ListEnumTicketStateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketState[] | ListEnumTicketStateFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketStateFilter<$PrismaModel> | $Enums.TicketState
+  }
+
   export type TicketSettingScalarRelationFilter = {
     is?: TicketSettingWhereInput
     isNot?: TicketSettingWhereInput
@@ -10303,9 +10490,11 @@ export namespace Prisma {
   export type TicketCountOrderByAggregateInput = {
     id?: SortOrder
     dm?: SortOrder
+    starterDm?: SortOrder
     user?: SortOrder
     channel?: SortOrder
     settingsId?: SortOrder
+    state?: SortOrder
   }
 
   export type TicketAvgOrderByAggregateInput = {
@@ -10316,22 +10505,36 @@ export namespace Prisma {
   export type TicketMaxOrderByAggregateInput = {
     id?: SortOrder
     dm?: SortOrder
+    starterDm?: SortOrder
     user?: SortOrder
     channel?: SortOrder
     settingsId?: SortOrder
+    state?: SortOrder
   }
 
   export type TicketMinOrderByAggregateInput = {
     id?: SortOrder
     dm?: SortOrder
+    starterDm?: SortOrder
     user?: SortOrder
     channel?: SortOrder
     settingsId?: SortOrder
+    state?: SortOrder
   }
 
   export type TicketSumOrderByAggregateInput = {
     id?: SortOrder
     settingsId?: SortOrder
+  }
+
+  export type EnumTicketStateWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketState | EnumTicketStateFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketState[] | ListEnumTicketStateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketState[] | ListEnumTicketStateFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketStateWithAggregatesFilter<$PrismaModel> | $Enums.TicketState
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTicketStateFilter<$PrismaModel>
+    _max?: NestedEnumTicketStateFilter<$PrismaModel>
   }
 
   export type DecimalNullableFilter<$PrismaModel = never> = {
@@ -10630,6 +10833,10 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type EnumTicketLogModeFieldUpdateOperationsInput = {
+    set?: $Enums.TicketLogMode
+  }
+
   export type TicketSettingUpdatelogChannelsInput = {
     set?: string[]
     push?: string | string[]
@@ -10707,6 +10914,10 @@ export namespace Prisma {
     connect?: TicketSettingWhereUniqueInput
   }
 
+  export type EnumTicketStateFieldUpdateOperationsInput = {
+    set?: $Enums.TicketState
+  }
+
   export type TicketSettingUpdateOneRequiredWithoutTicketNestedInput = {
     create?: XOR<TicketSettingCreateWithoutTicketInput, TicketSettingUncheckedCreateWithoutTicketInput>
     connectOrCreate?: TicketSettingCreateOrConnectWithoutTicketInput
@@ -10763,6 +10974,13 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedEnumTicketLogModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketLogMode | EnumTicketLogModeFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketLogMode[] | ListEnumTicketLogModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketLogMode[] | ListEnumTicketLogModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketLogModeFilter<$PrismaModel> | $Enums.TicketLogMode
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -10838,6 +11056,16 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedEnumTicketLogModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketLogMode | EnumTicketLogModeFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketLogMode[] | ListEnumTicketLogModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketLogMode[] | ListEnumTicketLogModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketLogModeWithAggregatesFilter<$PrismaModel> | $Enums.TicketLogMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTicketLogModeFilter<$PrismaModel>
+    _max?: NestedEnumTicketLogModeFilter<$PrismaModel>
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -10874,6 +11102,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTicketTypeFilter<$PrismaModel>
     _max?: NestedEnumTicketTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTicketStateFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketState | EnumTicketStateFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketState[] | ListEnumTicketStateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketState[] | ListEnumTicketStateFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketStateFilter<$PrismaModel> | $Enums.TicketState
+  }
+
+  export type NestedEnumTicketStateWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TicketState | EnumTicketStateFieldRefInput<$PrismaModel>
+    in?: $Enums.TicketState[] | ListEnumTicketStateFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TicketState[] | ListEnumTicketStateFieldRefInput<$PrismaModel>
+    not?: NestedEnumTicketStateWithAggregatesFilter<$PrismaModel> | $Enums.TicketState
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTicketStateFilter<$PrismaModel>
+    _max?: NestedEnumTicketStateFilter<$PrismaModel>
   }
 
   export type NestedDecimalNullableFilter<$PrismaModel = never> = {
@@ -10950,15 +11195,19 @@ export namespace Prisma {
   export type TicketCreateWithoutSettingsInput = {
     id: Decimal | DecimalJsLike | number | string
     dm?: string | null
+    starterDm?: string | null
     user: string
     channel: string
+    state?: $Enums.TicketState
   }
 
   export type TicketUncheckedCreateWithoutSettingsInput = {
     id: Decimal | DecimalJsLike | number | string
     dm?: string | null
+    starterDm?: string | null
     user: string
     channel: string
+    state?: $Enums.TicketState
   }
 
   export type TicketCreateOrConnectWithoutSettingsInput = {
@@ -10993,15 +11242,18 @@ export namespace Prisma {
     NOT?: TicketScalarWhereInput | TicketScalarWhereInput[]
     id?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
     dm?: StringNullableFilter<"Ticket"> | string | null
+    starterDm?: StringNullableFilter<"Ticket"> | string | null
     user?: StringFilter<"Ticket"> | string
     channel?: StringFilter<"Ticket"> | string
     settingsId?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateFilter<"Ticket"> | $Enums.TicketState
   }
 
   export type TicketSettingCreateWithoutTicketInput = {
     id: Decimal | DecimalJsLike | number | string
     guild: string
     active?: boolean
+    logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
     appliedTags?: TicketSettingCreateappliedTagsInput | string[]
     archiveCategory?: string | null
@@ -11010,6 +11262,7 @@ export namespace Prisma {
     channel?: string | null
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: boolean
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     denyUsers?: TicketSettingCreatedenyUsersInput | string[]
@@ -11020,6 +11273,7 @@ export namespace Prisma {
     id: Decimal | DecimalJsLike | number | string
     guild: string
     active?: boolean
+    logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
     appliedTags?: TicketSettingCreateappliedTagsInput | string[]
     archiveCategory?: string | null
@@ -11028,6 +11282,7 @@ export namespace Prisma {
     channel?: string | null
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: boolean
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     denyUsers?: TicketSettingCreatedenyUsersInput | string[]
@@ -11054,6 +11309,7 @@ export namespace Prisma {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     guild?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
     appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11062,6 +11318,7 @@ export namespace Prisma {
     channel?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     denyUsers?: TicketSettingUpdatedenyUsersInput | string[]
@@ -11072,6 +11329,7 @@ export namespace Prisma {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     guild?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
     appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11080,6 +11338,7 @@ export namespace Prisma {
     channel?: NullableStringFieldUpdateOperationsInput | string | null
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
+    allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     denyUsers?: TicketSettingUpdatedenyUsersInput | string[]
@@ -11089,29 +11348,37 @@ export namespace Prisma {
   export type TicketCreateManySettingsInput = {
     id: Decimal | DecimalJsLike | number | string
     dm?: string | null
+    starterDm?: string | null
     user: string
     channel: string
+    state?: $Enums.TicketState
   }
 
   export type TicketUpdateWithoutSettingsInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dm?: NullableStringFieldUpdateOperationsInput | string | null
+    starterDm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
+    state?: EnumTicketStateFieldUpdateOperationsInput | $Enums.TicketState
   }
 
   export type TicketUncheckedUpdateWithoutSettingsInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dm?: NullableStringFieldUpdateOperationsInput | string | null
+    starterDm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
+    state?: EnumTicketStateFieldUpdateOperationsInput | $Enums.TicketState
   }
 
   export type TicketUncheckedUpdateManyWithoutSettingsInput = {
     id?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     dm?: NullableStringFieldUpdateOperationsInput | string | null
+    starterDm?: NullableStringFieldUpdateOperationsInput | string | null
     user?: StringFieldUpdateOperationsInput | string
     channel?: StringFieldUpdateOperationsInput | string
+    state?: EnumTicketStateFieldUpdateOperationsInput | $Enums.TicketState
   }
 
 

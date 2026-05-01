@@ -20,9 +20,11 @@ model TicketSetting {
   guild  String  @db.VarChar
   active Boolean @default(false)
 
+  // Decides whether to create threads in text-channels that support log creation
+  logMode     TicketLogMode @default(Channel)
   // Text Channel or Forum Channel
-  logChannels String[] @db.VarChar
-  appliedTags String[] @db.VarChar
+  logChannels String[]      @db.VarChar
+  appliedTags String[]      @db.VarChar
 
   // Only if type is dmToChannel or Channel
   archiveCategory String? @db.VarChar
@@ -36,6 +38,9 @@ model TicketSetting {
   // Only need on dmToThread & dmToChannel
   sendMessagePrefixes String[]   @db.Text
 
+  // Only need on Thread & Channel
+  allowCreatorClose Boolean @default(false)
+
   mentionRoles String[] @db.VarChar
   mentionUsers String[] @db.VarChar
 
@@ -48,11 +53,13 @@ model TicketSetting {
 }
 
 model Ticket {
-  id         Decimal @id @db.Decimal
-  dm         String? @db.VarChar
-  user       String  @unique @db.VarChar
-  channel    String  @unique @db.VarChar
-  settingsId Decimal @db.Decimal
+  id         Decimal     @id @db.Decimal
+  dm         String?     @unique @db.VarChar
+  starterDm  String?     @unique @db.VarChar
+  user       String      @db.VarChar
+  channel    String      @unique @db.VarChar
+  settingsId Decimal     @db.Decimal
+  state      TicketState @default(opened)
 
   settings TicketSetting @relation(fields: [settingsId], references: [id])
 
@@ -60,11 +67,22 @@ model Ticket {
   @@index(channel)
 }
 
+enum TicketState {
+  opened
+  closed
+  claimed
+}
+
 enum TicketType {
   dmToThread
   dmToChannel
   Thread
   Channel
+}
+
+enum TicketLogMode {
+  Channel
+  Thread
 }
 
 model GuildSetting {
