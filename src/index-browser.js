@@ -120,24 +120,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.GuildSettingScalarFieldEnum = {
-  guildId: 'guildId',
-  prefix: 'prefix',
-  interactionsMode: 'interactionsMode',
-  language: 'language',
-  errorChannel: 'errorChannel',
-  rpEnabled: 'rpEnabled',
-  rpEnableRuns: 'rpEnableRuns',
-  lastRpSyncRun: 'lastRpSyncRun',
-  ptReminderEnabled: 'ptReminderEnabled',
-  legacyRp: 'legacyRp',
-  editRpCommands: 'editRpCommands',
-  enableInvitesAt: 'enableInvitesAt',
-  statusChannel: 'statusChannel',
-  updatesChannel: 'updatesChannel',
-  notifyChannel: 'notifyChannel'
-};
-
 exports.Prisma.FilteredWordScalarFieldEnum = {
   keyword: 'keyword',
   filterType: 'filterType'
@@ -173,6 +155,24 @@ exports.Prisma.TicketScalarFieldEnum = {
   channel: 'channel',
   settingsId: 'settingsId',
   state: 'state'
+};
+
+exports.Prisma.GuildSettingScalarFieldEnum = {
+  guildId: 'guildId',
+  prefix: 'prefix',
+  interactionsMode: 'interactionsMode',
+  language: 'language',
+  errorChannel: 'errorChannel',
+  rpEnabled: 'rpEnabled',
+  rpEnableRuns: 'rpEnableRuns',
+  lastRpSyncRun: 'lastRpSyncRun',
+  ptReminderEnabled: 'ptReminderEnabled',
+  legacyRp: 'legacyRp',
+  editRpCommands: 'editRpCommands',
+  enableInvitesAt: 'enableInvitesAt',
+  statusChannel: 'statusChannel',
+  updatesChannel: 'updatesChannel',
+  notifyChannel: 'notifyChannel'
 };
 
 exports.Prisma.CustomClientScalarFieldEnum = {
@@ -235,10 +235,10 @@ exports.TicketState = exports.$Enums.TicketState = {
 };
 
 exports.Prisma.ModelName = {
-  GuildSetting: 'GuildSetting',
   FilteredWord: 'FilteredWord',
   TicketSetting: 'TicketSetting',
   Ticket: 'Ticket',
+  GuildSetting: 'GuildSetting',
   CustomClient: 'CustomClient',
   AfkState: 'AfkState',
   AfkSetting: 'AfkSetting'
