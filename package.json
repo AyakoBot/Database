@@ -16,7 +16,8 @@
     "generate": "pnpx prisma@7.6.0 generate",
     "gather": "pnpx tsx generator.ts",
     "format": "pnpx prisma format",
-    "build": "pnpm gather && pnpm generate && pnpm format && pnpm compile"
+    "build": "pnpm gather && pnpm generate && pnpm format && pnpm compile",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@prisma/client": "^7.6.0",
@@ -35,7 +36,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-import-x": "^4.16.2",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
     "prettier": "^3.8.1",
