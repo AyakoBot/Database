@@ -1,14 +1,19 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import prettier from 'eslint-config-prettier';
-import importPlugin from 'eslint-plugin-import';
+import importPlugin from 'eslint-plugin-import-x';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
+const dir = dirname(fileURLToPath(import.meta.url));
+
 export default defineConfig(
  {
-  ignores: ['dist/**', 'node_modules/**', '**/*.js', '!eslint.config.js'],
+  ignores: ['dist/**', 'node_modules/**', 'src/**', '**/*.js', '!eslint.config.js'],
  },
  js.configs.recommended,
  tseslint.configs.recommended,
@@ -19,14 +24,15 @@ export default defineConfig(
    parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2020,
+    tsconfigRootDir: dir,
    },
    globals: { ...globals.node },
   },
   plugins: {
-   import: importPlugin,
+   'import-x': importPlugin,
   },
   settings: {
-   'import/resolver': {
+   'import-x/resolver': {
     node: {
      extensions: ['.js', '.mjs', '.cjs'],
     },
@@ -146,10 +152,10 @@ export default defineConfig(
    ],
 
    // Import rules
-   'import/first': 'error',
-   'import/no-mutable-exports': 'error',
-   'import/prefer-default-export': 'off',
-   'import/order': [
+   'import-x/first': 'error',
+   'import-x/no-mutable-exports': 'error',
+   'import-x/prefer-default-export': 'off',
+   'import-x/order': [
     'error',
     {
      groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
@@ -160,8 +166,8 @@ export default defineConfig(
      },
     },
    ],
-   'import/newline-after-import': 'error',
-   'import/extensions': [
+   'import-x/newline-after-import': 'error',
+   'import-x/extensions': [
     'error',
     'always',
     {
