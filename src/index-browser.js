@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.6.0
- * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+ * Prisma Client JS version: 7.8.0
+ * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
  */
 Prisma.prismaVersion = {
-  client: "7.6.0",
-  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
+  client: "7.8.0",
+  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -120,18 +120,17 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.FilteredWordScalarFieldEnum = {
-  keyword: 'keyword',
-  filterType: 'filterType'
-};
-
 exports.Prisma.TicketSettingScalarFieldEnum = {
   id: 'id',
   guild: 'guild',
   active: 'active',
   logMode: 'logMode',
   logChannels: 'logChannels',
-  appliedTags: 'appliedTags',
+  createTags: 'createTags',
+  claimTags: 'claimTags',
+  closeTags: 'closeTags',
+  tagClaimer: 'tagClaimer',
+  transcriptChannels: 'transcriptChannels',
   archiveCategory: 'archiveCategory',
   archiveDuration: 'archiveDuration',
   type: 'type',
@@ -139,6 +138,8 @@ exports.Prisma.TicketSettingScalarFieldEnum = {
   category: 'category',
   sendMessagePrefixes: 'sendMessagePrefixes',
   allowCreatorClose: 'allowCreatorClose',
+  staffThreads: 'staffThreads',
+  staffThreadsChannel: 'staffThreadsChannel',
   mentionRoles: 'mentionRoles',
   mentionUsers: 'mentionUsers',
   staffRoles: 'staffRoles',
@@ -175,12 +176,9 @@ exports.Prisma.GuildSettingScalarFieldEnum = {
   notifyChannel: 'notifyChannel'
 };
 
-exports.Prisma.CustomClientScalarFieldEnum = {
-  guildId: 'guildId',
-  appId: 'appId',
-  token: 'token',
-  publicKey: 'publicKey',
-  secret: 'secret'
+exports.Prisma.FilteredWordScalarFieldEnum = {
+  keyword: 'keyword',
+  filterType: 'filterType'
 };
 
 exports.Prisma.AfkStateScalarFieldEnum = {
@@ -193,6 +191,14 @@ exports.Prisma.AfkStateScalarFieldEnum = {
 exports.Prisma.AfkSettingScalarFieldEnum = {
   guildId: 'guildId',
   maxLetters: 'maxLetters'
+};
+
+exports.Prisma.CustomClientScalarFieldEnum = {
+  guildId: 'guildId',
+  appId: 'appId',
+  token: 'token',
+  publicKey: 'publicKey',
+  secret: 'secret'
 };
 
 exports.Prisma.SortOrder = {
@@ -209,12 +215,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.FilterType = exports.$Enums.FilterType = {
-  Profanity: 'Profanity',
-  SexualContent: 'SexualContent',
-  Slurs: 'Slurs'
-};
-
 exports.TicketLogMode = exports.$Enums.TicketLogMode = {
   Channel: 'Channel',
   Thread: 'Thread'
@@ -231,17 +231,24 @@ exports.TicketState = exports.$Enums.TicketState = {
   opened: 'opened',
   closed: 'closed',
   claimed: 'claimed',
-  prepared: 'prepared'
+  prepared: 'prepared',
+  deleted: 'deleted'
+};
+
+exports.FilterType = exports.$Enums.FilterType = {
+  Profanity: 'Profanity',
+  SexualContent: 'SexualContent',
+  Slurs: 'Slurs'
 };
 
 exports.Prisma.ModelName = {
-  FilteredWord: 'FilteredWord',
   TicketSetting: 'TicketSetting',
   Ticket: 'Ticket',
   GuildSetting: 'GuildSetting',
-  CustomClient: 'CustomClient',
+  FilteredWord: 'FilteredWord',
   AfkState: 'AfkState',
-  AfkSetting: 'AfkSetting'
+  AfkSetting: 'AfkSetting',
+  CustomClient: 'CustomClient'
 };
 
 /**

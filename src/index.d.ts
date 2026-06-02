@@ -4,7 +4,6 @@
 **/
 
 import * as runtime from './runtime/client.js';
-
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -13,62 +12,57 @@ import $Result = runtime.Types.Result
 
 export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
-/**
- * Model FilteredWord
- *
- */
-export type FilteredWord = $Result.DefaultSelection<Prisma.$FilteredWordPayload>
+
 /**
  * Model TicketSetting
- *
+ * 
  */
 export type TicketSetting = $Result.DefaultSelection<Prisma.$TicketSettingPayload>
 /**
  * Model Ticket
- *
+ * 
  */
 export type Ticket = $Result.DefaultSelection<Prisma.$TicketPayload>
 /**
  * Model GuildSetting
- *
+ * 
  */
 export type GuildSetting = $Result.DefaultSelection<Prisma.$GuildSettingPayload>
 /**
- * Model CustomClient
- *
+ * Model FilteredWord
+ * 
  */
-export type CustomClient = $Result.DefaultSelection<Prisma.$CustomClientPayload>
+export type FilteredWord = $Result.DefaultSelection<Prisma.$FilteredWordPayload>
 /**
  * Model AfkState
- *
+ * 
  */
 export type AfkState = $Result.DefaultSelection<Prisma.$AfkStatePayload>
 /**
  * Model AfkSetting
- *
+ * 
  */
 export type AfkSetting = $Result.DefaultSelection<Prisma.$AfkSettingPayload>
+/**
+ * Model CustomClient
+ * 
+ */
+export type CustomClient = $Result.DefaultSelection<Prisma.$CustomClientPayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const FilterType: {
-  Profanity: 'Profanity',
-  SexualContent: 'SexualContent',
-  Slurs: 'Slurs'
-};
-
-export type FilterType = (typeof FilterType)[keyof typeof FilterType]
-
-export const TicketState: {
+  export const TicketState: {
   opened: 'opened',
   closed: 'closed',
   claimed: 'claimed',
-  prepared: 'prepared'
+  prepared: 'prepared',
+  deleted: 'deleted'
 };
 
 export type TicketState = (typeof TicketState)[keyof typeof TicketState]
+
 
 export const TicketType: {
   dmToThread: 'dmToThread',
@@ -79,6 +73,7 @@ export const TicketType: {
 
 export type TicketType = (typeof TicketType)[keyof typeof TicketType]
 
+
 export const TicketLogMode: {
   Channel: 'Channel',
   Thread: 'Thread'
@@ -86,23 +81,32 @@ export const TicketLogMode: {
 
 export type TicketLogMode = (typeof TicketLogMode)[keyof typeof TicketLogMode]
 
+
+export const FilterType: {
+  Profanity: 'Profanity',
+  SexualContent: 'SexualContent',
+  Slurs: 'Slurs'
+};
+
+export type FilterType = (typeof FilterType)[keyof typeof FilterType]
+
 }
-
-export type FilterType = $Enums.FilterType
-
-export const FilterType: typeof $Enums.FilterType;
 
 export type TicketState = $Enums.TicketState
 
-export const TicketState: typeof $Enums.TicketState;
+export const TicketState: typeof $Enums.TicketState
 
 export type TicketType = $Enums.TicketType
 
-export const TicketType: typeof $Enums.TicketType;
+export const TicketType: typeof $Enums.TicketType
 
 export type TicketLogMode = $Enums.TicketLogMode
 
-export const TicketLogMode: typeof $Enums.TicketLogMode;
+export const TicketLogMode: typeof $Enums.TicketLogMode
+
+export type FilterType = $Enums.FilterType
+
+export const FilterType: typeof $Enums.FilterType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -113,8 +117,8 @@ export const TicketLogMode: typeof $Enums.TicketLogMode;
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more FilteredWords
- * const filteredWords = await prisma.filteredWord.findMany()
+ * // Fetch zero or more TicketSettings
+ * const ticketSettings = await prisma.ticketSetting.findMany()
  * ```
  *
  *
@@ -127,7 +131,7 @@ export class PrismaClient<
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
 
-  /**
+    /**
    * ##  Prisma Client ʲˢ
    *
    * Type-safe database client for TypeScript & Node.js
@@ -136,8 +140,8 @@ export class PrismaClient<
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more FilteredWords
-   * const filteredWords = await prisma.filteredWord.findMany()
+   * // Fetch zero or more TicketSettings
+   * const ticketSettings = await prisma.ticketSetting.findMany()
    * ```
    *
    *
@@ -157,7 +161,7 @@ export class PrismaClient<
    */
   $disconnect(): $Utils.JsPromise<void>;
 
-  /**
+/**
    * Executes a prepared raw query and returns the number of affected rows.
    * @example
    * ```
@@ -203,6 +207,7 @@ export class PrismaClient<
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
+
   /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
    * @example
@@ -213,28 +218,18 @@ export class PrismaClient<
    *   prisma.user.create({ data: { name: 'Alice' } }),
    * ])
    * ```
-   *
+   * 
    * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
 
-  $extends: $Extensions.ExtendsHook<'extends', Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
+  $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
     extArgs: ExtArgs
-  }>>;
+  }>>
 
-  /**
-   * `prisma.filteredWord`: Exposes CRUD operations for the **FilteredWord** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more FilteredWords
-    * const filteredWords = await prisma.filteredWord.findMany()
-    * ```
-    */
-  get filteredWord(): Prisma.FilteredWordDelegate<ExtArgs, ClientOptions>;
-
-  /**
+      /**
    * `prisma.ticketSetting`: Exposes CRUD operations for the **TicketSetting** model.
     * Example usage:
     * ```ts
@@ -265,14 +260,14 @@ export class PrismaClient<
   get guildSetting(): Prisma.GuildSettingDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.customClient`: Exposes CRUD operations for the **CustomClient** model.
+   * `prisma.filteredWord`: Exposes CRUD operations for the **FilteredWord** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more CustomClients
-    * const customClients = await prisma.customClient.findMany()
+    * // Fetch zero or more FilteredWords
+    * const filteredWords = await prisma.filteredWord.findMany()
     * ```
     */
-  get customClient(): Prisma.CustomClientDelegate<ExtArgs, ClientOptions>;
+  get filteredWord(): Prisma.FilteredWordDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.afkState`: Exposes CRUD operations for the **AfkState** model.
@@ -293,6 +288,16 @@ export class PrismaClient<
     * ```
     */
   get afkSetting(): Prisma.AfkSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.customClient`: Exposes CRUD operations for the **CustomClient** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CustomClients
+    * const customClients = await prisma.customClient.findMany()
+    * ```
+    */
+  get customClient(): Prisma.CustomClientDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -323,6 +328,8 @@ export namespace Prisma {
   export import raw = runtime.raw
   export import Sql = runtime.Sql
 
+
+
   /**
    * Decimal.js
    */
@@ -341,19 +348,20 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.6.0
-   * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+   * Prisma Client JS version: 7.8.0
+   * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
    */
   export type PrismaVersion = {
     client: string
     engine: string
   }
 
-  export const prismaVersion: PrismaVersion;
+  export const prismaVersion: PrismaVersion
 
   /**
    * Utility Types
    */
+
 
   export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
@@ -377,8 +385,8 @@ export namespace Prisma {
     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
     */
     class DbNull {
-     private DbNull: never;
-     private constructor()
+      private DbNull: never
+      private constructor()
     }
 
     /**
@@ -389,8 +397,8 @@ export namespace Prisma {
     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
     */
     class JsonNull {
-     private JsonNull: never;
-     private constructor()
+      private JsonNull: never
+      private constructor()
     }
 
     /**
@@ -401,8 +409,8 @@ export namespace Prisma {
     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
     */
     class AnyNull {
-     private AnyNull: never;
-     private constructor()
+      private AnyNull: never
+      private constructor()
     }
   }
 
@@ -411,21 +419,21 @@ export namespace Prisma {
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const DbNull: NullTypes.DbNull;
+  export const DbNull: NullTypes.DbNull
 
   /**
    * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const JsonNull: NullTypes.JsonNull;
+  export const JsonNull: NullTypes.JsonNull
 
   /**
    * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const AnyNull: NullTypes.AnyNull;
+  export const AnyNull: NullTypes.AnyNull
 
   type SelectAndInclude = {
     select: any
@@ -453,6 +461,7 @@ export namespace Prisma {
   type Prisma__Pick<T, K extends keyof T> = {
       [P in K]: T[P];
   };
+
 
   export type Enumerable<T> = T | Array<T>;
 
@@ -509,6 +518,7 @@ export namespace Prisma {
       (Without<T, U> & U) | (Without<U, T> & T)
     : U : T
 
+
   /**
    * Is T a Record?
    */
@@ -518,11 +528,12 @@ export namespace Prisma {
   ? False
   : T extends Uint8Array
   ? False
-  : T extends bigint
+  : T extends BigInt
   ? False
   : T extends object
   ? True
   : False
+
 
   /**
    * If it's T[], return T
@@ -664,6 +675,8 @@ export namespace Prisma {
 
   export const type: unique symbol;
 
+
+
   /**
    * Used by group by
    */
@@ -712,21 +725,25 @@ export namespace Prisma {
    */
   type ExcludeUnderscoreKeys<T extends string> = T extends `_${string}` ? never : T
 
+
   export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>
 
   type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>
 
+
   export const ModelName: {
-    FilteredWord: 'FilteredWord',
     TicketSetting: 'TicketSetting',
     Ticket: 'Ticket',
     GuildSetting: 'GuildSetting',
-    CustomClient: 'CustomClient',
+    FilteredWord: 'FilteredWord',
     AfkState: 'AfkState',
-    AfkSetting: 'AfkSetting'
+    AfkSetting: 'AfkSetting',
+    CustomClient: 'CustomClient'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
+
+
 
   interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
     returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
@@ -737,84 +754,10 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: 'filteredWord' | 'ticketSetting' | 'ticket' | 'guildSetting' | 'customClient' | 'afkState' | 'afkSetting'
+      modelProps: "ticketSetting" | "ticket" | "guildSetting" | "filteredWord" | "afkState" | "afkSetting" | "customClient"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      FilteredWord: {
-        payload: Prisma.$FilteredWordPayload<ExtArgs>
-        fields: Prisma.FilteredWordFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.FilteredWordFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.FilteredWordFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
-          }
-          findFirst: {
-            args: Prisma.FilteredWordFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.FilteredWordFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
-          }
-          findMany: {
-            args: Prisma.FilteredWordFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
-          }
-          create: {
-            args: Prisma.FilteredWordCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
-          }
-          createMany: {
-            args: Prisma.FilteredWordCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.FilteredWordCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
-          }
-          delete: {
-            args: Prisma.FilteredWordDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
-          }
-          update: {
-            args: Prisma.FilteredWordUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
-          }
-          deleteMany: {
-            args: Prisma.FilteredWordDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.FilteredWordUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.FilteredWordUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
-          }
-          upsert: {
-            args: Prisma.FilteredWordUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
-          }
-          aggregate: {
-            args: Prisma.FilteredWordAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateFilteredWord>
-          }
-          groupBy: {
-            args: Prisma.FilteredWordGroupByArgs<ExtArgs>
-            result: $Utils.Optional<FilteredWordGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.FilteredWordCountArgs<ExtArgs>
-            result: $Utils.Optional<FilteredWordCountAggregateOutputType> | number
-          }
-        }
-      }
       TicketSetting: {
         payload: Prisma.$TicketSettingPayload<ExtArgs>
         fields: Prisma.TicketSettingFieldRefs
@@ -1037,77 +980,77 @@ export namespace Prisma {
           }
         }
       }
-      CustomClient: {
-        payload: Prisma.$CustomClientPayload<ExtArgs>
-        fields: Prisma.CustomClientFieldRefs
+      FilteredWord: {
+        payload: Prisma.$FilteredWordPayload<ExtArgs>
+        fields: Prisma.FilteredWordFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.CustomClientFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload> | null
+            args: Prisma.FilteredWordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.CustomClientFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+            args: Prisma.FilteredWordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           findFirst: {
-            args: Prisma.CustomClientFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload> | null
+            args: Prisma.FilteredWordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.CustomClientFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+            args: Prisma.FilteredWordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           findMany: {
-            args: Prisma.CustomClientFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>[]
+            args: Prisma.FilteredWordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
           }
           create: {
-            args: Prisma.CustomClientCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+            args: Prisma.FilteredWordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           createMany: {
-            args: Prisma.CustomClientCreateManyArgs<ExtArgs>
+            args: Prisma.FilteredWordCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.CustomClientCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>[]
+            args: Prisma.FilteredWordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
           }
           delete: {
-            args: Prisma.CustomClientDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+            args: Prisma.FilteredWordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           update: {
-            args: Prisma.CustomClientUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+            args: Prisma.FilteredWordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           deleteMany: {
-            args: Prisma.CustomClientDeleteManyArgs<ExtArgs>
+            args: Prisma.FilteredWordDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.CustomClientUpdateManyArgs<ExtArgs>
+            args: Prisma.FilteredWordUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.CustomClientUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>[]
+            args: Prisma.FilteredWordUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>[]
           }
           upsert: {
-            args: Prisma.CustomClientUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+            args: Prisma.FilteredWordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilteredWordPayload>
           }
           aggregate: {
-            args: Prisma.CustomClientAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCustomClient>
+            args: Prisma.FilteredWordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFilteredWord>
           }
           groupBy: {
-            args: Prisma.CustomClientGroupByArgs<ExtArgs>
-            result: $Utils.Optional<CustomClientGroupByOutputType>[]
+            args: Prisma.FilteredWordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FilteredWordGroupByOutputType>[]
           }
           count: {
-            args: Prisma.CustomClientCountArgs<ExtArgs>
-            result: $Utils.Optional<CustomClientCountAggregateOutputType> | number
+            args: Prisma.FilteredWordCountArgs<ExtArgs>
+            result: $Utils.Optional<FilteredWordCountAggregateOutputType> | number
           }
         }
       }
@@ -1259,6 +1202,80 @@ export namespace Prisma {
           }
         }
       }
+      CustomClient: {
+        payload: Prisma.$CustomClientPayload<ExtArgs>
+        fields: Prisma.CustomClientFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CustomClientFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CustomClientFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+          }
+          findFirst: {
+            args: Prisma.CustomClientFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CustomClientFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+          }
+          findMany: {
+            args: Prisma.CustomClientFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>[]
+          }
+          create: {
+            args: Prisma.CustomClientCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+          }
+          createMany: {
+            args: Prisma.CustomClientCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CustomClientCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>[]
+          }
+          delete: {
+            args: Prisma.CustomClientDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+          }
+          update: {
+            args: Prisma.CustomClientUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+          }
+          deleteMany: {
+            args: Prisma.CustomClientDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CustomClientUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CustomClientUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>[]
+          }
+          upsert: {
+            args: Prisma.CustomClientUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CustomClientPayload>
+          }
+          aggregate: {
+            args: Prisma.CustomClientAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCustomClient>
+          }
+          groupBy: {
+            args: Prisma.CustomClientGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CustomClientGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CustomClientCountArgs<ExtArgs>
+            result: $Utils.Optional<CustomClientCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1283,7 +1300,7 @@ export namespace Prisma {
       }
     }
   }
-  export const defineExtension: $Extensions.ExtendsHook<'define', Prisma.TypeMapCb, $Extensions.DefaultArgs>;
+  export const defineExtension: $Extensions.ExtendsHook<"define", Prisma.TypeMapCb, $Extensions.DefaultArgs>
   export type DefaultPrismaClient = PrismaClient
   export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
   export interface PrismaClientOptions {
@@ -1296,7 +1313,7 @@ export namespace Prisma {
      * ```
      * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
-     *
+     * 
      * // Emit as events only
      * log: [
      *   { emit: 'event', level: 'query' },
@@ -1304,14 +1321,14 @@ export namespace Prisma {
      *   { emit: 'event', level: 'warn' }
      *   { emit: 'event', level: 'error' }
      * ]
-     *
+     * 
      * / Emit as events and log to stdout
      * og: [
      *  { emit: 'stdout', level: 'query' },
      *  { emit: 'stdout', level: 'info' },
      *  { emit: 'stdout', level: 'warn' }
      *  { emit: 'stdout', level: 'error' }
-     *
+     * 
      * ```
      * Read more in our [docs](https://pris.ly/d/logging).
      */
@@ -1336,7 +1353,7 @@ export namespace Prisma {
     accelerateUrl?: string
     /**
      * Global configuration for omitting model fields by default.
-     *
+     * 
      * @example
      * ```
      * const prisma = new PrismaClient({
@@ -1352,7 +1369,7 @@ export namespace Prisma {
     /**
      * SQL commenter plugins that add metadata to SQL queries as comments.
      * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
-     *
+     * 
      * @example
      * ```
      * const prisma = new PrismaClient({
@@ -1367,13 +1384,13 @@ export namespace Prisma {
     comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
-    filteredWord?: FilteredWordOmit
     ticketSetting?: TicketSettingOmit
     ticket?: TicketOmit
     guildSetting?: GuildSettingOmit
-    customClient?: CustomClientOmit
+    filteredWord?: FilteredWordOmit
     afkState?: AfkStateOmit
     afkSetting?: AfkSettingOmit
+    customClient?: CustomClientOmit
   }
 
   /* Types for Logging */
@@ -1407,6 +1424,7 @@ export namespace Prisma {
     target: string
   }
   /* End Types for Logging */
+
 
   export type PrismaAction =
     | 'findUnique'
@@ -1447,6 +1465,7 @@ export namespace Prisma {
    * Count Types
    */
 
+
   /**
    * Count Type TicketSettingCountOutputType
    */
@@ -1477,959 +1496,10 @@ export namespace Prisma {
     where?: TicketWhereInput
   }
 
+
   /**
    * Models
    */
-
-  /**
-   * Model FilteredWord
-   */
-
-  export type AggregateFilteredWord = {
-    _count: FilteredWordCountAggregateOutputType | null
-    _min: FilteredWordMinAggregateOutputType | null
-    _max: FilteredWordMaxAggregateOutputType | null
-  }
-
-  export type FilteredWordMinAggregateOutputType = {
-    keyword: string | null
-    filterType: $Enums.FilterType | null
-  }
-
-  export type FilteredWordMaxAggregateOutputType = {
-    keyword: string | null
-    filterType: $Enums.FilterType | null
-  }
-
-  export type FilteredWordCountAggregateOutputType = {
-    keyword: number
-    filterType: number
-    _all: number
-  }
-
-  export type FilteredWordMinAggregateInputType = {
-    keyword?: true
-    filterType?: true
-  }
-
-  export type FilteredWordMaxAggregateInputType = {
-    keyword?: true
-    filterType?: true
-  }
-
-  export type FilteredWordCountAggregateInputType = {
-    keyword?: true
-    filterType?: true
-    _all?: true
-  }
-
-  export type FilteredWordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which FilteredWord to aggregate.
-     */
-    where?: FilteredWordWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of FilteredWords to fetch.
-     */
-    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the start position
-     */
-    cursor?: FilteredWordWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` FilteredWords from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` FilteredWords.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Count returned FilteredWords
-    **/
-    _count?: true | FilteredWordCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the minimum value
-    **/
-    _min?: FilteredWordMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to find the maximum value
-    **/
-    _max?: FilteredWordMaxAggregateInputType
-  }
-
-  export type GetFilteredWordAggregateType<T extends FilteredWordAggregateArgs> = {
-        [P in keyof T & keyof AggregateFilteredWord]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateFilteredWord[P]>
-      : GetScalarType<T[P], AggregateFilteredWord[P]>
-  }
-
-  export type FilteredWordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FilteredWordWhereInput
-    orderBy?: FilteredWordOrderByWithAggregationInput | FilteredWordOrderByWithAggregationInput[]
-    by: FilteredWordScalarFieldEnum[] | FilteredWordScalarFieldEnum
-    having?: FilteredWordScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: FilteredWordCountAggregateInputType | true
-    _min?: FilteredWordMinAggregateInputType
-    _max?: FilteredWordMaxAggregateInputType
-  }
-
-  export type FilteredWordGroupByOutputType = {
-    keyword: string
-    filterType: $Enums.FilterType
-    _count: FilteredWordCountAggregateOutputType | null
-    _min: FilteredWordMinAggregateOutputType | null
-    _max: FilteredWordMaxAggregateOutputType | null
-  }
-
-  type GetFilteredWordGroupByPayload<T extends FilteredWordGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<FilteredWordGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof FilteredWordGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
-            : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
-        }
-      >
-    >
-
-  export type FilteredWordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    keyword?: boolean
-    filterType?: boolean
-  }, ExtArgs['result']['filteredWord']>
-
-  export type FilteredWordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    keyword?: boolean
-    filterType?: boolean
-  }, ExtArgs['result']['filteredWord']>
-
-  export type FilteredWordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    keyword?: boolean
-    filterType?: boolean
-  }, ExtArgs['result']['filteredWord']>
-
-  export type FilteredWordSelectScalar = {
-    keyword?: boolean
-    filterType?: boolean
-  }
-
-  export type FilteredWordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<'keyword' | 'filterType', ExtArgs['result']['filteredWord']>
-
-  export type $FilteredWordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: 'FilteredWord'
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      keyword: string
-      filterType: $Enums.FilterType
-    }, ExtArgs['result']['filteredWord']>
-    composites: {}
-  }
-
-  type FilteredWordGetPayload<S extends boolean | null | undefined | FilteredWordDefaultArgs> = $Result.GetResult<Prisma.$FilteredWordPayload, S>
-
-  type FilteredWordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<FilteredWordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: FilteredWordCountAggregateInputType | true
-    }
-
-  export interface FilteredWordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FilteredWord'], meta: { name: 'FilteredWord' } }
-    /**
-     * Find zero or one FilteredWord that matches the filter.
-     * @param {FilteredWordFindUniqueArgs} args - Arguments to find a FilteredWord
-     * @example
-     * // Get one FilteredWord
-     * const filteredWord = await prisma.filteredWord.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends FilteredWordFindUniqueArgs>(args: SelectSubset<T, FilteredWordFindUniqueArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one FilteredWord that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {FilteredWordFindUniqueOrThrowArgs} args - Arguments to find a FilteredWord
-     * @example
-     * // Get one FilteredWord
-     * const filteredWord = await prisma.filteredWord.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends FilteredWordFindUniqueOrThrowArgs>(args: SelectSubset<T, FilteredWordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first FilteredWord that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordFindFirstArgs} args - Arguments to find a FilteredWord
-     * @example
-     * // Get one FilteredWord
-     * const filteredWord = await prisma.filteredWord.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends FilteredWordFindFirstArgs>(args?: SelectSubset<T, FilteredWordFindFirstArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first FilteredWord that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordFindFirstOrThrowArgs} args - Arguments to find a FilteredWord
-     * @example
-     * // Get one FilteredWord
-     * const filteredWord = await prisma.filteredWord.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends FilteredWordFindFirstOrThrowArgs>(args?: SelectSubset<T, FilteredWordFindFirstOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more FilteredWords that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all FilteredWords
-     * const filteredWords = await prisma.filteredWord.findMany()
-     *
-     * // Get first 10 FilteredWords
-     * const filteredWords = await prisma.filteredWord.findMany({ take: 10 })
-     *
-     * // Only select the `keyword`
-     * const filteredWordWithKeywordOnly = await prisma.filteredWord.findMany({ select: { keyword: true } })
-     *
-     */
-    findMany<T extends FilteredWordFindManyArgs>(args?: SelectSubset<T, FilteredWordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>
-
-    /**
-     * Create a FilteredWord.
-     * @param {FilteredWordCreateArgs} args - Arguments to create a FilteredWord.
-     * @example
-     * // Create one FilteredWord
-     * const FilteredWord = await prisma.filteredWord.create({
-     *   data: {
-     *     // ... data to create a FilteredWord
-     *   }
-     * })
-     *
-     */
-    create<T extends FilteredWordCreateArgs>(args: SelectSubset<T, FilteredWordCreateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'create', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many FilteredWords.
-     * @param {FilteredWordCreateManyArgs} args - Arguments to create many FilteredWords.
-     * @example
-     * // Create many FilteredWords
-     * const filteredWord = await prisma.filteredWord.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     */
-    createMany<T extends FilteredWordCreateManyArgs>(args?: SelectSubset<T, FilteredWordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many FilteredWords and returns the data saved in the database.
-     * @param {FilteredWordCreateManyAndReturnArgs} args - Arguments to create many FilteredWords.
-     * @example
-     * // Create many FilteredWords
-     * const filteredWord = await prisma.filteredWord.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many FilteredWords and only return the `keyword`
-     * const filteredWordWithKeywordOnly = await prisma.filteredWord.createManyAndReturn({
-     *   select: { keyword: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends FilteredWordCreateManyAndReturnArgs>(args?: SelectSubset<T, FilteredWordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>>
-
-    /**
-     * Delete a FilteredWord.
-     * @param {FilteredWordDeleteArgs} args - Arguments to delete one FilteredWord.
-     * @example
-     * // Delete one FilteredWord
-     * const FilteredWord = await prisma.filteredWord.delete({
-     *   where: {
-     *     // ... filter to delete one FilteredWord
-     *   }
-     * })
-     *
-     */
-    delete<T extends FilteredWordDeleteArgs>(args: SelectSubset<T, FilteredWordDeleteArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one FilteredWord.
-     * @param {FilteredWordUpdateArgs} args - Arguments to update one FilteredWord.
-     * @example
-     * // Update one FilteredWord
-     * const filteredWord = await prisma.filteredWord.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    update<T extends FilteredWordUpdateArgs>(args: SelectSubset<T, FilteredWordUpdateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'update', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more FilteredWords.
-     * @param {FilteredWordDeleteManyArgs} args - Arguments to filter FilteredWords to delete.
-     * @example
-     * // Delete a few FilteredWords
-     * const { count } = await prisma.filteredWord.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     *
-     */
-    deleteMany<T extends FilteredWordDeleteManyArgs>(args?: SelectSubset<T, FilteredWordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more FilteredWords.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many FilteredWords
-     * const filteredWord = await prisma.filteredWord.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    updateMany<T extends FilteredWordUpdateManyArgs>(args: SelectSubset<T, FilteredWordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more FilteredWords and returns the data updated in the database.
-     * @param {FilteredWordUpdateManyAndReturnArgs} args - Arguments to update many FilteredWords.
-     * @example
-     * // Update many FilteredWords
-     * const filteredWord = await prisma.filteredWord.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Update zero or more FilteredWords and only return the `keyword`
-     * const filteredWordWithKeywordOnly = await prisma.filteredWord.updateManyAndReturn({
-     *   select: { keyword: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    updateManyAndReturn<T extends FilteredWordUpdateManyAndReturnArgs>(args: SelectSubset<T, FilteredWordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>>
-
-    /**
-     * Create or update one FilteredWord.
-     * @param {FilteredWordUpsertArgs} args - Arguments to update or create a FilteredWord.
-     * @example
-     * // Update or create a FilteredWord
-     * const filteredWord = await prisma.filteredWord.upsert({
-     *   create: {
-     *     // ... data to create a FilteredWord
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the FilteredWord we want to update
-     *   }
-     * })
-     */
-    upsert<T extends FilteredWordUpsertArgs>(args: SelectSubset<T, FilteredWordUpsertArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Count the number of FilteredWords.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordCountArgs} args - Arguments to filter FilteredWords to count.
-     * @example
-     * // Count the number of FilteredWords
-     * const count = await prisma.filteredWord.count({
-     *   where: {
-     *     // ... the filter for the FilteredWords we want to count
-     *   }
-     * })
-    **/
-    count<T extends FilteredWordCountArgs>(
-      args?: Subset<T, FilteredWordCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], FilteredWordCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a FilteredWord.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends FilteredWordAggregateArgs>(args: Subset<T, FilteredWordAggregateArgs>): Prisma.PrismaPromise<GetFilteredWordAggregateType<T>>
-
-    /**
-     * Group by FilteredWord.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FilteredWordGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     *
-    **/
-    groupBy<
-      T extends FilteredWordGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: FilteredWordGroupByArgs['orderBy'] }
-        : { orderBy?: FilteredWordGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? 'Error: "by" must not be empty.'
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ' in "having" needs to be provided in "by"',
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, FilteredWordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFilteredWordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the FilteredWord model
-   */
-  readonly fields: FilteredWordFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for FilteredWord.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__FilteredWordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise'
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-  /**
-   * Fields of the FilteredWord model
-   */
-  interface FilteredWordFieldRefs {
-    readonly keyword: FieldRef<'FilteredWord', 'String'>
-    readonly filterType: FieldRef<'FilteredWord', 'FilterType'>
-  }
-
-  // Custom InputTypes
-  /**
-   * FilteredWord findUnique
-   */
-  export type FilteredWordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * Filter, which FilteredWord to fetch.
-     */
-    where: FilteredWordWhereUniqueInput
-  }
-
-  /**
-   * FilteredWord findUniqueOrThrow
-   */
-  export type FilteredWordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * Filter, which FilteredWord to fetch.
-     */
-    where: FilteredWordWhereUniqueInput
-  }
-
-  /**
-   * FilteredWord findFirst
-   */
-  export type FilteredWordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * Filter, which FilteredWord to fetch.
-     */
-    where?: FilteredWordWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of FilteredWords to fetch.
-     */
-    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for FilteredWords.
-     */
-    cursor?: FilteredWordWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` FilteredWords from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` FilteredWords.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of FilteredWords.
-     */
-    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
-  }
-
-  /**
-   * FilteredWord findFirstOrThrow
-   */
-  export type FilteredWordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * Filter, which FilteredWord to fetch.
-     */
-    where?: FilteredWordWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of FilteredWords to fetch.
-     */
-    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for FilteredWords.
-     */
-    cursor?: FilteredWordWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` FilteredWords from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` FilteredWords.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of FilteredWords.
-     */
-    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
-  }
-
-  /**
-   * FilteredWord findMany
-   */
-  export type FilteredWordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * Filter, which FilteredWords to fetch.
-     */
-    where?: FilteredWordWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of FilteredWords to fetch.
-     */
-    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for listing FilteredWords.
-     */
-    cursor?: FilteredWordWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` FilteredWords from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` FilteredWords.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of FilteredWords.
-     */
-    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
-  }
-
-  /**
-   * FilteredWord create
-   */
-  export type FilteredWordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * The data needed to create a FilteredWord.
-     */
-    data: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
-  }
-
-  /**
-   * FilteredWord createMany
-   */
-  export type FilteredWordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many FilteredWords.
-     */
-    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * FilteredWord createManyAndReturn
-   */
-  export type FilteredWordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * The data used to create many FilteredWords.
-     */
-    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * FilteredWord update
-   */
-  export type FilteredWordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * The data needed to update a FilteredWord.
-     */
-    data: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
-    /**
-     * Choose, which FilteredWord to update.
-     */
-    where: FilteredWordWhereUniqueInput
-  }
-
-  /**
-   * FilteredWord updateMany
-   */
-  export type FilteredWordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update FilteredWords.
-     */
-    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
-    /**
-     * Filter which FilteredWords to update
-     */
-    where?: FilteredWordWhereInput
-    /**
-     * Limit how many FilteredWords to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * FilteredWord updateManyAndReturn
-   */
-  export type FilteredWordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * The data used to update FilteredWords.
-     */
-    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
-    /**
-     * Filter which FilteredWords to update
-     */
-    where?: FilteredWordWhereInput
-    /**
-     * Limit how many FilteredWords to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * FilteredWord upsert
-   */
-  export type FilteredWordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * The filter to search for the FilteredWord to update in case it exists.
-     */
-    where: FilteredWordWhereUniqueInput
-    /**
-     * In case the FilteredWord found by the `where` argument doesn't exist, create a new FilteredWord with this data.
-     */
-    create: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
-    /**
-     * In case the FilteredWord was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
-  }
-
-  /**
-   * FilteredWord delete
-   */
-  export type FilteredWordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-    /**
-     * Filter which FilteredWord to delete.
-     */
-    where: FilteredWordWhereUniqueInput
-  }
-
-  /**
-   * FilteredWord deleteMany
-   */
-  export type FilteredWordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which FilteredWords to delete
-     */
-    where?: FilteredWordWhereInput
-    /**
-     * Limit how many FilteredWords to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * FilteredWord without action
-   */
-  export type FilteredWordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the FilteredWord
-     */
-    select?: FilteredWordSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the FilteredWord
-     */
-    omit?: FilteredWordOmit<ExtArgs> | null
-  }
 
   /**
    * Model TicketSetting
@@ -2458,12 +1528,15 @@ export namespace Prisma {
     guild: string | null
     active: boolean | null
     logMode: $Enums.TicketLogMode | null
+    tagClaimer: boolean | null
     archiveCategory: string | null
     archiveDuration: Decimal | null
     type: $Enums.TicketType | null
     channel: string | null
     category: string | null
     allowCreatorClose: boolean | null
+    staffThreads: boolean | null
+    staffThreadsChannel: string | null
   }
 
   export type TicketSettingMaxAggregateOutputType = {
@@ -2471,12 +1544,15 @@ export namespace Prisma {
     guild: string | null
     active: boolean | null
     logMode: $Enums.TicketLogMode | null
+    tagClaimer: boolean | null
     archiveCategory: string | null
     archiveDuration: Decimal | null
     type: $Enums.TicketType | null
     channel: string | null
     category: string | null
     allowCreatorClose: boolean | null
+    staffThreads: boolean | null
+    staffThreadsChannel: string | null
   }
 
   export type TicketSettingCountAggregateOutputType = {
@@ -2485,7 +1561,11 @@ export namespace Prisma {
     active: number
     logMode: number
     logChannels: number
-    appliedTags: number
+    createTags: number
+    claimTags: number
+    closeTags: number
+    tagClaimer: number
+    transcriptChannels: number
     archiveCategory: number
     archiveDuration: number
     type: number
@@ -2493,6 +1573,8 @@ export namespace Prisma {
     category: number
     sendMessagePrefixes: number
     allowCreatorClose: number
+    staffThreads: number
+    staffThreadsChannel: number
     mentionRoles: number
     mentionUsers: number
     staffRoles: number
@@ -2501,6 +1583,7 @@ export namespace Prisma {
     denyRoles: number
     _all: number
   }
+
 
   export type TicketSettingAvgAggregateInputType = {
     id?: true
@@ -2517,12 +1600,15 @@ export namespace Prisma {
     guild?: true
     active?: true
     logMode?: true
+    tagClaimer?: true
     archiveCategory?: true
     archiveDuration?: true
     type?: true
     channel?: true
     category?: true
     allowCreatorClose?: true
+    staffThreads?: true
+    staffThreadsChannel?: true
   }
 
   export type TicketSettingMaxAggregateInputType = {
@@ -2530,12 +1616,15 @@ export namespace Prisma {
     guild?: true
     active?: true
     logMode?: true
+    tagClaimer?: true
     archiveCategory?: true
     archiveDuration?: true
     type?: true
     channel?: true
     category?: true
     allowCreatorClose?: true
+    staffThreads?: true
+    staffThreadsChannel?: true
   }
 
   export type TicketSettingCountAggregateInputType = {
@@ -2544,7 +1633,11 @@ export namespace Prisma {
     active?: true
     logMode?: true
     logChannels?: true
-    appliedTags?: true
+    createTags?: true
+    claimTags?: true
+    closeTags?: true
+    tagClaimer?: true
+    transcriptChannels?: true
     archiveCategory?: true
     archiveDuration?: true
     type?: true
@@ -2552,6 +1645,8 @@ export namespace Prisma {
     category?: true
     sendMessagePrefixes?: true
     allowCreatorClose?: true
+    staffThreads?: true
+    staffThreadsChannel?: true
     mentionRoles?: true
     mentionUsers?: true
     staffRoles?: true
@@ -2568,55 +1663,55 @@ export namespace Prisma {
     where?: TicketSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of TicketSettings to fetch.
      */
     orderBy?: TicketSettingOrderByWithRelationInput | TicketSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the start position
      */
     cursor?: TicketSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` TicketSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` TicketSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Count returned TicketSettings
     **/
     _count?: true | TicketSettingCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to average
     **/
     _avg?: TicketSettingAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to sum
     **/
     _sum?: TicketSettingSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TicketSettingMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the maximum value
     **/
     _max?: TicketSettingMaxAggregateInputType
@@ -2629,6 +1724,9 @@ export namespace Prisma {
         : GetScalarType<T[P], AggregateTicketSetting[P]>
       : GetScalarType<T[P], AggregateTicketSetting[P]>
   }
+
+
+
 
   export type TicketSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketSettingWhereInput
@@ -2650,7 +1748,11 @@ export namespace Prisma {
     active: boolean
     logMode: $Enums.TicketLogMode
     logChannels: string[]
-    appliedTags: string[]
+    createTags: string[]
+    claimTags: string[]
+    closeTags: string[]
+    tagClaimer: boolean
+    transcriptChannels: string[]
     archiveCategory: string | null
     archiveDuration: Decimal
     type: $Enums.TicketType
@@ -2658,6 +1760,8 @@ export namespace Prisma {
     category: string | null
     sendMessagePrefixes: string[]
     allowCreatorClose: boolean
+    staffThreads: boolean
+    staffThreadsChannel: string | null
     mentionRoles: string[]
     mentionUsers: string[]
     staffRoles: string[]
@@ -2684,13 +1788,18 @@ export namespace Prisma {
       >
     >
 
+
   export type TicketSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     guild?: boolean
     active?: boolean
     logMode?: boolean
     logChannels?: boolean
-    appliedTags?: boolean
+    createTags?: boolean
+    claimTags?: boolean
+    closeTags?: boolean
+    tagClaimer?: boolean
+    transcriptChannels?: boolean
     archiveCategory?: boolean
     archiveDuration?: boolean
     type?: boolean
@@ -2698,6 +1807,8 @@ export namespace Prisma {
     category?: boolean
     sendMessagePrefixes?: boolean
     allowCreatorClose?: boolean
+    staffThreads?: boolean
+    staffThreadsChannel?: boolean
     mentionRoles?: boolean
     mentionUsers?: boolean
     staffRoles?: boolean
@@ -2706,7 +1817,7 @@ export namespace Prisma {
     denyRoles?: boolean
     Ticket?: boolean | TicketSetting$TicketArgs<ExtArgs>
     _count?: boolean | TicketSettingCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs['result']['ticketSetting']>
+  }, ExtArgs["result"]["ticketSetting"]>
 
   export type TicketSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
@@ -2714,7 +1825,11 @@ export namespace Prisma {
     active?: boolean
     logMode?: boolean
     logChannels?: boolean
-    appliedTags?: boolean
+    createTags?: boolean
+    claimTags?: boolean
+    closeTags?: boolean
+    tagClaimer?: boolean
+    transcriptChannels?: boolean
     archiveCategory?: boolean
     archiveDuration?: boolean
     type?: boolean
@@ -2722,13 +1837,15 @@ export namespace Prisma {
     category?: boolean
     sendMessagePrefixes?: boolean
     allowCreatorClose?: boolean
+    staffThreads?: boolean
+    staffThreadsChannel?: boolean
     mentionRoles?: boolean
     mentionUsers?: boolean
     staffRoles?: boolean
     staffUsers?: boolean
     denyUsers?: boolean
     denyRoles?: boolean
-  }, ExtArgs['result']['ticketSetting']>
+  }, ExtArgs["result"]["ticketSetting"]>
 
   export type TicketSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
@@ -2736,7 +1853,11 @@ export namespace Prisma {
     active?: boolean
     logMode?: boolean
     logChannels?: boolean
-    appliedTags?: boolean
+    createTags?: boolean
+    claimTags?: boolean
+    closeTags?: boolean
+    tagClaimer?: boolean
+    transcriptChannels?: boolean
     archiveCategory?: boolean
     archiveDuration?: boolean
     type?: boolean
@@ -2744,13 +1865,15 @@ export namespace Prisma {
     category?: boolean
     sendMessagePrefixes?: boolean
     allowCreatorClose?: boolean
+    staffThreads?: boolean
+    staffThreadsChannel?: boolean
     mentionRoles?: boolean
     mentionUsers?: boolean
     staffRoles?: boolean
     staffUsers?: boolean
     denyUsers?: boolean
     denyRoles?: boolean
-  }, ExtArgs['result']['ticketSetting']>
+  }, ExtArgs["result"]["ticketSetting"]>
 
   export type TicketSettingSelectScalar = {
     id?: boolean
@@ -2758,7 +1881,11 @@ export namespace Prisma {
     active?: boolean
     logMode?: boolean
     logChannels?: boolean
-    appliedTags?: boolean
+    createTags?: boolean
+    claimTags?: boolean
+    closeTags?: boolean
+    tagClaimer?: boolean
+    transcriptChannels?: boolean
     archiveCategory?: boolean
     archiveDuration?: boolean
     type?: boolean
@@ -2766,6 +1893,8 @@ export namespace Prisma {
     category?: boolean
     sendMessagePrefixes?: boolean
     allowCreatorClose?: boolean
+    staffThreads?: boolean
+    staffThreadsChannel?: boolean
     mentionRoles?: boolean
     mentionUsers?: boolean
     staffRoles?: boolean
@@ -2774,7 +1903,7 @@ export namespace Prisma {
     denyRoles?: boolean
   }
 
-  export type TicketSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<'id' | 'guild' | 'active' | 'logMode' | 'logChannels' | 'appliedTags' | 'archiveCategory' | 'archiveDuration' | 'type' | 'channel' | 'category' | 'sendMessagePrefixes' | 'allowCreatorClose' | 'mentionRoles' | 'mentionUsers' | 'staffRoles' | 'staffUsers' | 'denyUsers' | 'denyRoles', ExtArgs['result']['ticketSetting']>
+  export type TicketSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "guild" | "active" | "logMode" | "logChannels" | "createTags" | "claimTags" | "closeTags" | "tagClaimer" | "transcriptChannels" | "archiveCategory" | "archiveDuration" | "type" | "channel" | "category" | "sendMessagePrefixes" | "allowCreatorClose" | "staffThreads" | "staffThreadsChannel" | "mentionRoles" | "mentionUsers" | "staffRoles" | "staffUsers" | "denyUsers" | "denyRoles", ExtArgs["result"]["ticketSetting"]>
   export type TicketSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Ticket?: boolean | TicketSetting$TicketArgs<ExtArgs>
     _count?: boolean | TicketSettingCountOutputTypeDefaultArgs<ExtArgs>
@@ -2783,7 +1912,7 @@ export namespace Prisma {
   export type TicketSettingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $TicketSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: 'TicketSetting'
+    name: "TicketSetting"
     objects: {
       Ticket: Prisma.$TicketPayload<ExtArgs>[]
     }
@@ -2793,7 +1922,11 @@ export namespace Prisma {
       active: boolean
       logMode: $Enums.TicketLogMode
       logChannels: string[]
-      appliedTags: string[]
+      createTags: string[]
+      claimTags: string[]
+      closeTags: string[]
+      tagClaimer: boolean
+      transcriptChannels: string[]
       archiveCategory: string | null
       archiveDuration: Prisma.Decimal
       type: $Enums.TicketType
@@ -2801,13 +1934,15 @@ export namespace Prisma {
       category: string | null
       sendMessagePrefixes: string[]
       allowCreatorClose: boolean
+      staffThreads: boolean
+      staffThreadsChannel: string | null
       mentionRoles: string[]
       mentionUsers: string[]
       staffRoles: string[]
       staffUsers: string[]
       denyUsers: string[]
       denyRoles: string[]
-    }, ExtArgs['result']['ticketSetting']>
+    }, ExtArgs["result"]["ticketSetting"]>
     composites: {}
   }
 
@@ -2831,7 +1966,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends TicketSettingFindUniqueArgs>(args: SelectSubset<T, TicketSettingFindUniqueArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends TicketSettingFindUniqueArgs>(args: SelectSubset<T, TicketSettingFindUniqueArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find one TicketSetting that matches the filter or throw an error with `error.code='P2025'`
@@ -2845,7 +1980,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends TicketSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, TicketSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends TicketSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, TicketSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first TicketSetting that matches the filter.
@@ -2860,7 +1995,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends TicketSettingFindFirstArgs>(args?: SelectSubset<T, TicketSettingFindFirstArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends TicketSettingFindFirstArgs>(args?: SelectSubset<T, TicketSettingFindFirstArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first TicketSetting that matches the filter or
@@ -2876,7 +2011,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends TicketSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, TicketSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends TicketSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, TicketSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more TicketSettings that matches the filter.
@@ -2886,15 +2021,15 @@ export namespace Prisma {
      * @example
      * // Get all TicketSettings
      * const ticketSettings = await prisma.ticketSetting.findMany()
-     *
+     * 
      * // Get first 10 TicketSettings
      * const ticketSettings = await prisma.ticketSetting.findMany({ take: 10 })
-     *
+     * 
      * // Only select the `id`
      * const ticketSettingWithIdOnly = await prisma.ticketSetting.findMany({ select: { id: true } })
-     *
+     * 
      */
-    findMany<T extends TicketSettingFindManyArgs>(args?: SelectSubset<T, TicketSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>
+    findMany<T extends TicketSettingFindManyArgs>(args?: SelectSubset<T, TicketSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a TicketSetting.
@@ -2906,9 +2041,9 @@ export namespace Prisma {
      *     // ... data to create a TicketSetting
      *   }
      * })
-     *
+     * 
      */
-    create<T extends TicketSettingCreateArgs>(args: SelectSubset<T, TicketSettingCreateArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'create', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends TicketSettingCreateArgs>(args: SelectSubset<T, TicketSettingCreateArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many TicketSettings.
@@ -2920,7 +2055,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     *     
      */
     createMany<T extends TicketSettingCreateManyArgs>(args?: SelectSubset<T, TicketSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -2934,7 +2069,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Create many TicketSettings and only return the `id`
      * const ticketSettingWithIdOnly = await prisma.ticketSetting.createManyAndReturn({
      *   select: { id: true },
@@ -2944,9 +2079,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    createManyAndReturn<T extends TicketSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, TicketSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>>
+    createManyAndReturn<T extends TicketSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, TicketSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a TicketSetting.
@@ -2958,9 +2093,9 @@ export namespace Prisma {
      *     // ... filter to delete one TicketSetting
      *   }
      * })
-     *
+     * 
      */
-    delete<T extends TicketSettingDeleteArgs>(args: SelectSubset<T, TicketSettingDeleteArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends TicketSettingDeleteArgs>(args: SelectSubset<T, TicketSettingDeleteArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one TicketSetting.
@@ -2975,9 +2110,9 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
-    update<T extends TicketSettingUpdateArgs>(args: SelectSubset<T, TicketSettingUpdateArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'update', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends TicketSettingUpdateArgs>(args: SelectSubset<T, TicketSettingUpdateArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more TicketSettings.
@@ -2989,7 +2124,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     *
+     * 
      */
     deleteMany<T extends TicketSettingDeleteManyArgs>(args?: SelectSubset<T, TicketSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -3008,7 +2143,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
     updateMany<T extends TicketSettingUpdateManyArgs>(args: SelectSubset<T, TicketSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -3025,7 +2160,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Update zero or more TicketSettings and only return the `id`
      * const ticketSettingWithIdOnly = await prisma.ticketSetting.updateManyAndReturn({
      *   select: { id: true },
@@ -3038,9 +2173,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    updateManyAndReturn<T extends TicketSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, TicketSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>>
+    updateManyAndReturn<T extends TicketSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, TicketSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one TicketSetting.
@@ -3059,7 +2194,8 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends TicketSettingUpsertArgs>(args: SelectSubset<T, TicketSettingUpsertArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends TicketSettingUpsertArgs>(args: SelectSubset<T, TicketSettingUpsertArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
 
     /**
      * Count the number of TicketSettings.
@@ -3126,7 +2262,7 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     *
+     * 
     **/
     groupBy<
       T extends TicketSettingGroupByArgs,
@@ -3144,7 +2280,7 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? 'Error: "by" must not be empty.'
+      ? `Error: "by" must not be empty.`
       : HavingValid extends False
       ? {
           [P in HavingFields]: P extends ByFields
@@ -3155,7 +2291,7 @@ export namespace Prisma {
                 Error,
                 'Field ',
                 P,
-                ' in "having" needs to be provided in "by"',
+                ` in "having" needs to be provided in "by"`,
               ]
         }[HavingFields]
       : 'take' extends Keys<T>
@@ -3199,8 +2335,8 @@ export namespace Prisma {
    * https://github.com/prisma/prisma-client-js/issues/707
    */
   export interface Prisma__TicketSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise'
-    Ticket<T extends TicketSetting$TicketArgs<ExtArgs> = {}>(args?: Subset<T, TicketSetting$TicketArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions> | Null>
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Ticket<T extends TicketSetting$TicketArgs<ExtArgs> = {}>(args?: Subset<T, TicketSetting$TicketArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3223,30 +2359,40 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
   }
 
+
+
+
   /**
    * Fields of the TicketSetting model
    */
   interface TicketSettingFieldRefs {
-    readonly id: FieldRef<'TicketSetting', 'Decimal'>
-    readonly guild: FieldRef<'TicketSetting', 'String'>
-    readonly active: FieldRef<'TicketSetting', 'Boolean'>
-    readonly logMode: FieldRef<'TicketSetting', 'TicketLogMode'>
-    readonly logChannels: FieldRef<'TicketSetting', 'String[]'>
-    readonly appliedTags: FieldRef<'TicketSetting', 'String[]'>
-    readonly archiveCategory: FieldRef<'TicketSetting', 'String'>
-    readonly archiveDuration: FieldRef<'TicketSetting', 'Decimal'>
-    readonly type: FieldRef<'TicketSetting', 'TicketType'>
-    readonly channel: FieldRef<'TicketSetting', 'String'>
-    readonly category: FieldRef<'TicketSetting', 'String'>
-    readonly sendMessagePrefixes: FieldRef<'TicketSetting', 'String[]'>
-    readonly allowCreatorClose: FieldRef<'TicketSetting', 'Boolean'>
-    readonly mentionRoles: FieldRef<'TicketSetting', 'String[]'>
-    readonly mentionUsers: FieldRef<'TicketSetting', 'String[]'>
-    readonly staffRoles: FieldRef<'TicketSetting', 'String[]'>
-    readonly staffUsers: FieldRef<'TicketSetting', 'String[]'>
-    readonly denyUsers: FieldRef<'TicketSetting', 'String[]'>
-    readonly denyRoles: FieldRef<'TicketSetting', 'String[]'>
+    readonly id: FieldRef<"TicketSetting", 'Decimal'>
+    readonly guild: FieldRef<"TicketSetting", 'String'>
+    readonly active: FieldRef<"TicketSetting", 'Boolean'>
+    readonly logMode: FieldRef<"TicketSetting", 'TicketLogMode'>
+    readonly logChannels: FieldRef<"TicketSetting", 'String[]'>
+    readonly createTags: FieldRef<"TicketSetting", 'String[]'>
+    readonly claimTags: FieldRef<"TicketSetting", 'String[]'>
+    readonly closeTags: FieldRef<"TicketSetting", 'String[]'>
+    readonly tagClaimer: FieldRef<"TicketSetting", 'Boolean'>
+    readonly transcriptChannels: FieldRef<"TicketSetting", 'String[]'>
+    readonly archiveCategory: FieldRef<"TicketSetting", 'String'>
+    readonly archiveDuration: FieldRef<"TicketSetting", 'Decimal'>
+    readonly type: FieldRef<"TicketSetting", 'TicketType'>
+    readonly channel: FieldRef<"TicketSetting", 'String'>
+    readonly category: FieldRef<"TicketSetting", 'String'>
+    readonly sendMessagePrefixes: FieldRef<"TicketSetting", 'String[]'>
+    readonly allowCreatorClose: FieldRef<"TicketSetting", 'Boolean'>
+    readonly staffThreads: FieldRef<"TicketSetting", 'Boolean'>
+    readonly staffThreadsChannel: FieldRef<"TicketSetting", 'String'>
+    readonly mentionRoles: FieldRef<"TicketSetting", 'String[]'>
+    readonly mentionUsers: FieldRef<"TicketSetting", 'String[]'>
+    readonly staffRoles: FieldRef<"TicketSetting", 'String[]'>
+    readonly staffUsers: FieldRef<"TicketSetting", 'String[]'>
+    readonly denyUsers: FieldRef<"TicketSetting", 'String[]'>
+    readonly denyRoles: FieldRef<"TicketSetting", 'String[]'>
   }
+    
 
   // Custom InputTypes
   /**
@@ -3315,31 +2461,31 @@ export namespace Prisma {
     where?: TicketSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of TicketSettings to fetch.
      */
     orderBy?: TicketSettingOrderByWithRelationInput | TicketSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for TicketSettings.
      */
     cursor?: TicketSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` TicketSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` TicketSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of TicketSettings.
      */
     distinct?: TicketSettingScalarFieldEnum | TicketSettingScalarFieldEnum[]
@@ -3367,31 +2513,31 @@ export namespace Prisma {
     where?: TicketSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of TicketSettings to fetch.
      */
     orderBy?: TicketSettingOrderByWithRelationInput | TicketSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for TicketSettings.
      */
     cursor?: TicketSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` TicketSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` TicketSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of TicketSettings.
      */
     distinct?: TicketSettingScalarFieldEnum | TicketSettingScalarFieldEnum[]
@@ -3419,31 +2565,31 @@ export namespace Prisma {
     where?: TicketSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of TicketSettings to fetch.
      */
     orderBy?: TicketSettingOrderByWithRelationInput | TicketSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for listing TicketSettings.
      */
     cursor?: TicketSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` TicketSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` TicketSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of TicketSettings.
      */
     distinct?: TicketSettingScalarFieldEnum | TicketSettingScalarFieldEnum[]
@@ -3679,6 +2825,7 @@ export namespace Prisma {
     include?: TicketSettingInclude<ExtArgs> | null
   }
 
+
   /**
    * Model Ticket
    */
@@ -3732,6 +2879,7 @@ export namespace Prisma {
     _all: number
   }
 
+
   export type TicketAvgAggregateInputType = {
     id?: true
     settingsId?: true
@@ -3780,55 +2928,55 @@ export namespace Prisma {
     where?: TicketWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of Tickets to fetch.
      */
     orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the start position
      */
     cursor?: TicketWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` Tickets from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` Tickets.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Count returned Tickets
     **/
     _count?: true | TicketCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to average
     **/
     _avg?: TicketAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to sum
     **/
     _sum?: TicketSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TicketMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the maximum value
     **/
     _max?: TicketMaxAggregateInputType
@@ -3841,6 +2989,9 @@ export namespace Prisma {
         : GetScalarType<T[P], AggregateTicket[P]>
       : GetScalarType<T[P], AggregateTicket[P]>
   }
+
+
+
 
   export type TicketGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
@@ -3884,6 +3035,7 @@ export namespace Prisma {
       >
     >
 
+
   export type TicketSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     dm?: boolean
@@ -3893,7 +3045,7 @@ export namespace Prisma {
     settingsId?: boolean
     state?: boolean
     settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
-  }, ExtArgs['result']['ticket']>
+  }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
@@ -3904,7 +3056,7 @@ export namespace Prisma {
     settingsId?: boolean
     state?: boolean
     settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
-  }, ExtArgs['result']['ticket']>
+  }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
@@ -3915,7 +3067,7 @@ export namespace Prisma {
     settingsId?: boolean
     state?: boolean
     settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
-  }, ExtArgs['result']['ticket']>
+  }, ExtArgs["result"]["ticket"]>
 
   export type TicketSelectScalar = {
     id?: boolean
@@ -3927,7 +3079,7 @@ export namespace Prisma {
     state?: boolean
   }
 
-  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<'id' | 'dm' | 'starterDm' | 'user' | 'channel' | 'settingsId' | 'state', ExtArgs['result']['ticket']>
+  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dm" | "starterDm" | "user" | "channel" | "settingsId" | "state", ExtArgs["result"]["ticket"]>
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     settings?: boolean | TicketSettingDefaultArgs<ExtArgs>
   }
@@ -3939,7 +3091,7 @@ export namespace Prisma {
   }
 
   export type $TicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: 'Ticket'
+    name: "Ticket"
     objects: {
       settings: Prisma.$TicketSettingPayload<ExtArgs>
     }
@@ -3951,7 +3103,7 @@ export namespace Prisma {
       channel: string
       settingsId: Prisma.Decimal
       state: $Enums.TicketState
-    }, ExtArgs['result']['ticket']>
+    }, ExtArgs["result"]["ticket"]>
     composites: {}
   }
 
@@ -3975,7 +3127,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends TicketFindUniqueArgs>(args: SelectSubset<T, TicketFindUniqueArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends TicketFindUniqueArgs>(args: SelectSubset<T, TicketFindUniqueArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find one Ticket that matches the filter or throw an error with `error.code='P2025'`
@@ -3989,7 +3141,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends TicketFindUniqueOrThrowArgs>(args: SelectSubset<T, TicketFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends TicketFindUniqueOrThrowArgs>(args: SelectSubset<T, TicketFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Ticket that matches the filter.
@@ -4004,7 +3156,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends TicketFindFirstArgs>(args?: SelectSubset<T, TicketFindFirstArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends TicketFindFirstArgs>(args?: SelectSubset<T, TicketFindFirstArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first Ticket that matches the filter or
@@ -4020,7 +3172,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends TicketFindFirstOrThrowArgs>(args?: SelectSubset<T, TicketFindFirstOrThrowArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends TicketFindFirstOrThrowArgs>(args?: SelectSubset<T, TicketFindFirstOrThrowArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more Tickets that matches the filter.
@@ -4030,15 +3182,15 @@ export namespace Prisma {
      * @example
      * // Get all Tickets
      * const tickets = await prisma.ticket.findMany()
-     *
+     * 
      * // Get first 10 Tickets
      * const tickets = await prisma.ticket.findMany({ take: 10 })
-     *
+     * 
      * // Only select the `id`
      * const ticketWithIdOnly = await prisma.ticket.findMany({ select: { id: true } })
-     *
+     * 
      */
-    findMany<T extends TicketFindManyArgs>(args?: SelectSubset<T, TicketFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>
+    findMany<T extends TicketFindManyArgs>(args?: SelectSubset<T, TicketFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a Ticket.
@@ -4050,9 +3202,9 @@ export namespace Prisma {
      *     // ... data to create a Ticket
      *   }
      * })
-     *
+     * 
      */
-    create<T extends TicketCreateArgs>(args: SelectSubset<T, TicketCreateArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'create', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends TicketCreateArgs>(args: SelectSubset<T, TicketCreateArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many Tickets.
@@ -4064,7 +3216,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     *     
      */
     createMany<T extends TicketCreateManyArgs>(args?: SelectSubset<T, TicketCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -4078,7 +3230,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Create many Tickets and only return the `id`
      * const ticketWithIdOnly = await prisma.ticket.createManyAndReturn({
      *   select: { id: true },
@@ -4088,9 +3240,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    createManyAndReturn<T extends TicketCreateManyAndReturnArgs>(args?: SelectSubset<T, TicketCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>>
+    createManyAndReturn<T extends TicketCreateManyAndReturnArgs>(args?: SelectSubset<T, TicketCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a Ticket.
@@ -4102,9 +3254,9 @@ export namespace Prisma {
      *     // ... filter to delete one Ticket
      *   }
      * })
-     *
+     * 
      */
-    delete<T extends TicketDeleteArgs>(args: SelectSubset<T, TicketDeleteArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends TicketDeleteArgs>(args: SelectSubset<T, TicketDeleteArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one Ticket.
@@ -4119,9 +3271,9 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
-    update<T extends TicketUpdateArgs>(args: SelectSubset<T, TicketUpdateArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'update', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends TicketUpdateArgs>(args: SelectSubset<T, TicketUpdateArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more Tickets.
@@ -4133,7 +3285,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     *
+     * 
      */
     deleteMany<T extends TicketDeleteManyArgs>(args?: SelectSubset<T, TicketDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -4152,7 +3304,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
     updateMany<T extends TicketUpdateManyArgs>(args: SelectSubset<T, TicketUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -4169,7 +3321,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Update zero or more Tickets and only return the `id`
      * const ticketWithIdOnly = await prisma.ticket.updateManyAndReturn({
      *   select: { id: true },
@@ -4182,9 +3334,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    updateManyAndReturn<T extends TicketUpdateManyAndReturnArgs>(args: SelectSubset<T, TicketUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>>
+    updateManyAndReturn<T extends TicketUpdateManyAndReturnArgs>(args: SelectSubset<T, TicketUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Ticket.
@@ -4203,7 +3355,8 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends TicketUpsertArgs>(args: SelectSubset<T, TicketUpsertArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends TicketUpsertArgs>(args: SelectSubset<T, TicketUpsertArgs<ExtArgs>>): Prisma__TicketClient<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
 
     /**
      * Count the number of Tickets.
@@ -4270,7 +3423,7 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     *
+     * 
     **/
     groupBy<
       T extends TicketGroupByArgs,
@@ -4288,7 +3441,7 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? 'Error: "by" must not be empty.'
+      ? `Error: "by" must not be empty.`
       : HavingValid extends False
       ? {
           [P in HavingFields]: P extends ByFields
@@ -4299,7 +3452,7 @@ export namespace Prisma {
                 Error,
                 'Field ',
                 P,
-                ' in "having" needs to be provided in "by"',
+                ` in "having" needs to be provided in "by"`,
               ]
         }[HavingFields]
       : 'take' extends Keys<T>
@@ -4343,8 +3496,8 @@ export namespace Prisma {
    * https://github.com/prisma/prisma-client-js/issues/707
    */
   export interface Prisma__TicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise'
-    settings<T extends TicketSettingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TicketSettingDefaultArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    settings<T extends TicketSettingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TicketSettingDefaultArgs<ExtArgs>>): Prisma__TicketSettingClient<$Result.GetResult<Prisma.$TicketSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4367,18 +3520,22 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
   }
 
+
+
+
   /**
    * Fields of the Ticket model
    */
   interface TicketFieldRefs {
-    readonly id: FieldRef<'Ticket', 'Decimal'>
-    readonly dm: FieldRef<'Ticket', 'String'>
-    readonly starterDm: FieldRef<'Ticket', 'String'>
-    readonly user: FieldRef<'Ticket', 'String'>
-    readonly channel: FieldRef<'Ticket', 'String'>
-    readonly settingsId: FieldRef<'Ticket', 'Decimal'>
-    readonly state: FieldRef<'Ticket', 'TicketState'>
+    readonly id: FieldRef<"Ticket", 'Decimal'>
+    readonly dm: FieldRef<"Ticket", 'String'>
+    readonly starterDm: FieldRef<"Ticket", 'String'>
+    readonly user: FieldRef<"Ticket", 'String'>
+    readonly channel: FieldRef<"Ticket", 'String'>
+    readonly settingsId: FieldRef<"Ticket", 'Decimal'>
+    readonly state: FieldRef<"Ticket", 'TicketState'>
   }
+    
 
   // Custom InputTypes
   /**
@@ -4447,31 +3604,31 @@ export namespace Prisma {
     where?: TicketWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of Tickets to fetch.
      */
     orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for Tickets.
      */
     cursor?: TicketWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` Tickets from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` Tickets.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of Tickets.
      */
     distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
@@ -4499,31 +3656,31 @@ export namespace Prisma {
     where?: TicketWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of Tickets to fetch.
      */
     orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for Tickets.
      */
     cursor?: TicketWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` Tickets from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` Tickets.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of Tickets.
      */
     distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
@@ -4551,31 +3708,31 @@ export namespace Prisma {
     where?: TicketWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of Tickets to fetch.
      */
     orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for listing Tickets.
      */
     cursor?: TicketWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` Tickets from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` Tickets.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of Tickets.
      */
     distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
@@ -4795,6 +3952,7 @@ export namespace Prisma {
     include?: TicketInclude<ExtArgs> | null
   }
 
+
   /**
    * Model GuildSetting
    */
@@ -4874,6 +4032,7 @@ export namespace Prisma {
     _all: number
   }
 
+
   export type GuildSettingAvgAggregateInputType = {
     rpEnableRuns?: true
     lastRpSyncRun?: true
@@ -4948,55 +4107,55 @@ export namespace Prisma {
     where?: GuildSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of GuildSettings to fetch.
      */
     orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the start position
      */
     cursor?: GuildSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` GuildSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` GuildSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Count returned GuildSettings
     **/
     _count?: true | GuildSettingCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to average
     **/
     _avg?: GuildSettingAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to sum
     **/
     _sum?: GuildSettingSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: GuildSettingMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the maximum value
     **/
     _max?: GuildSettingMaxAggregateInputType
@@ -5009,6 +4168,9 @@ export namespace Prisma {
         : GetScalarType<T[P], AggregateGuildSetting[P]>
       : GetScalarType<T[P], AggregateGuildSetting[P]>
   }
+
+
+
 
   export type GuildSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GuildSettingWhereInput
@@ -5060,6 +4222,7 @@ export namespace Prisma {
       >
     >
 
+
   export type GuildSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     guildId?: boolean
     prefix?: boolean
@@ -5076,7 +4239,7 @@ export namespace Prisma {
     statusChannel?: boolean
     updatesChannel?: boolean
     notifyChannel?: boolean
-  }, ExtArgs['result']['guildSetting']>
+  }, ExtArgs["result"]["guildSetting"]>
 
   export type GuildSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     guildId?: boolean
@@ -5094,7 +4257,7 @@ export namespace Prisma {
     statusChannel?: boolean
     updatesChannel?: boolean
     notifyChannel?: boolean
-  }, ExtArgs['result']['guildSetting']>
+  }, ExtArgs["result"]["guildSetting"]>
 
   export type GuildSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     guildId?: boolean
@@ -5112,7 +4275,7 @@ export namespace Prisma {
     statusChannel?: boolean
     updatesChannel?: boolean
     notifyChannel?: boolean
-  }, ExtArgs['result']['guildSetting']>
+  }, ExtArgs["result"]["guildSetting"]>
 
   export type GuildSettingSelectScalar = {
     guildId?: boolean
@@ -5132,10 +4295,10 @@ export namespace Prisma {
     notifyChannel?: boolean
   }
 
-  export type GuildSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<'guildId' | 'prefix' | 'interactionsMode' | 'language' | 'errorChannel' | 'rpEnabled' | 'rpEnableRuns' | 'lastRpSyncRun' | 'ptReminderEnabled' | 'legacyRp' | 'editRpCommands' | 'enableInvitesAt' | 'statusChannel' | 'updatesChannel' | 'notifyChannel', ExtArgs['result']['guildSetting']>
+  export type GuildSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"guildId" | "prefix" | "interactionsMode" | "language" | "errorChannel" | "rpEnabled" | "rpEnableRuns" | "lastRpSyncRun" | "ptReminderEnabled" | "legacyRp" | "editRpCommands" | "enableInvitesAt" | "statusChannel" | "updatesChannel" | "notifyChannel", ExtArgs["result"]["guildSetting"]>
 
   export type $GuildSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: 'GuildSetting'
+    name: "GuildSetting"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       guildId: string
@@ -5153,7 +4316,7 @@ export namespace Prisma {
       statusChannel: string | null
       updatesChannel: string | null
       notifyChannel: string | null
-    }, ExtArgs['result']['guildSetting']>
+    }, ExtArgs["result"]["guildSetting"]>
     composites: {}
   }
 
@@ -5177,7 +4340,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends GuildSettingFindUniqueArgs>(args: SelectSubset<T, GuildSettingFindUniqueArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends GuildSettingFindUniqueArgs>(args: SelectSubset<T, GuildSettingFindUniqueArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find one GuildSetting that matches the filter or throw an error with `error.code='P2025'`
@@ -5191,7 +4354,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends GuildSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, GuildSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends GuildSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, GuildSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first GuildSetting that matches the filter.
@@ -5206,7 +4369,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends GuildSettingFindFirstArgs>(args?: SelectSubset<T, GuildSettingFindFirstArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends GuildSettingFindFirstArgs>(args?: SelectSubset<T, GuildSettingFindFirstArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first GuildSetting that matches the filter or
@@ -5222,7 +4385,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends GuildSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, GuildSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends GuildSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, GuildSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more GuildSettings that matches the filter.
@@ -5232,15 +4395,15 @@ export namespace Prisma {
      * @example
      * // Get all GuildSettings
      * const guildSettings = await prisma.guildSetting.findMany()
-     *
+     * 
      * // Get first 10 GuildSettings
      * const guildSettings = await prisma.guildSetting.findMany({ take: 10 })
-     *
+     * 
      * // Only select the `guildId`
      * const guildSettingWithGuildIdOnly = await prisma.guildSetting.findMany({ select: { guildId: true } })
-     *
+     * 
      */
-    findMany<T extends GuildSettingFindManyArgs>(args?: SelectSubset<T, GuildSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>
+    findMany<T extends GuildSettingFindManyArgs>(args?: SelectSubset<T, GuildSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a GuildSetting.
@@ -5252,9 +4415,9 @@ export namespace Prisma {
      *     // ... data to create a GuildSetting
      *   }
      * })
-     *
+     * 
      */
-    create<T extends GuildSettingCreateArgs>(args: SelectSubset<T, GuildSettingCreateArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'create', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends GuildSettingCreateArgs>(args: SelectSubset<T, GuildSettingCreateArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many GuildSettings.
@@ -5266,7 +4429,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     *     
      */
     createMany<T extends GuildSettingCreateManyArgs>(args?: SelectSubset<T, GuildSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -5280,7 +4443,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Create many GuildSettings and only return the `guildId`
      * const guildSettingWithGuildIdOnly = await prisma.guildSetting.createManyAndReturn({
      *   select: { guildId: true },
@@ -5290,9 +4453,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    createManyAndReturn<T extends GuildSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, GuildSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>>
+    createManyAndReturn<T extends GuildSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, GuildSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a GuildSetting.
@@ -5304,9 +4467,9 @@ export namespace Prisma {
      *     // ... filter to delete one GuildSetting
      *   }
      * })
-     *
+     * 
      */
-    delete<T extends GuildSettingDeleteArgs>(args: SelectSubset<T, GuildSettingDeleteArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends GuildSettingDeleteArgs>(args: SelectSubset<T, GuildSettingDeleteArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one GuildSetting.
@@ -5321,9 +4484,9 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
-    update<T extends GuildSettingUpdateArgs>(args: SelectSubset<T, GuildSettingUpdateArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'update', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends GuildSettingUpdateArgs>(args: SelectSubset<T, GuildSettingUpdateArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more GuildSettings.
@@ -5335,7 +4498,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     *
+     * 
      */
     deleteMany<T extends GuildSettingDeleteManyArgs>(args?: SelectSubset<T, GuildSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -5354,7 +4517,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
     updateMany<T extends GuildSettingUpdateManyArgs>(args: SelectSubset<T, GuildSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -5371,7 +4534,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Update zero or more GuildSettings and only return the `guildId`
      * const guildSettingWithGuildIdOnly = await prisma.guildSetting.updateManyAndReturn({
      *   select: { guildId: true },
@@ -5384,9 +4547,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    updateManyAndReturn<T extends GuildSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, GuildSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>>
+    updateManyAndReturn<T extends GuildSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, GuildSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one GuildSetting.
@@ -5405,7 +4568,8 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends GuildSettingUpsertArgs>(args: SelectSubset<T, GuildSettingUpsertArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends GuildSettingUpsertArgs>(args: SelectSubset<T, GuildSettingUpsertArgs<ExtArgs>>): Prisma__GuildSettingClient<$Result.GetResult<Prisma.$GuildSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
 
     /**
      * Count the number of GuildSettings.
@@ -5472,7 +4636,7 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     *
+     * 
     **/
     groupBy<
       T extends GuildSettingGroupByArgs,
@@ -5490,7 +4654,7 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? 'Error: "by" must not be empty.'
+      ? `Error: "by" must not be empty.`
       : HavingValid extends False
       ? {
           [P in HavingFields]: P extends ByFields
@@ -5501,7 +4665,7 @@ export namespace Prisma {
                 Error,
                 'Field ',
                 P,
-                ' in "having" needs to be provided in "by"',
+                ` in "having" needs to be provided in "by"`,
               ]
         }[HavingFields]
       : 'take' extends Keys<T>
@@ -5545,7 +4709,7 @@ export namespace Prisma {
    * https://github.com/prisma/prisma-client-js/issues/707
    */
   export interface Prisma__GuildSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise'
+    readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5568,26 +4732,30 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
   }
 
+
+
+
   /**
    * Fields of the GuildSetting model
    */
   interface GuildSettingFieldRefs {
-    readonly guildId: FieldRef<'GuildSetting', 'String'>
-    readonly prefix: FieldRef<'GuildSetting', 'String'>
-    readonly interactionsMode: FieldRef<'GuildSetting', 'Boolean'>
-    readonly language: FieldRef<'GuildSetting', 'String'>
-    readonly errorChannel: FieldRef<'GuildSetting', 'String'>
-    readonly rpEnabled: FieldRef<'GuildSetting', 'Boolean'>
-    readonly rpEnableRuns: FieldRef<'GuildSetting', 'Decimal'>
-    readonly lastRpSyncRun: FieldRef<'GuildSetting', 'Decimal'>
-    readonly ptReminderEnabled: FieldRef<'GuildSetting', 'Boolean'>
-    readonly legacyRp: FieldRef<'GuildSetting', 'Boolean'>
-    readonly editRpCommands: FieldRef<'GuildSetting', 'Boolean'>
-    readonly enableInvitesAt: FieldRef<'GuildSetting', 'Decimal'>
-    readonly statusChannel: FieldRef<'GuildSetting', 'String'>
-    readonly updatesChannel: FieldRef<'GuildSetting', 'String'>
-    readonly notifyChannel: FieldRef<'GuildSetting', 'String'>
+    readonly guildId: FieldRef<"GuildSetting", 'String'>
+    readonly prefix: FieldRef<"GuildSetting", 'String'>
+    readonly interactionsMode: FieldRef<"GuildSetting", 'Boolean'>
+    readonly language: FieldRef<"GuildSetting", 'String'>
+    readonly errorChannel: FieldRef<"GuildSetting", 'String'>
+    readonly rpEnabled: FieldRef<"GuildSetting", 'Boolean'>
+    readonly rpEnableRuns: FieldRef<"GuildSetting", 'Decimal'>
+    readonly lastRpSyncRun: FieldRef<"GuildSetting", 'Decimal'>
+    readonly ptReminderEnabled: FieldRef<"GuildSetting", 'Boolean'>
+    readonly legacyRp: FieldRef<"GuildSetting", 'Boolean'>
+    readonly editRpCommands: FieldRef<"GuildSetting", 'Boolean'>
+    readonly enableInvitesAt: FieldRef<"GuildSetting", 'Decimal'>
+    readonly statusChannel: FieldRef<"GuildSetting", 'String'>
+    readonly updatesChannel: FieldRef<"GuildSetting", 'String'>
+    readonly notifyChannel: FieldRef<"GuildSetting", 'String'>
   }
+    
 
   // Custom InputTypes
   /**
@@ -5644,31 +4812,31 @@ export namespace Prisma {
     where?: GuildSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of GuildSettings to fetch.
      */
     orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for GuildSettings.
      */
     cursor?: GuildSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` GuildSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` GuildSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of GuildSettings.
      */
     distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
@@ -5692,31 +4860,31 @@ export namespace Prisma {
     where?: GuildSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of GuildSettings to fetch.
      */
     orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for GuildSettings.
      */
     cursor?: GuildSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` GuildSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` GuildSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of GuildSettings.
      */
     distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
@@ -5740,31 +4908,31 @@ export namespace Prisma {
     where?: GuildSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of GuildSettings to fetch.
      */
     orderBy?: GuildSettingOrderByWithRelationInput | GuildSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for listing GuildSettings.
      */
     cursor?: GuildSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` GuildSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` GuildSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of GuildSettings.
      */
     distinct?: GuildSettingScalarFieldEnum | GuildSettingScalarFieldEnum[]
@@ -5956,396 +5124,333 @@ export namespace Prisma {
     omit?: GuildSettingOmit<ExtArgs> | null
   }
 
+
   /**
-   * Model CustomClient
+   * Model FilteredWord
    */
 
-  export type AggregateCustomClient = {
-    _count: CustomClientCountAggregateOutputType | null
-    _min: CustomClientMinAggregateOutputType | null
-    _max: CustomClientMaxAggregateOutputType | null
+  export type AggregateFilteredWord = {
+    _count: FilteredWordCountAggregateOutputType | null
+    _min: FilteredWordMinAggregateOutputType | null
+    _max: FilteredWordMaxAggregateOutputType | null
   }
 
-  export type CustomClientMinAggregateOutputType = {
-    guildId: string | null
-    appId: string | null
-    token: string | null
-    publicKey: string | null
-    secret: string | null
+  export type FilteredWordMinAggregateOutputType = {
+    keyword: string | null
+    filterType: $Enums.FilterType | null
   }
 
-  export type CustomClientMaxAggregateOutputType = {
-    guildId: string | null
-    appId: string | null
-    token: string | null
-    publicKey: string | null
-    secret: string | null
+  export type FilteredWordMaxAggregateOutputType = {
+    keyword: string | null
+    filterType: $Enums.FilterType | null
   }
 
-  export type CustomClientCountAggregateOutputType = {
-    guildId: number
-    appId: number
-    token: number
-    publicKey: number
-    secret: number
+  export type FilteredWordCountAggregateOutputType = {
+    keyword: number
+    filterType: number
     _all: number
   }
 
-  export type CustomClientMinAggregateInputType = {
-    guildId?: true
-    appId?: true
-    token?: true
-    publicKey?: true
-    secret?: true
+
+  export type FilteredWordMinAggregateInputType = {
+    keyword?: true
+    filterType?: true
   }
 
-  export type CustomClientMaxAggregateInputType = {
-    guildId?: true
-    appId?: true
-    token?: true
-    publicKey?: true
-    secret?: true
+  export type FilteredWordMaxAggregateInputType = {
+    keyword?: true
+    filterType?: true
   }
 
-  export type CustomClientCountAggregateInputType = {
-    guildId?: true
-    appId?: true
-    token?: true
-    publicKey?: true
-    secret?: true
+  export type FilteredWordCountAggregateInputType = {
+    keyword?: true
+    filterType?: true
     _all?: true
   }
 
-  export type CustomClientAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which CustomClient to aggregate.
+     * Filter which FilteredWord to aggregate.
      */
-    where?: CustomClientWhereInput
+    where?: FilteredWordWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of CustomClients to fetch.
+     * 
+     * Determine the order of FilteredWords to fetch.
      */
-    orderBy?: CustomClientOrderByWithRelationInput | CustomClientOrderByWithRelationInput[]
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the start position
      */
-    cursor?: CustomClientWhereUniqueInput
+    cursor?: FilteredWordWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` CustomClients from the position of the cursor.
+     * 
+     * Take `±n` FilteredWords from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` CustomClients.
+     * 
+     * Skip the first `n` FilteredWords.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Count returned CustomClients
+     * 
+     * Count returned FilteredWords
     **/
-    _count?: true | CustomClientCountAggregateInputType
+    _count?: true | FilteredWordCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the minimum value
     **/
-    _min?: CustomClientMinAggregateInputType
+    _min?: FilteredWordMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the maximum value
     **/
-    _max?: CustomClientMaxAggregateInputType
+    _max?: FilteredWordMaxAggregateInputType
   }
 
-  export type GetCustomClientAggregateType<T extends CustomClientAggregateArgs> = {
-        [P in keyof T & keyof AggregateCustomClient]: P extends '_count' | 'count'
+  export type GetFilteredWordAggregateType<T extends FilteredWordAggregateArgs> = {
+        [P in keyof T & keyof AggregateFilteredWord]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateCustomClient[P]>
-      : GetScalarType<T[P], AggregateCustomClient[P]>
+        : GetScalarType<T[P], AggregateFilteredWord[P]>
+      : GetScalarType<T[P], AggregateFilteredWord[P]>
   }
 
-  export type CustomClientGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CustomClientWhereInput
-    orderBy?: CustomClientOrderByWithAggregationInput | CustomClientOrderByWithAggregationInput[]
-    by: CustomClientScalarFieldEnum[] | CustomClientScalarFieldEnum
-    having?: CustomClientScalarWhereWithAggregatesInput
+
+
+
+  export type FilteredWordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FilteredWordWhereInput
+    orderBy?: FilteredWordOrderByWithAggregationInput | FilteredWordOrderByWithAggregationInput[]
+    by: FilteredWordScalarFieldEnum[] | FilteredWordScalarFieldEnum
+    having?: FilteredWordScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: CustomClientCountAggregateInputType | true
-    _min?: CustomClientMinAggregateInputType
-    _max?: CustomClientMaxAggregateInputType
+    _count?: FilteredWordCountAggregateInputType | true
+    _min?: FilteredWordMinAggregateInputType
+    _max?: FilteredWordMaxAggregateInputType
   }
 
-  export type CustomClientGroupByOutputType = {
-    guildId: string
-    appId: string | null
-    token: string | null
-    publicKey: string | null
-    secret: string | null
-    _count: CustomClientCountAggregateOutputType | null
-    _min: CustomClientMinAggregateOutputType | null
-    _max: CustomClientMaxAggregateOutputType | null
+  export type FilteredWordGroupByOutputType = {
+    keyword: string
+    filterType: $Enums.FilterType
+    _count: FilteredWordCountAggregateOutputType | null
+    _min: FilteredWordMinAggregateOutputType | null
+    _max: FilteredWordMaxAggregateOutputType | null
   }
 
-  type GetCustomClientGroupByPayload<T extends CustomClientGroupByArgs> = Prisma.PrismaPromise<
+  type GetFilteredWordGroupByPayload<T extends FilteredWordGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<CustomClientGroupByOutputType, T['by']> &
+      PickEnumerable<FilteredWordGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof CustomClientGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof FilteredWordGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], CustomClientGroupByOutputType[P]>
-            : GetScalarType<T[P], CustomClientGroupByOutputType[P]>
+              : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
+            : GetScalarType<T[P], FilteredWordGroupByOutputType[P]>
         }
       >
     >
 
-  export type CustomClientSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    guildId?: boolean
-    appId?: boolean
-    token?: boolean
-    publicKey?: boolean
-    secret?: boolean
-  }, ExtArgs['result']['customClient']>
 
-  export type CustomClientSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    guildId?: boolean
-    appId?: boolean
-    token?: boolean
-    publicKey?: boolean
-    secret?: boolean
-  }, ExtArgs['result']['customClient']>
+  export type FilteredWordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyword?: boolean
+    filterType?: boolean
+  }, ExtArgs["result"]["filteredWord"]>
 
-  export type CustomClientSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    guildId?: boolean
-    appId?: boolean
-    token?: boolean
-    publicKey?: boolean
-    secret?: boolean
-  }, ExtArgs['result']['customClient']>
+  export type FilteredWordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyword?: boolean
+    filterType?: boolean
+  }, ExtArgs["result"]["filteredWord"]>
 
-  export type CustomClientSelectScalar = {
-    guildId?: boolean
-    appId?: boolean
-    token?: boolean
-    publicKey?: boolean
-    secret?: boolean
+  export type FilteredWordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    keyword?: boolean
+    filterType?: boolean
+  }, ExtArgs["result"]["filteredWord"]>
+
+  export type FilteredWordSelectScalar = {
+    keyword?: boolean
+    filterType?: boolean
   }
 
-  export type CustomClientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<'guildId' | 'appId' | 'token' | 'publicKey' | 'secret', ExtArgs['result']['customClient']>
+  export type FilteredWordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"keyword" | "filterType", ExtArgs["result"]["filteredWord"]>
 
-  export type $CustomClientPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: 'CustomClient'
+  export type $FilteredWordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FilteredWord"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      guildId: string
-      appId: string | null
-      token: string | null
-      publicKey: string | null
-      secret: string | null
-    }, ExtArgs['result']['customClient']>
+      keyword: string
+      filterType: $Enums.FilterType
+    }, ExtArgs["result"]["filteredWord"]>
     composites: {}
   }
 
-  type CustomClientGetPayload<S extends boolean | null | undefined | CustomClientDefaultArgs> = $Result.GetResult<Prisma.$CustomClientPayload, S>
+  type FilteredWordGetPayload<S extends boolean | null | undefined | FilteredWordDefaultArgs> = $Result.GetResult<Prisma.$FilteredWordPayload, S>
 
-  type CustomClientCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<CustomClientFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: CustomClientCountAggregateInputType | true
+  type FilteredWordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FilteredWordFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FilteredWordCountAggregateInputType | true
     }
 
-  export interface CustomClientDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomClient'], meta: { name: 'CustomClient' } }
+  export interface FilteredWordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FilteredWord'], meta: { name: 'FilteredWord' } }
     /**
-     * Find zero or one CustomClient that matches the filter.
-     * @param {CustomClientFindUniqueArgs} args - Arguments to find a CustomClient
+     * Find zero or one FilteredWord that matches the filter.
+     * @param {FilteredWordFindUniqueArgs} args - Arguments to find a FilteredWord
      * @example
-     * // Get one CustomClient
-     * const customClient = await prisma.customClient.findUnique({
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends CustomClientFindUniqueArgs>(args: SelectSubset<T, CustomClientFindUniqueArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends FilteredWordFindUniqueArgs>(args: SelectSubset<T, FilteredWordFindUniqueArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one CustomClient that matches the filter or throw an error with `error.code='P2025'`
+     * Find one FilteredWord that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {CustomClientFindUniqueOrThrowArgs} args - Arguments to find a CustomClient
+     * @param {FilteredWordFindUniqueOrThrowArgs} args - Arguments to find a FilteredWord
      * @example
-     * // Get one CustomClient
-     * const customClient = await prisma.customClient.findUniqueOrThrow({
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends CustomClientFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomClientFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends FilteredWordFindUniqueOrThrowArgs>(args: SelectSubset<T, FilteredWordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first CustomClient that matches the filter.
+     * Find the first FilteredWord that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomClientFindFirstArgs} args - Arguments to find a CustomClient
+     * @param {FilteredWordFindFirstArgs} args - Arguments to find a FilteredWord
      * @example
-     * // Get one CustomClient
-     * const customClient = await prisma.customClient.findFirst({
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends CustomClientFindFirstArgs>(args?: SelectSubset<T, CustomClientFindFirstArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends FilteredWordFindFirstArgs>(args?: SelectSubset<T, FilteredWordFindFirstArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first CustomClient that matches the filter or
+     * Find the first FilteredWord that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomClientFindFirstOrThrowArgs} args - Arguments to find a CustomClient
+     * @param {FilteredWordFindFirstOrThrowArgs} args - Arguments to find a FilteredWord
      * @example
-     * // Get one CustomClient
-     * const customClient = await prisma.customClient.findFirstOrThrow({
+     * // Get one FilteredWord
+     * const filteredWord = await prisma.filteredWord.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends CustomClientFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomClientFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends FilteredWordFindFirstOrThrowArgs>(args?: SelectSubset<T, FilteredWordFindFirstOrThrowArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more CustomClients that matches the filter.
+     * Find zero or more FilteredWords that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomClientFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {FilteredWordFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all CustomClients
-     * const customClients = await prisma.customClient.findMany()
-     *
-     * // Get first 10 CustomClients
-     * const customClients = await prisma.customClient.findMany({ take: 10 })
-     *
-     * // Only select the `guildId`
-     * const customClientWithGuildIdOnly = await prisma.customClient.findMany({ select: { guildId: true } })
-     *
+     * // Get all FilteredWords
+     * const filteredWords = await prisma.filteredWord.findMany()
+     * 
+     * // Get first 10 FilteredWords
+     * const filteredWords = await prisma.filteredWord.findMany({ take: 10 })
+     * 
+     * // Only select the `keyword`
+     * const filteredWordWithKeywordOnly = await prisma.filteredWord.findMany({ select: { keyword: true } })
+     * 
      */
-    findMany<T extends CustomClientFindManyArgs>(args?: SelectSubset<T, CustomClientFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>
+    findMany<T extends FilteredWordFindManyArgs>(args?: SelectSubset<T, FilteredWordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a CustomClient.
-     * @param {CustomClientCreateArgs} args - Arguments to create a CustomClient.
+     * Create a FilteredWord.
+     * @param {FilteredWordCreateArgs} args - Arguments to create a FilteredWord.
      * @example
-     * // Create one CustomClient
-     * const CustomClient = await prisma.customClient.create({
+     * // Create one FilteredWord
+     * const FilteredWord = await prisma.filteredWord.create({
      *   data: {
-     *     // ... data to create a CustomClient
+     *     // ... data to create a FilteredWord
      *   }
      * })
-     *
+     * 
      */
-    create<T extends CustomClientCreateArgs>(args: SelectSubset<T, CustomClientCreateArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'create', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends FilteredWordCreateArgs>(args: SelectSubset<T, FilteredWordCreateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many CustomClients.
-     * @param {CustomClientCreateManyArgs} args - Arguments to create many CustomClients.
+     * Create many FilteredWords.
+     * @param {FilteredWordCreateManyArgs} args - Arguments to create many FilteredWords.
      * @example
-     * // Create many CustomClients
-     * const customClient = await prisma.customClient.createMany({
+     * // Create many FilteredWords
+     * const filteredWord = await prisma.filteredWord.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
-     *
+     *     
      */
-    createMany<T extends CustomClientCreateManyArgs>(args?: SelectSubset<T, CustomClientCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends FilteredWordCreateManyArgs>(args?: SelectSubset<T, FilteredWordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many CustomClients and returns the data saved in the database.
-     * @param {CustomClientCreateManyAndReturnArgs} args - Arguments to create many CustomClients.
+     * Create many FilteredWords and returns the data saved in the database.
+     * @param {FilteredWordCreateManyAndReturnArgs} args - Arguments to create many FilteredWords.
      * @example
-     * // Create many CustomClients
-     * const customClient = await prisma.customClient.createManyAndReturn({
+     * // Create many FilteredWords
+     * const filteredWord = await prisma.filteredWord.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
-     *
-     * // Create many CustomClients and only return the `guildId`
-     * const customClientWithGuildIdOnly = await prisma.customClient.createManyAndReturn({
-     *   select: { guildId: true },
+     * 
+     * // Create many FilteredWords and only return the `keyword`
+     * const filteredWordWithKeywordOnly = await prisma.filteredWord.createManyAndReturn({
+     *   select: { keyword: true },
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    createManyAndReturn<T extends CustomClientCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomClientCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>>
+    createManyAndReturn<T extends FilteredWordCreateManyAndReturnArgs>(args?: SelectSubset<T, FilteredWordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a CustomClient.
-     * @param {CustomClientDeleteArgs} args - Arguments to delete one CustomClient.
+     * Delete a FilteredWord.
+     * @param {FilteredWordDeleteArgs} args - Arguments to delete one FilteredWord.
      * @example
-     * // Delete one CustomClient
-     * const CustomClient = await prisma.customClient.delete({
+     * // Delete one FilteredWord
+     * const FilteredWord = await prisma.filteredWord.delete({
      *   where: {
-     *     // ... filter to delete one CustomClient
+     *     // ... filter to delete one FilteredWord
      *   }
      * })
-     *
+     * 
      */
-    delete<T extends CustomClientDeleteArgs>(args: SelectSubset<T, CustomClientDeleteArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends FilteredWordDeleteArgs>(args: SelectSubset<T, FilteredWordDeleteArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one CustomClient.
-     * @param {CustomClientUpdateArgs} args - Arguments to update one CustomClient.
+     * Update one FilteredWord.
+     * @param {FilteredWordUpdateArgs} args - Arguments to update one FilteredWord.
      * @example
-     * // Update one CustomClient
-     * const customClient = await prisma.customClient.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     *
-     */
-    update<T extends CustomClientUpdateArgs>(args: SelectSubset<T, CustomClientUpdateArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'update', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more CustomClients.
-     * @param {CustomClientDeleteManyArgs} args - Arguments to filter CustomClients to delete.
-     * @example
-     * // Delete a few CustomClients
-     * const { count } = await prisma.customClient.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     *
-     */
-    deleteMany<T extends CustomClientDeleteManyArgs>(args?: SelectSubset<T, CustomClientDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more CustomClients.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomClientUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many CustomClients
-     * const customClient = await prisma.customClient.updateMany({
+     * // Update one FilteredWord
+     * const filteredWord = await prisma.filteredWord.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6353,16 +5458,49 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
-    updateMany<T extends CustomClientUpdateManyArgs>(args: SelectSubset<T, CustomClientUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    update<T extends FilteredWordUpdateArgs>(args: SelectSubset<T, FilteredWordUpdateArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update zero or more CustomClients and returns the data updated in the database.
-     * @param {CustomClientUpdateManyAndReturnArgs} args - Arguments to update many CustomClients.
+     * Delete zero or more FilteredWords.
+     * @param {FilteredWordDeleteManyArgs} args - Arguments to filter FilteredWords to delete.
      * @example
-     * // Update many CustomClients
-     * const customClient = await prisma.customClient.updateManyAndReturn({
+     * // Delete a few FilteredWords
+     * const { count } = await prisma.filteredWord.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FilteredWordDeleteManyArgs>(args?: SelectSubset<T, FilteredWordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FilteredWords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilteredWordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FilteredWords
+     * const filteredWord = await prisma.filteredWord.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FilteredWordUpdateManyArgs>(args: SelectSubset<T, FilteredWordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FilteredWords and returns the data updated in the database.
+     * @param {FilteredWordUpdateManyAndReturnArgs} args - Arguments to update many FilteredWords.
+     * @example
+     * // Update many FilteredWords
+     * const filteredWord = await prisma.filteredWord.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6370,10 +5508,10 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
-     * // Update zero or more CustomClients and only return the `guildId`
-     * const customClientWithGuildIdOnly = await prisma.customClient.updateManyAndReturn({
-     *   select: { guildId: true },
+     * 
+     * // Update zero or more FilteredWords and only return the `keyword`
+     * const filteredWordWithKeywordOnly = await prisma.filteredWord.updateManyAndReturn({
+     *   select: { keyword: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6383,57 +5521,58 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    updateManyAndReturn<T extends CustomClientUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomClientUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>>
+    updateManyAndReturn<T extends FilteredWordUpdateManyAndReturnArgs>(args: SelectSubset<T, FilteredWordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one CustomClient.
-     * @param {CustomClientUpsertArgs} args - Arguments to update or create a CustomClient.
+     * Create or update one FilteredWord.
+     * @param {FilteredWordUpsertArgs} args - Arguments to update or create a FilteredWord.
      * @example
-     * // Update or create a CustomClient
-     * const customClient = await prisma.customClient.upsert({
+     * // Update or create a FilteredWord
+     * const filteredWord = await prisma.filteredWord.upsert({
      *   create: {
-     *     // ... data to create a CustomClient
+     *     // ... data to create a FilteredWord
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the CustomClient we want to update
+     *     // ... the filter for the FilteredWord we want to update
      *   }
      * })
      */
-    upsert<T extends CustomClientUpsertArgs>(args: SelectSubset<T, CustomClientUpsertArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends FilteredWordUpsertArgs>(args: SelectSubset<T, FilteredWordUpsertArgs<ExtArgs>>): Prisma__FilteredWordClient<$Result.GetResult<Prisma.$FilteredWordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
 
     /**
-     * Count the number of CustomClients.
+     * Count the number of FilteredWords.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomClientCountArgs} args - Arguments to filter CustomClients to count.
+     * @param {FilteredWordCountArgs} args - Arguments to filter FilteredWords to count.
      * @example
-     * // Count the number of CustomClients
-     * const count = await prisma.customClient.count({
+     * // Count the number of FilteredWords
+     * const count = await prisma.filteredWord.count({
      *   where: {
-     *     // ... the filter for the CustomClients we want to count
+     *     // ... the filter for the FilteredWords we want to count
      *   }
      * })
     **/
-    count<T extends CustomClientCountArgs>(
-      args?: Subset<T, CustomClientCountArgs>,
+    count<T extends FilteredWordCountArgs>(
+      args?: Subset<T, FilteredWordCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], CustomClientCountAggregateOutputType>
+          : GetScalarType<T['select'], FilteredWordCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a CustomClient.
+     * Allows you to perform aggregations operations on a FilteredWord.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomClientAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {FilteredWordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -6453,13 +5592,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CustomClientAggregateArgs>(args: Subset<T, CustomClientAggregateArgs>): Prisma.PrismaPromise<GetCustomClientAggregateType<T>>
+    aggregate<T extends FilteredWordAggregateArgs>(args: Subset<T, FilteredWordAggregateArgs>): Prisma.PrismaPromise<GetFilteredWordAggregateType<T>>
 
     /**
-     * Group by CustomClient.
+     * Group by FilteredWord.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CustomClientGroupByArgs} args - Group by arguments.
+     * @param {FilteredWordGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -6471,17 +5610,17 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     *
+     * 
     **/
     groupBy<
-      T extends CustomClientGroupByArgs,
+      T extends FilteredWordGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CustomClientGroupByArgs['orderBy'] }
-        : { orderBy?: CustomClientGroupByArgs['orderBy'] },
+        ? { orderBy: FilteredWordGroupByArgs['orderBy'] }
+        : { orderBy?: FilteredWordGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -6489,7 +5628,7 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? 'Error: "by" must not be empty.'
+      ? `Error: "by" must not be empty.`
       : HavingValid extends False
       ? {
           [P in HavingFields]: P extends ByFields
@@ -6500,7 +5639,7 @@ export namespace Prisma {
                 Error,
                 'Field ',
                 P,
-                ' in "having" needs to be provided in "by"',
+                ` in "having" needs to be provided in "by"`,
               ]
         }[HavingFields]
       : 'take' extends Keys<T>
@@ -6530,21 +5669,21 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CustomClientGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomClientGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, FilteredWordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFilteredWordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the CustomClient model
+   * Fields of the FilteredWord model
    */
-  readonly fields: CustomClientFieldRefs;
+  readonly fields: FilteredWordFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for CustomClient.
+   * The delegate class that acts as a "Promise-like" for FilteredWord.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__CustomClientClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise'
+  export interface Prisma__FilteredWordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6567,383 +5706,385 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
   }
 
+
+
+
   /**
-   * Fields of the CustomClient model
+   * Fields of the FilteredWord model
    */
-  interface CustomClientFieldRefs {
-    readonly guildId: FieldRef<'CustomClient', 'String'>
-    readonly appId: FieldRef<'CustomClient', 'String'>
-    readonly token: FieldRef<'CustomClient', 'String'>
-    readonly publicKey: FieldRef<'CustomClient', 'String'>
-    readonly secret: FieldRef<'CustomClient', 'String'>
+  interface FilteredWordFieldRefs {
+    readonly keyword: FieldRef<"FilteredWord", 'String'>
+    readonly filterType: FieldRef<"FilteredWord", 'FilterType'>
   }
+    
 
   // Custom InputTypes
   /**
-   * CustomClient findUnique
+   * FilteredWord findUnique
    */
-  export type CustomClientFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which CustomClient to fetch.
+     * Filter, which FilteredWord to fetch.
      */
-    where: CustomClientWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
   }
 
   /**
-   * CustomClient findUniqueOrThrow
+   * FilteredWord findUniqueOrThrow
    */
-  export type CustomClientFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which CustomClient to fetch.
+     * Filter, which FilteredWord to fetch.
      */
-    where: CustomClientWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
   }
 
   /**
-   * CustomClient findFirst
+   * FilteredWord findFirst
    */
-  export type CustomClientFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which CustomClient to fetch.
+     * Filter, which FilteredWord to fetch.
      */
-    where?: CustomClientWhereInput
+    where?: FilteredWordWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of CustomClients to fetch.
+     * 
+     * Determine the order of FilteredWords to fetch.
      */
-    orderBy?: CustomClientOrderByWithRelationInput | CustomClientOrderByWithRelationInput[]
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for CustomClients.
+     * 
+     * Sets the position for searching for FilteredWords.
      */
-    cursor?: CustomClientWhereUniqueInput
+    cursor?: FilteredWordWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` CustomClients from the position of the cursor.
+     * 
+     * Take `±n` FilteredWords from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` CustomClients.
+     * 
+     * Skip the first `n` FilteredWords.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of CustomClients.
+     * 
+     * Filter by unique combinations of FilteredWords.
      */
-    distinct?: CustomClientScalarFieldEnum | CustomClientScalarFieldEnum[]
+    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
   }
 
   /**
-   * CustomClient findFirstOrThrow
+   * FilteredWord findFirstOrThrow
    */
-  export type CustomClientFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which CustomClient to fetch.
+     * Filter, which FilteredWord to fetch.
      */
-    where?: CustomClientWhereInput
+    where?: FilteredWordWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of CustomClients to fetch.
+     * 
+     * Determine the order of FilteredWords to fetch.
      */
-    orderBy?: CustomClientOrderByWithRelationInput | CustomClientOrderByWithRelationInput[]
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for searching for CustomClients.
+     * 
+     * Sets the position for searching for FilteredWords.
      */
-    cursor?: CustomClientWhereUniqueInput
+    cursor?: FilteredWordWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` CustomClients from the position of the cursor.
+     * 
+     * Take `±n` FilteredWords from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` CustomClients.
+     * 
+     * Skip the first `n` FilteredWords.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of CustomClients.
+     * 
+     * Filter by unique combinations of FilteredWords.
      */
-    distinct?: CustomClientScalarFieldEnum | CustomClientScalarFieldEnum[]
+    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
   }
 
   /**
-   * CustomClient findMany
+   * FilteredWord findMany
    */
-  export type CustomClientFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter, which CustomClients to fetch.
+     * Filter, which FilteredWords to fetch.
      */
-    where?: CustomClientWhereInput
+    where?: FilteredWordWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
-     * Determine the order of CustomClients to fetch.
+     * 
+     * Determine the order of FilteredWords to fetch.
      */
-    orderBy?: CustomClientOrderByWithRelationInput | CustomClientOrderByWithRelationInput[]
+    orderBy?: FilteredWordOrderByWithRelationInput | FilteredWordOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
-     * Sets the position for listing CustomClients.
+     * 
+     * Sets the position for listing FilteredWords.
      */
-    cursor?: CustomClientWhereUniqueInput
+    cursor?: FilteredWordWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Take `±n` CustomClients from the position of the cursor.
+     * 
+     * Take `±n` FilteredWords from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
-     * Skip the first `n` CustomClients.
+     * 
+     * Skip the first `n` FilteredWords.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
-     * Filter by unique combinations of CustomClients.
+     * 
+     * Filter by unique combinations of FilteredWords.
      */
-    distinct?: CustomClientScalarFieldEnum | CustomClientScalarFieldEnum[]
+    distinct?: FilteredWordScalarFieldEnum | FilteredWordScalarFieldEnum[]
   }
 
   /**
-   * CustomClient create
+   * FilteredWord create
    */
-  export type CustomClientCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The data needed to create a CustomClient.
+     * The data needed to create a FilteredWord.
      */
-    data: XOR<CustomClientCreateInput, CustomClientUncheckedCreateInput>
+    data: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
   }
 
   /**
-   * CustomClient createMany
+   * FilteredWord createMany
    */
-  export type CustomClientCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many CustomClients.
+     * The data used to create many FilteredWords.
      */
-    data: CustomClientCreateManyInput | CustomClientCreateManyInput[]
+    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * CustomClient createManyAndReturn
+   * FilteredWord createManyAndReturn
    */
-  export type CustomClientCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelectCreateManyAndReturn<ExtArgs> | null
+    select?: FilteredWordSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The data used to create many CustomClients.
+     * The data used to create many FilteredWords.
      */
-    data: CustomClientCreateManyInput | CustomClientCreateManyInput[]
+    data: FilteredWordCreateManyInput | FilteredWordCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * CustomClient update
+   * FilteredWord update
    */
-  export type CustomClientUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The data needed to update a CustomClient.
+     * The data needed to update a FilteredWord.
      */
-    data: XOR<CustomClientUpdateInput, CustomClientUncheckedUpdateInput>
+    data: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
     /**
-     * Choose, which CustomClient to update.
+     * Choose, which FilteredWord to update.
      */
-    where: CustomClientWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
   }
 
   /**
-   * CustomClient updateMany
+   * FilteredWord updateMany
    */
-  export type CustomClientUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update CustomClients.
+     * The data used to update FilteredWords.
      */
-    data: XOR<CustomClientUpdateManyMutationInput, CustomClientUncheckedUpdateManyInput>
+    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
     /**
-     * Filter which CustomClients to update
+     * Filter which FilteredWords to update
      */
-    where?: CustomClientWhereInput
+    where?: FilteredWordWhereInput
     /**
-     * Limit how many CustomClients to update.
+     * Limit how many FilteredWords to update.
      */
     limit?: number
   }
 
   /**
-   * CustomClient updateManyAndReturn
+   * FilteredWord updateManyAndReturn
    */
-  export type CustomClientUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: FilteredWordSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The data used to update CustomClients.
+     * The data used to update FilteredWords.
      */
-    data: XOR<CustomClientUpdateManyMutationInput, CustomClientUncheckedUpdateManyInput>
+    data: XOR<FilteredWordUpdateManyMutationInput, FilteredWordUncheckedUpdateManyInput>
     /**
-     * Filter which CustomClients to update
+     * Filter which FilteredWords to update
      */
-    where?: CustomClientWhereInput
+    where?: FilteredWordWhereInput
     /**
-     * Limit how many CustomClients to update.
+     * Limit how many FilteredWords to update.
      */
     limit?: number
   }
 
   /**
-   * CustomClient upsert
+   * FilteredWord upsert
    */
-  export type CustomClientUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * The filter to search for the CustomClient to update in case it exists.
+     * The filter to search for the FilteredWord to update in case it exists.
      */
-    where: CustomClientWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
     /**
-     * In case the CustomClient found by the `where` argument doesn't exist, create a new CustomClient with this data.
+     * In case the FilteredWord found by the `where` argument doesn't exist, create a new FilteredWord with this data.
      */
-    create: XOR<CustomClientCreateInput, CustomClientUncheckedCreateInput>
+    create: XOR<FilteredWordCreateInput, FilteredWordUncheckedCreateInput>
     /**
-     * In case the CustomClient was found with the provided `where` argument, update it with this data.
+     * In case the FilteredWord was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<CustomClientUpdateInput, CustomClientUncheckedUpdateInput>
+    update: XOR<FilteredWordUpdateInput, FilteredWordUncheckedUpdateInput>
   }
 
   /**
-   * CustomClient delete
+   * FilteredWord delete
    */
-  export type CustomClientDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
     /**
-     * Filter which CustomClient to delete.
+     * Filter which FilteredWord to delete.
      */
-    where: CustomClientWhereUniqueInput
+    where: FilteredWordWhereUniqueInput
   }
 
   /**
-   * CustomClient deleteMany
+   * FilteredWord deleteMany
    */
-  export type CustomClientDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which CustomClients to delete
+     * Filter which FilteredWords to delete
      */
-    where?: CustomClientWhereInput
+    where?: FilteredWordWhereInput
     /**
-     * Limit how many CustomClients to delete.
+     * Limit how many FilteredWords to delete.
      */
     limit?: number
   }
 
   /**
-   * CustomClient without action
+   * FilteredWord without action
    */
-  export type CustomClientDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type FilteredWordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CustomClient
+     * Select specific fields to fetch from the FilteredWord
      */
-    select?: CustomClientSelect<ExtArgs> | null
+    select?: FilteredWordSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CustomClient
+     * Omit specific fields from the FilteredWord
      */
-    omit?: CustomClientOmit<ExtArgs> | null
+    omit?: FilteredWordOmit<ExtArgs> | null
   }
+
 
   /**
    * Model AfkState
@@ -6987,6 +6128,7 @@ export namespace Prisma {
     _all: number
   }
 
+
   export type AfkStateAvgAggregateInputType = {
     since?: true
   }
@@ -7024,55 +6166,55 @@ export namespace Prisma {
     where?: AfkStateWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of AfkStates to fetch.
      */
     orderBy?: AfkStateOrderByWithRelationInput | AfkStateOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the start position
      */
     cursor?: AfkStateWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` AfkStates from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` AfkStates.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Count returned AfkStates
     **/
     _count?: true | AfkStateCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to average
     **/
     _avg?: AfkStateAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to sum
     **/
     _sum?: AfkStateSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: AfkStateMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the maximum value
     **/
     _max?: AfkStateMaxAggregateInputType
@@ -7085,6 +6227,9 @@ export namespace Prisma {
         : GetScalarType<T[P], AggregateAfkState[P]>
       : GetScalarType<T[P], AggregateAfkState[P]>
   }
+
+
+
 
   export type AfkStateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AfkStateWhereInput
@@ -7125,26 +6270,27 @@ export namespace Prisma {
       >
     >
 
+
   export type AfkStateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     reason?: boolean
     since?: boolean
     guildId?: boolean
-  }, ExtArgs['result']['afkState']>
+  }, ExtArgs["result"]["afkState"]>
 
   export type AfkStateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     reason?: boolean
     since?: boolean
     guildId?: boolean
-  }, ExtArgs['result']['afkState']>
+  }, ExtArgs["result"]["afkState"]>
 
   export type AfkStateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     reason?: boolean
     since?: boolean
     guildId?: boolean
-  }, ExtArgs['result']['afkState']>
+  }, ExtArgs["result"]["afkState"]>
 
   export type AfkStateSelectScalar = {
     userId?: boolean
@@ -7153,17 +6299,17 @@ export namespace Prisma {
     guildId?: boolean
   }
 
-  export type AfkStateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<'userId' | 'reason' | 'since' | 'guildId', ExtArgs['result']['afkState']>
+  export type AfkStateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "reason" | "since" | "guildId", ExtArgs["result"]["afkState"]>
 
   export type $AfkStatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: 'AfkState'
+    name: "AfkState"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       userId: string
       reason: string | null
       since: Prisma.Decimal
       guildId: string
-    }, ExtArgs['result']['afkState']>
+    }, ExtArgs["result"]["afkState"]>
     composites: {}
   }
 
@@ -7187,7 +6333,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends AfkStateFindUniqueArgs>(args: SelectSubset<T, AfkStateFindUniqueArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends AfkStateFindUniqueArgs>(args: SelectSubset<T, AfkStateFindUniqueArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find one AfkState that matches the filter or throw an error with `error.code='P2025'`
@@ -7201,7 +6347,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends AfkStateFindUniqueOrThrowArgs>(args: SelectSubset<T, AfkStateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends AfkStateFindUniqueOrThrowArgs>(args: SelectSubset<T, AfkStateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first AfkState that matches the filter.
@@ -7216,7 +6362,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends AfkStateFindFirstArgs>(args?: SelectSubset<T, AfkStateFindFirstArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends AfkStateFindFirstArgs>(args?: SelectSubset<T, AfkStateFindFirstArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first AfkState that matches the filter or
@@ -7232,7 +6378,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends AfkStateFindFirstOrThrowArgs>(args?: SelectSubset<T, AfkStateFindFirstOrThrowArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends AfkStateFindFirstOrThrowArgs>(args?: SelectSubset<T, AfkStateFindFirstOrThrowArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more AfkStates that matches the filter.
@@ -7242,15 +6388,15 @@ export namespace Prisma {
      * @example
      * // Get all AfkStates
      * const afkStates = await prisma.afkState.findMany()
-     *
+     * 
      * // Get first 10 AfkStates
      * const afkStates = await prisma.afkState.findMany({ take: 10 })
-     *
+     * 
      * // Only select the `userId`
      * const afkStateWithUserIdOnly = await prisma.afkState.findMany({ select: { userId: true } })
-     *
+     * 
      */
-    findMany<T extends AfkStateFindManyArgs>(args?: SelectSubset<T, AfkStateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>
+    findMany<T extends AfkStateFindManyArgs>(args?: SelectSubset<T, AfkStateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a AfkState.
@@ -7262,9 +6408,9 @@ export namespace Prisma {
      *     // ... data to create a AfkState
      *   }
      * })
-     *
+     * 
      */
-    create<T extends AfkStateCreateArgs>(args: SelectSubset<T, AfkStateCreateArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'create', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends AfkStateCreateArgs>(args: SelectSubset<T, AfkStateCreateArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many AfkStates.
@@ -7276,7 +6422,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     *     
      */
     createMany<T extends AfkStateCreateManyArgs>(args?: SelectSubset<T, AfkStateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -7290,7 +6436,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Create many AfkStates and only return the `userId`
      * const afkStateWithUserIdOnly = await prisma.afkState.createManyAndReturn({
      *   select: { userId: true },
@@ -7300,9 +6446,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    createManyAndReturn<T extends AfkStateCreateManyAndReturnArgs>(args?: SelectSubset<T, AfkStateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>>
+    createManyAndReturn<T extends AfkStateCreateManyAndReturnArgs>(args?: SelectSubset<T, AfkStateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a AfkState.
@@ -7314,9 +6460,9 @@ export namespace Prisma {
      *     // ... filter to delete one AfkState
      *   }
      * })
-     *
+     * 
      */
-    delete<T extends AfkStateDeleteArgs>(args: SelectSubset<T, AfkStateDeleteArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'delete', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends AfkStateDeleteArgs>(args: SelectSubset<T, AfkStateDeleteArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one AfkState.
@@ -7331,9 +6477,9 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
-    update<T extends AfkStateUpdateArgs>(args: SelectSubset<T, AfkStateUpdateArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'update', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends AfkStateUpdateArgs>(args: SelectSubset<T, AfkStateUpdateArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more AfkStates.
@@ -7345,7 +6491,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     *
+     * 
      */
     deleteMany<T extends AfkStateDeleteManyArgs>(args?: SelectSubset<T, AfkStateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -7364,7 +6510,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
     updateMany<T extends AfkStateUpdateManyArgs>(args: SelectSubset<T, AfkStateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -7381,7 +6527,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Update zero or more AfkStates and only return the `userId`
      * const afkStateWithUserIdOnly = await prisma.afkState.updateManyAndReturn({
      *   select: { userId: true },
@@ -7394,9 +6540,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    updateManyAndReturn<T extends AfkStateUpdateManyAndReturnArgs>(args: SelectSubset<T, AfkStateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>>
+    updateManyAndReturn<T extends AfkStateUpdateManyAndReturnArgs>(args: SelectSubset<T, AfkStateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one AfkState.
@@ -7415,7 +6561,8 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends AfkStateUpsertArgs>(args: SelectSubset<T, AfkStateUpsertArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends AfkStateUpsertArgs>(args: SelectSubset<T, AfkStateUpsertArgs<ExtArgs>>): Prisma__AfkStateClient<$Result.GetResult<Prisma.$AfkStatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
 
     /**
      * Count the number of AfkStates.
@@ -7482,7 +6629,7 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     *
+     * 
     **/
     groupBy<
       T extends AfkStateGroupByArgs,
@@ -7500,7 +6647,7 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? 'Error: "by" must not be empty.'
+      ? `Error: "by" must not be empty.`
       : HavingValid extends False
       ? {
           [P in HavingFields]: P extends ByFields
@@ -7511,7 +6658,7 @@ export namespace Prisma {
                 Error,
                 'Field ',
                 P,
-                ' in "having" needs to be provided in "by"',
+                ` in "having" needs to be provided in "by"`,
               ]
         }[HavingFields]
       : 'take' extends Keys<T>
@@ -7555,7 +6702,7 @@ export namespace Prisma {
    * https://github.com/prisma/prisma-client-js/issues/707
    */
   export interface Prisma__AfkStateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise'
+    readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7578,15 +6725,19 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
   }
 
+
+
+
   /**
    * Fields of the AfkState model
    */
   interface AfkStateFieldRefs {
-    readonly userId: FieldRef<'AfkState', 'String'>
-    readonly reason: FieldRef<'AfkState', 'String'>
-    readonly since: FieldRef<'AfkState', 'Decimal'>
-    readonly guildId: FieldRef<'AfkState', 'String'>
+    readonly userId: FieldRef<"AfkState", 'String'>
+    readonly reason: FieldRef<"AfkState", 'String'>
+    readonly since: FieldRef<"AfkState", 'Decimal'>
+    readonly guildId: FieldRef<"AfkState", 'String'>
   }
+    
 
   // Custom InputTypes
   /**
@@ -7643,31 +6794,31 @@ export namespace Prisma {
     where?: AfkStateWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of AfkStates to fetch.
      */
     orderBy?: AfkStateOrderByWithRelationInput | AfkStateOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for AfkStates.
      */
     cursor?: AfkStateWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` AfkStates from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` AfkStates.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of AfkStates.
      */
     distinct?: AfkStateScalarFieldEnum | AfkStateScalarFieldEnum[]
@@ -7691,31 +6842,31 @@ export namespace Prisma {
     where?: AfkStateWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of AfkStates to fetch.
      */
     orderBy?: AfkStateOrderByWithRelationInput | AfkStateOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for AfkStates.
      */
     cursor?: AfkStateWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` AfkStates from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` AfkStates.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of AfkStates.
      */
     distinct?: AfkStateScalarFieldEnum | AfkStateScalarFieldEnum[]
@@ -7739,31 +6890,31 @@ export namespace Prisma {
     where?: AfkStateWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of AfkStates to fetch.
      */
     orderBy?: AfkStateOrderByWithRelationInput | AfkStateOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for listing AfkStates.
      */
     cursor?: AfkStateWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` AfkStates from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` AfkStates.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of AfkStates.
      */
     distinct?: AfkStateScalarFieldEnum | AfkStateScalarFieldEnum[]
@@ -7955,6 +7106,7 @@ export namespace Prisma {
     omit?: AfkStateOmit<ExtArgs> | null
   }
 
+
   /**
    * Model AfkSetting
    */
@@ -7991,6 +7143,7 @@ export namespace Prisma {
     _all: number
   }
 
+
   export type AfkSettingAvgAggregateInputType = {
     maxLetters?: true
   }
@@ -8022,55 +7175,55 @@ export namespace Prisma {
     where?: AfkSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of AfkSettings to fetch.
      */
     orderBy?: AfkSettingOrderByWithRelationInput | AfkSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the start position
      */
     cursor?: AfkSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` AfkSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` AfkSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Count returned AfkSettings
     **/
     _count?: true | AfkSettingCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to average
     **/
     _avg?: AfkSettingAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to sum
     **/
     _sum?: AfkSettingSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: AfkSettingMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
+     * 
      * Select which fields to find the maximum value
     **/
     _max?: AfkSettingMaxAggregateInputType
@@ -8083,6 +7236,9 @@ export namespace Prisma {
         : GetScalarType<T[P], AggregateAfkSetting[P]>
       : GetScalarType<T[P], AggregateAfkSetting[P]>
   }
+
+
+
 
   export type AfkSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AfkSettingWhereInput
@@ -8121,35 +7277,36 @@ export namespace Prisma {
       >
     >
 
+
   export type AfkSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     guildId?: boolean
     maxLetters?: boolean
-  }, ExtArgs['result']['afkSetting']>
+  }, ExtArgs["result"]["afkSetting"]>
 
   export type AfkSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     guildId?: boolean
     maxLetters?: boolean
-  }, ExtArgs['result']['afkSetting']>
+  }, ExtArgs["result"]["afkSetting"]>
 
   export type AfkSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     guildId?: boolean
     maxLetters?: boolean
-  }, ExtArgs['result']['afkSetting']>
+  }, ExtArgs["result"]["afkSetting"]>
 
   export type AfkSettingSelectScalar = {
     guildId?: boolean
     maxLetters?: boolean
   }
 
-  export type AfkSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<'guildId' | 'maxLetters', ExtArgs['result']['afkSetting']>
+  export type AfkSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"guildId" | "maxLetters", ExtArgs["result"]["afkSetting"]>
 
   export type $AfkSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: 'AfkSetting'
+    name: "AfkSetting"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       guildId: string
       maxLetters: number
-    }, ExtArgs['result']['afkSetting']>
+    }, ExtArgs["result"]["afkSetting"]>
     composites: {}
   }
 
@@ -8173,7 +7330,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends AfkSettingFindUniqueArgs>(args: SelectSubset<T, AfkSettingFindUniqueArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends AfkSettingFindUniqueArgs>(args: SelectSubset<T, AfkSettingFindUniqueArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find one AfkSetting that matches the filter or throw an error with `error.code='P2025'`
@@ -8187,7 +7344,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends AfkSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, AfkSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends AfkSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, AfkSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first AfkSetting that matches the filter.
@@ -8202,7 +7359,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends AfkSettingFindFirstArgs>(args?: SelectSubset<T, AfkSettingFindFirstArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends AfkSettingFindFirstArgs>(args?: SelectSubset<T, AfkSettingFindFirstArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find the first AfkSetting that matches the filter or
@@ -8218,7 +7375,7 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends AfkSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, AfkSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends AfkSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, AfkSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Find zero or more AfkSettings that matches the filter.
@@ -8228,15 +7385,15 @@ export namespace Prisma {
      * @example
      * // Get all AfkSettings
      * const afkSettings = await prisma.afkSetting.findMany()
-     *
+     * 
      * // Get first 10 AfkSettings
      * const afkSettings = await prisma.afkSetting.findMany({ take: 10 })
-     *
+     * 
      * // Only select the `guildId`
      * const afkSettingWithGuildIdOnly = await prisma.afkSetting.findMany({ select: { guildId: true } })
-     *
+     * 
      */
-    findMany<T extends AfkSettingFindManyArgs>(args?: SelectSubset<T, AfkSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>
+    findMany<T extends AfkSettingFindManyArgs>(args?: SelectSubset<T, AfkSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
      * Create a AfkSetting.
@@ -8248,9 +7405,9 @@ export namespace Prisma {
      *     // ... data to create a AfkSetting
      *   }
      * })
-     *
+     * 
      */
-    create<T extends AfkSettingCreateArgs>(args: SelectSubset<T, AfkSettingCreateArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'create', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends AfkSettingCreateArgs>(args: SelectSubset<T, AfkSettingCreateArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Create many AfkSettings.
@@ -8262,7 +7419,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     *     
      */
     createMany<T extends AfkSettingCreateManyArgs>(args?: SelectSubset<T, AfkSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -8276,7 +7433,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Create many AfkSettings and only return the `guildId`
      * const afkSettingWithGuildIdOnly = await prisma.afkSetting.createManyAndReturn({
      *   select: { guildId: true },
@@ -8286,9 +7443,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    createManyAndReturn<T extends AfkSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, AfkSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>>
+    createManyAndReturn<T extends AfkSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, AfkSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Delete a AfkSetting.
@@ -8300,9 +7457,9 @@ export namespace Prisma {
      *     // ... filter to delete one AfkSetting
      *   }
      * })
-     *
+     * 
      */
-    delete<T extends AfkSettingDeleteArgs>(args: SelectSubset<T, AfkSettingDeleteArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends AfkSettingDeleteArgs>(args: SelectSubset<T, AfkSettingDeleteArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Update one AfkSetting.
@@ -8317,9 +7474,9 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
-    update<T extends AfkSettingUpdateArgs>(args: SelectSubset<T, AfkSettingUpdateArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'update', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends AfkSettingUpdateArgs>(args: SelectSubset<T, AfkSettingUpdateArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
      * Delete zero or more AfkSettings.
@@ -8331,7 +7488,7 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     *
+     * 
      */
     deleteMany<T extends AfkSettingDeleteManyArgs>(args?: SelectSubset<T, AfkSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -8350,7 +7507,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     *
+     * 
      */
     updateMany<T extends AfkSettingUpdateManyArgs>(args: SelectSubset<T, AfkSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
@@ -8367,7 +7524,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *
+     * 
      * // Update zero or more AfkSettings and only return the `guildId`
      * const afkSettingWithGuildIdOnly = await prisma.afkSetting.updateManyAndReturn({
      *   select: { guildId: true },
@@ -8380,9 +7537,9 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     *
+     * 
      */
-    updateManyAndReturn<T extends AfkSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, AfkSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>>
+    updateManyAndReturn<T extends AfkSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, AfkSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one AfkSetting.
@@ -8401,7 +7558,8 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends AfkSettingUpsertArgs>(args: SelectSubset<T, AfkSettingUpsertArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends AfkSettingUpsertArgs>(args: SelectSubset<T, AfkSettingUpsertArgs<ExtArgs>>): Prisma__AfkSettingClient<$Result.GetResult<Prisma.$AfkSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
 
     /**
      * Count the number of AfkSettings.
@@ -8468,7 +7626,7 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     *
+     * 
     **/
     groupBy<
       T extends AfkSettingGroupByArgs,
@@ -8486,7 +7644,7 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? 'Error: "by" must not be empty.'
+      ? `Error: "by" must not be empty.`
       : HavingValid extends False
       ? {
           [P in HavingFields]: P extends ByFields
@@ -8497,7 +7655,7 @@ export namespace Prisma {
                 Error,
                 'Field ',
                 P,
-                ' in "having" needs to be provided in "by"',
+                ` in "having" needs to be provided in "by"`,
               ]
         }[HavingFields]
       : 'take' extends Keys<T>
@@ -8541,7 +7699,7 @@ export namespace Prisma {
    * https://github.com/prisma/prisma-client-js/issues/707
    */
   export interface Prisma__AfkSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise'
+    readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8564,13 +7722,17 @@ export namespace Prisma {
     finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
   }
 
+
+
+
   /**
    * Fields of the AfkSetting model
    */
   interface AfkSettingFieldRefs {
-    readonly guildId: FieldRef<'AfkSetting', 'String'>
-    readonly maxLetters: FieldRef<'AfkSetting', 'Int'>
+    readonly guildId: FieldRef<"AfkSetting", 'String'>
+    readonly maxLetters: FieldRef<"AfkSetting", 'Int'>
   }
+    
 
   // Custom InputTypes
   /**
@@ -8627,31 +7789,31 @@ export namespace Prisma {
     where?: AfkSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of AfkSettings to fetch.
      */
     orderBy?: AfkSettingOrderByWithRelationInput | AfkSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for AfkSettings.
      */
     cursor?: AfkSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` AfkSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` AfkSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of AfkSettings.
      */
     distinct?: AfkSettingScalarFieldEnum | AfkSettingScalarFieldEnum[]
@@ -8675,31 +7837,31 @@ export namespace Prisma {
     where?: AfkSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of AfkSettings to fetch.
      */
     orderBy?: AfkSettingOrderByWithRelationInput | AfkSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for searching for AfkSettings.
      */
     cursor?: AfkSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` AfkSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` AfkSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of AfkSettings.
      */
     distinct?: AfkSettingScalarFieldEnum | AfkSettingScalarFieldEnum[]
@@ -8723,31 +7885,31 @@ export namespace Prisma {
     where?: AfkSettingWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     *
+     * 
      * Determine the order of AfkSettings to fetch.
      */
     orderBy?: AfkSettingOrderByWithRelationInput | AfkSettingOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     *
+     * 
      * Sets the position for listing AfkSettings.
      */
     cursor?: AfkSettingWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Take `±n` AfkSettings from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     *
+     * 
      * Skip the first `n` AfkSettings.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     *
+     * 
      * Filter by unique combinations of AfkSettings.
      */
     distinct?: AfkSettingScalarFieldEnum | AfkSettingScalarFieldEnum[]
@@ -8939,6 +8101,1007 @@ export namespace Prisma {
     omit?: AfkSettingOmit<ExtArgs> | null
   }
 
+
+  /**
+   * Model CustomClient
+   */
+
+  export type AggregateCustomClient = {
+    _count: CustomClientCountAggregateOutputType | null
+    _min: CustomClientMinAggregateOutputType | null
+    _max: CustomClientMaxAggregateOutputType | null
+  }
+
+  export type CustomClientMinAggregateOutputType = {
+    guildId: string | null
+    appId: string | null
+    token: string | null
+    publicKey: string | null
+    secret: string | null
+  }
+
+  export type CustomClientMaxAggregateOutputType = {
+    guildId: string | null
+    appId: string | null
+    token: string | null
+    publicKey: string | null
+    secret: string | null
+  }
+
+  export type CustomClientCountAggregateOutputType = {
+    guildId: number
+    appId: number
+    token: number
+    publicKey: number
+    secret: number
+    _all: number
+  }
+
+
+  export type CustomClientMinAggregateInputType = {
+    guildId?: true
+    appId?: true
+    token?: true
+    publicKey?: true
+    secret?: true
+  }
+
+  export type CustomClientMaxAggregateInputType = {
+    guildId?: true
+    appId?: true
+    token?: true
+    publicKey?: true
+    secret?: true
+  }
+
+  export type CustomClientCountAggregateInputType = {
+    guildId?: true
+    appId?: true
+    token?: true
+    publicKey?: true
+    secret?: true
+    _all?: true
+  }
+
+  export type CustomClientAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomClient to aggregate.
+     */
+    where?: CustomClientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomClients to fetch.
+     */
+    orderBy?: CustomClientOrderByWithRelationInput | CustomClientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CustomClientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomClients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomClients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CustomClients
+    **/
+    _count?: true | CustomClientCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CustomClientMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CustomClientMaxAggregateInputType
+  }
+
+  export type GetCustomClientAggregateType<T extends CustomClientAggregateArgs> = {
+        [P in keyof T & keyof AggregateCustomClient]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCustomClient[P]>
+      : GetScalarType<T[P], AggregateCustomClient[P]>
+  }
+
+
+
+
+  export type CustomClientGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CustomClientWhereInput
+    orderBy?: CustomClientOrderByWithAggregationInput | CustomClientOrderByWithAggregationInput[]
+    by: CustomClientScalarFieldEnum[] | CustomClientScalarFieldEnum
+    having?: CustomClientScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CustomClientCountAggregateInputType | true
+    _min?: CustomClientMinAggregateInputType
+    _max?: CustomClientMaxAggregateInputType
+  }
+
+  export type CustomClientGroupByOutputType = {
+    guildId: string
+    appId: string | null
+    token: string | null
+    publicKey: string | null
+    secret: string | null
+    _count: CustomClientCountAggregateOutputType | null
+    _min: CustomClientMinAggregateOutputType | null
+    _max: CustomClientMaxAggregateOutputType | null
+  }
+
+  type GetCustomClientGroupByPayload<T extends CustomClientGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CustomClientGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CustomClientGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CustomClientGroupByOutputType[P]>
+            : GetScalarType<T[P], CustomClientGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CustomClientSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    guildId?: boolean
+    appId?: boolean
+    token?: boolean
+    publicKey?: boolean
+    secret?: boolean
+  }, ExtArgs["result"]["customClient"]>
+
+  export type CustomClientSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    guildId?: boolean
+    appId?: boolean
+    token?: boolean
+    publicKey?: boolean
+    secret?: boolean
+  }, ExtArgs["result"]["customClient"]>
+
+  export type CustomClientSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    guildId?: boolean
+    appId?: boolean
+    token?: boolean
+    publicKey?: boolean
+    secret?: boolean
+  }, ExtArgs["result"]["customClient"]>
+
+  export type CustomClientSelectScalar = {
+    guildId?: boolean
+    appId?: boolean
+    token?: boolean
+    publicKey?: boolean
+    secret?: boolean
+  }
+
+  export type CustomClientOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"guildId" | "appId" | "token" | "publicKey" | "secret", ExtArgs["result"]["customClient"]>
+
+  export type $CustomClientPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CustomClient"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      guildId: string
+      appId: string | null
+      token: string | null
+      publicKey: string | null
+      secret: string | null
+    }, ExtArgs["result"]["customClient"]>
+    composites: {}
+  }
+
+  type CustomClientGetPayload<S extends boolean | null | undefined | CustomClientDefaultArgs> = $Result.GetResult<Prisma.$CustomClientPayload, S>
+
+  type CustomClientCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CustomClientFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CustomClientCountAggregateInputType | true
+    }
+
+  export interface CustomClientDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CustomClient'], meta: { name: 'CustomClient' } }
+    /**
+     * Find zero or one CustomClient that matches the filter.
+     * @param {CustomClientFindUniqueArgs} args - Arguments to find a CustomClient
+     * @example
+     * // Get one CustomClient
+     * const customClient = await prisma.customClient.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CustomClientFindUniqueArgs>(args: SelectSubset<T, CustomClientFindUniqueArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CustomClient that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CustomClientFindUniqueOrThrowArgs} args - Arguments to find a CustomClient
+     * @example
+     * // Get one CustomClient
+     * const customClient = await prisma.customClient.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CustomClientFindUniqueOrThrowArgs>(args: SelectSubset<T, CustomClientFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomClient that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomClientFindFirstArgs} args - Arguments to find a CustomClient
+     * @example
+     * // Get one CustomClient
+     * const customClient = await prisma.customClient.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CustomClientFindFirstArgs>(args?: SelectSubset<T, CustomClientFindFirstArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CustomClient that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomClientFindFirstOrThrowArgs} args - Arguments to find a CustomClient
+     * @example
+     * // Get one CustomClient
+     * const customClient = await prisma.customClient.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CustomClientFindFirstOrThrowArgs>(args?: SelectSubset<T, CustomClientFindFirstOrThrowArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CustomClients that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomClientFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CustomClients
+     * const customClients = await prisma.customClient.findMany()
+     * 
+     * // Get first 10 CustomClients
+     * const customClients = await prisma.customClient.findMany({ take: 10 })
+     * 
+     * // Only select the `guildId`
+     * const customClientWithGuildIdOnly = await prisma.customClient.findMany({ select: { guildId: true } })
+     * 
+     */
+    findMany<T extends CustomClientFindManyArgs>(args?: SelectSubset<T, CustomClientFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CustomClient.
+     * @param {CustomClientCreateArgs} args - Arguments to create a CustomClient.
+     * @example
+     * // Create one CustomClient
+     * const CustomClient = await prisma.customClient.create({
+     *   data: {
+     *     // ... data to create a CustomClient
+     *   }
+     * })
+     * 
+     */
+    create<T extends CustomClientCreateArgs>(args: SelectSubset<T, CustomClientCreateArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CustomClients.
+     * @param {CustomClientCreateManyArgs} args - Arguments to create many CustomClients.
+     * @example
+     * // Create many CustomClients
+     * const customClient = await prisma.customClient.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CustomClientCreateManyArgs>(args?: SelectSubset<T, CustomClientCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CustomClients and returns the data saved in the database.
+     * @param {CustomClientCreateManyAndReturnArgs} args - Arguments to create many CustomClients.
+     * @example
+     * // Create many CustomClients
+     * const customClient = await prisma.customClient.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CustomClients and only return the `guildId`
+     * const customClientWithGuildIdOnly = await prisma.customClient.createManyAndReturn({
+     *   select: { guildId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CustomClientCreateManyAndReturnArgs>(args?: SelectSubset<T, CustomClientCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CustomClient.
+     * @param {CustomClientDeleteArgs} args - Arguments to delete one CustomClient.
+     * @example
+     * // Delete one CustomClient
+     * const CustomClient = await prisma.customClient.delete({
+     *   where: {
+     *     // ... filter to delete one CustomClient
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CustomClientDeleteArgs>(args: SelectSubset<T, CustomClientDeleteArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CustomClient.
+     * @param {CustomClientUpdateArgs} args - Arguments to update one CustomClient.
+     * @example
+     * // Update one CustomClient
+     * const customClient = await prisma.customClient.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CustomClientUpdateArgs>(args: SelectSubset<T, CustomClientUpdateArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CustomClients.
+     * @param {CustomClientDeleteManyArgs} args - Arguments to filter CustomClients to delete.
+     * @example
+     * // Delete a few CustomClients
+     * const { count } = await prisma.customClient.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CustomClientDeleteManyArgs>(args?: SelectSubset<T, CustomClientDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomClients.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomClientUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CustomClients
+     * const customClient = await prisma.customClient.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CustomClientUpdateManyArgs>(args: SelectSubset<T, CustomClientUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CustomClients and returns the data updated in the database.
+     * @param {CustomClientUpdateManyAndReturnArgs} args - Arguments to update many CustomClients.
+     * @example
+     * // Update many CustomClients
+     * const customClient = await prisma.customClient.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CustomClients and only return the `guildId`
+     * const customClientWithGuildIdOnly = await prisma.customClient.updateManyAndReturn({
+     *   select: { guildId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CustomClientUpdateManyAndReturnArgs>(args: SelectSubset<T, CustomClientUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CustomClient.
+     * @param {CustomClientUpsertArgs} args - Arguments to update or create a CustomClient.
+     * @example
+     * // Update or create a CustomClient
+     * const customClient = await prisma.customClient.upsert({
+     *   create: {
+     *     // ... data to create a CustomClient
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CustomClient we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CustomClientUpsertArgs>(args: SelectSubset<T, CustomClientUpsertArgs<ExtArgs>>): Prisma__CustomClientClient<$Result.GetResult<Prisma.$CustomClientPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CustomClients.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomClientCountArgs} args - Arguments to filter CustomClients to count.
+     * @example
+     * // Count the number of CustomClients
+     * const count = await prisma.customClient.count({
+     *   where: {
+     *     // ... the filter for the CustomClients we want to count
+     *   }
+     * })
+    **/
+    count<T extends CustomClientCountArgs>(
+      args?: Subset<T, CustomClientCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CustomClientCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CustomClient.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomClientAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CustomClientAggregateArgs>(args: Subset<T, CustomClientAggregateArgs>): Prisma.PrismaPromise<GetCustomClientAggregateType<T>>
+
+    /**
+     * Group by CustomClient.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CustomClientGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CustomClientGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CustomClientGroupByArgs['orderBy'] }
+        : { orderBy?: CustomClientGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CustomClientGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCustomClientGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CustomClient model
+   */
+  readonly fields: CustomClientFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CustomClient.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CustomClientClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CustomClient model
+   */
+  interface CustomClientFieldRefs {
+    readonly guildId: FieldRef<"CustomClient", 'String'>
+    readonly appId: FieldRef<"CustomClient", 'String'>
+    readonly token: FieldRef<"CustomClient", 'String'>
+    readonly publicKey: FieldRef<"CustomClient", 'String'>
+    readonly secret: FieldRef<"CustomClient", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CustomClient findUnique
+   */
+  export type CustomClientFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * Filter, which CustomClient to fetch.
+     */
+    where: CustomClientWhereUniqueInput
+  }
+
+  /**
+   * CustomClient findUniqueOrThrow
+   */
+  export type CustomClientFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * Filter, which CustomClient to fetch.
+     */
+    where: CustomClientWhereUniqueInput
+  }
+
+  /**
+   * CustomClient findFirst
+   */
+  export type CustomClientFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * Filter, which CustomClient to fetch.
+     */
+    where?: CustomClientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomClients to fetch.
+     */
+    orderBy?: CustomClientOrderByWithRelationInput | CustomClientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomClients.
+     */
+    cursor?: CustomClientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomClients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomClients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomClients.
+     */
+    distinct?: CustomClientScalarFieldEnum | CustomClientScalarFieldEnum[]
+  }
+
+  /**
+   * CustomClient findFirstOrThrow
+   */
+  export type CustomClientFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * Filter, which CustomClient to fetch.
+     */
+    where?: CustomClientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomClients to fetch.
+     */
+    orderBy?: CustomClientOrderByWithRelationInput | CustomClientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CustomClients.
+     */
+    cursor?: CustomClientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomClients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomClients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomClients.
+     */
+    distinct?: CustomClientScalarFieldEnum | CustomClientScalarFieldEnum[]
+  }
+
+  /**
+   * CustomClient findMany
+   */
+  export type CustomClientFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * Filter, which CustomClients to fetch.
+     */
+    where?: CustomClientWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CustomClients to fetch.
+     */
+    orderBy?: CustomClientOrderByWithRelationInput | CustomClientOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CustomClients.
+     */
+    cursor?: CustomClientWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CustomClients from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CustomClients.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CustomClients.
+     */
+    distinct?: CustomClientScalarFieldEnum | CustomClientScalarFieldEnum[]
+  }
+
+  /**
+   * CustomClient create
+   */
+  export type CustomClientCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * The data needed to create a CustomClient.
+     */
+    data: XOR<CustomClientCreateInput, CustomClientUncheckedCreateInput>
+  }
+
+  /**
+   * CustomClient createMany
+   */
+  export type CustomClientCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CustomClients.
+     */
+    data: CustomClientCreateManyInput | CustomClientCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomClient createManyAndReturn
+   */
+  export type CustomClientCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * The data used to create many CustomClients.
+     */
+    data: CustomClientCreateManyInput | CustomClientCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CustomClient update
+   */
+  export type CustomClientUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * The data needed to update a CustomClient.
+     */
+    data: XOR<CustomClientUpdateInput, CustomClientUncheckedUpdateInput>
+    /**
+     * Choose, which CustomClient to update.
+     */
+    where: CustomClientWhereUniqueInput
+  }
+
+  /**
+   * CustomClient updateMany
+   */
+  export type CustomClientUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CustomClients.
+     */
+    data: XOR<CustomClientUpdateManyMutationInput, CustomClientUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomClients to update
+     */
+    where?: CustomClientWhereInput
+    /**
+     * Limit how many CustomClients to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomClient updateManyAndReturn
+   */
+  export type CustomClientUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * The data used to update CustomClients.
+     */
+    data: XOR<CustomClientUpdateManyMutationInput, CustomClientUncheckedUpdateManyInput>
+    /**
+     * Filter which CustomClients to update
+     */
+    where?: CustomClientWhereInput
+    /**
+     * Limit how many CustomClients to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomClient upsert
+   */
+  export type CustomClientUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * The filter to search for the CustomClient to update in case it exists.
+     */
+    where: CustomClientWhereUniqueInput
+    /**
+     * In case the CustomClient found by the `where` argument doesn't exist, create a new CustomClient with this data.
+     */
+    create: XOR<CustomClientCreateInput, CustomClientUncheckedCreateInput>
+    /**
+     * In case the CustomClient was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CustomClientUpdateInput, CustomClientUncheckedUpdateInput>
+  }
+
+  /**
+   * CustomClient delete
+   */
+  export type CustomClientDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+    /**
+     * Filter which CustomClient to delete.
+     */
+    where: CustomClientWhereUniqueInput
+  }
+
+  /**
+   * CustomClient deleteMany
+   */
+  export type CustomClientDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CustomClients to delete
+     */
+    where?: CustomClientWhereInput
+    /**
+     * Limit how many CustomClients to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CustomClient without action
+   */
+  export type CustomClientDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CustomClient
+     */
+    select?: CustomClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CustomClient
+     */
+    omit?: CustomClientOmit<ExtArgs> | null
+  }
+
+
   /**
    * Enums
    */
@@ -8952,12 +9115,6 @@ export namespace Prisma {
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
-  export const FilteredWordScalarFieldEnum: {
-    keyword: 'keyword',
-    filterType: 'filterType'
-  };
-
-  export type FilteredWordScalarFieldEnum = (typeof FilteredWordScalarFieldEnum)[keyof typeof FilteredWordScalarFieldEnum]
 
   export const TicketSettingScalarFieldEnum: {
     id: 'id',
@@ -8965,7 +9122,11 @@ export namespace Prisma {
     active: 'active',
     logMode: 'logMode',
     logChannels: 'logChannels',
-    appliedTags: 'appliedTags',
+    createTags: 'createTags',
+    claimTags: 'claimTags',
+    closeTags: 'closeTags',
+    tagClaimer: 'tagClaimer',
+    transcriptChannels: 'transcriptChannels',
     archiveCategory: 'archiveCategory',
     archiveDuration: 'archiveDuration',
     type: 'type',
@@ -8973,6 +9134,8 @@ export namespace Prisma {
     category: 'category',
     sendMessagePrefixes: 'sendMessagePrefixes',
     allowCreatorClose: 'allowCreatorClose',
+    staffThreads: 'staffThreads',
+    staffThreadsChannel: 'staffThreadsChannel',
     mentionRoles: 'mentionRoles',
     mentionUsers: 'mentionUsers',
     staffRoles: 'staffRoles',
@@ -8982,6 +9145,7 @@ export namespace Prisma {
   };
 
   export type TicketSettingScalarFieldEnum = (typeof TicketSettingScalarFieldEnum)[keyof typeof TicketSettingScalarFieldEnum]
+
 
   export const TicketScalarFieldEnum: {
     id: 'id',
@@ -8994,6 +9158,7 @@ export namespace Prisma {
   };
 
   export type TicketScalarFieldEnum = (typeof TicketScalarFieldEnum)[keyof typeof TicketScalarFieldEnum]
+
 
   export const GuildSettingScalarFieldEnum: {
     guildId: 'guildId',
@@ -9015,15 +9180,14 @@ export namespace Prisma {
 
   export type GuildSettingScalarFieldEnum = (typeof GuildSettingScalarFieldEnum)[keyof typeof GuildSettingScalarFieldEnum]
 
-  export const CustomClientScalarFieldEnum: {
-    guildId: 'guildId',
-    appId: 'appId',
-    token: 'token',
-    publicKey: 'publicKey',
-    secret: 'secret'
+
+  export const FilteredWordScalarFieldEnum: {
+    keyword: 'keyword',
+    filterType: 'filterType'
   };
 
-  export type CustomClientScalarFieldEnum = (typeof CustomClientScalarFieldEnum)[keyof typeof CustomClientScalarFieldEnum]
+  export type FilteredWordScalarFieldEnum = (typeof FilteredWordScalarFieldEnum)[keyof typeof FilteredWordScalarFieldEnum]
+
 
   export const AfkStateScalarFieldEnum: {
     userId: 'userId',
@@ -9034,12 +9198,25 @@ export namespace Prisma {
 
   export type AfkStateScalarFieldEnum = (typeof AfkStateScalarFieldEnum)[keyof typeof AfkStateScalarFieldEnum]
 
+
   export const AfkSettingScalarFieldEnum: {
     guildId: 'guildId',
     maxLetters: 'maxLetters'
   };
 
   export type AfkSettingScalarFieldEnum = (typeof AfkSettingScalarFieldEnum)[keyof typeof AfkSettingScalarFieldEnum]
+
+
+  export const CustomClientScalarFieldEnum: {
+    guildId: 'guildId',
+    appId: 'appId',
+    token: 'token',
+    publicKey: 'publicKey',
+    secret: 'secret'
+  };
+
+  export type CustomClientScalarFieldEnum = (typeof CustomClientScalarFieldEnum)[keyof typeof CustomClientScalarFieldEnum]
+
 
   export const SortOrder: {
     asc: 'asc',
@@ -9048,12 +9225,14 @@ export namespace Prisma {
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
 
   export const NullsOrder: {
     first: 'first',
@@ -9062,160 +9241,163 @@ export namespace Prisma {
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
+
   /**
    * Field references
    */
 
-  /**
-   * Reference to a field of type 'String'
-   */
-  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
-
-  /**
-   * Reference to a field of type 'String[]'
-   */
-  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
-
-  /**
-   * Reference to a field of type 'FilterType'
-   */
-  export type EnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType'>
-
-  /**
-   * Reference to a field of type 'FilterType[]'
-   */
-  export type ListEnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType[]'>
 
   /**
    * Reference to a field of type 'Decimal'
    */
   export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
 
   /**
    * Reference to a field of type 'Decimal[]'
    */
   export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'String'
+   */
+  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+  /**
+   * Reference to a field of type 'String[]'
+   */
+  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
 
   /**
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
 
   /**
    * Reference to a field of type 'TicketLogMode'
    */
   export type EnumTicketLogModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketLogMode'>
+    
+
 
   /**
    * Reference to a field of type 'TicketLogMode[]'
    */
   export type ListEnumTicketLogModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketLogMode[]'>
+    
+
 
   /**
    * Reference to a field of type 'TicketType'
    */
   export type EnumTicketTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketType'>
+    
+
 
   /**
    * Reference to a field of type 'TicketType[]'
    */
   export type ListEnumTicketTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketType[]'>
+    
+
 
   /**
    * Reference to a field of type 'TicketState'
    */
   export type EnumTicketStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketState'>
+    
+
 
   /**
    * Reference to a field of type 'TicketState[]'
    */
   export type ListEnumTicketStateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TicketState[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'FilterType'
+   */
+  export type EnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType'>
+    
+
+
+  /**
+   * Reference to a field of type 'FilterType[]'
+   */
+  export type ListEnumFilterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FilterType[]'>
+    
+
 
   /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
 
   /**
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
 
   /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
 
   /**
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-
+    
   /**
    * Deep Input Types
    */
 
-  export type FilteredWordWhereInput = {
-    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
-    OR?: FilteredWordWhereInput[]
-    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
-    keyword?: StringFilter<'FilteredWord'> | string
-    filterType?: EnumFilterTypeFilter<'FilteredWord'> | $Enums.FilterType
-  }
-
-  export type FilteredWordOrderByWithRelationInput = {
-    keyword?: SortOrder
-    filterType?: SortOrder
-  }
-
-  export type FilteredWordWhereUniqueInput = Prisma.AtLeast<{
-    keyword_filterType?: FilteredWordKeywordFilterTypeCompoundUniqueInput
-    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
-    OR?: FilteredWordWhereInput[]
-    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
-    keyword?: StringFilter<'FilteredWord'> | string
-    filterType?: EnumFilterTypeFilter<'FilteredWord'> | $Enums.FilterType
-  }, 'keyword_filterType'>
-
-  export type FilteredWordOrderByWithAggregationInput = {
-    keyword?: SortOrder
-    filterType?: SortOrder
-    _count?: FilteredWordCountOrderByAggregateInput
-    _max?: FilteredWordMaxOrderByAggregateInput
-    _min?: FilteredWordMinOrderByAggregateInput
-  }
-
-  export type FilteredWordScalarWhereWithAggregatesInput = {
-    AND?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
-    OR?: FilteredWordScalarWhereWithAggregatesInput[]
-    NOT?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
-    keyword?: StringWithAggregatesFilter<'FilteredWord'> | string
-    filterType?: EnumFilterTypeWithAggregatesFilter<'FilteredWord'> | $Enums.FilterType
-  }
 
   export type TicketSettingWhereInput = {
     AND?: TicketSettingWhereInput | TicketSettingWhereInput[]
     OR?: TicketSettingWhereInput[]
     NOT?: TicketSettingWhereInput | TicketSettingWhereInput[]
-    id?: DecimalFilter<'TicketSetting'> | Decimal | DecimalJsLike | number | string
-    guild?: StringFilter<'TicketSetting'> | string
-    active?: BoolFilter<'TicketSetting'> | boolean
-    logMode?: EnumTicketLogModeFilter<'TicketSetting'> | $Enums.TicketLogMode
-    logChannels?: StringNullableListFilter<'TicketSetting'>
-    appliedTags?: StringNullableListFilter<'TicketSetting'>
-    archiveCategory?: StringNullableFilter<'TicketSetting'> | string | null
-    archiveDuration?: DecimalFilter<'TicketSetting'> | Decimal | DecimalJsLike | number | string
-    type?: EnumTicketTypeFilter<'TicketSetting'> | $Enums.TicketType
-    channel?: StringNullableFilter<'TicketSetting'> | string | null
-    category?: StringNullableFilter<'TicketSetting'> | string | null
-    sendMessagePrefixes?: StringNullableListFilter<'TicketSetting'>
-    allowCreatorClose?: BoolFilter<'TicketSetting'> | boolean
-    mentionRoles?: StringNullableListFilter<'TicketSetting'>
-    mentionUsers?: StringNullableListFilter<'TicketSetting'>
-    staffRoles?: StringNullableListFilter<'TicketSetting'>
-    staffUsers?: StringNullableListFilter<'TicketSetting'>
-    denyUsers?: StringNullableListFilter<'TicketSetting'>
-    denyRoles?: StringNullableListFilter<'TicketSetting'>
+    id?: DecimalFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    guild?: StringFilter<"TicketSetting"> | string
+    active?: BoolFilter<"TicketSetting"> | boolean
+    logMode?: EnumTicketLogModeFilter<"TicketSetting"> | $Enums.TicketLogMode
+    logChannels?: StringNullableListFilter<"TicketSetting">
+    createTags?: StringNullableListFilter<"TicketSetting">
+    claimTags?: StringNullableListFilter<"TicketSetting">
+    closeTags?: StringNullableListFilter<"TicketSetting">
+    tagClaimer?: BoolFilter<"TicketSetting"> | boolean
+    transcriptChannels?: StringNullableListFilter<"TicketSetting">
+    archiveCategory?: StringNullableFilter<"TicketSetting"> | string | null
+    archiveDuration?: DecimalFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    type?: EnumTicketTypeFilter<"TicketSetting"> | $Enums.TicketType
+    channel?: StringNullableFilter<"TicketSetting"> | string | null
+    category?: StringNullableFilter<"TicketSetting"> | string | null
+    sendMessagePrefixes?: StringNullableListFilter<"TicketSetting">
+    allowCreatorClose?: BoolFilter<"TicketSetting"> | boolean
+    staffThreads?: BoolFilter<"TicketSetting"> | boolean
+    staffThreadsChannel?: StringNullableFilter<"TicketSetting"> | string | null
+    mentionRoles?: StringNullableListFilter<"TicketSetting">
+    mentionUsers?: StringNullableListFilter<"TicketSetting">
+    staffRoles?: StringNullableListFilter<"TicketSetting">
+    staffUsers?: StringNullableListFilter<"TicketSetting">
+    denyUsers?: StringNullableListFilter<"TicketSetting">
+    denyRoles?: StringNullableListFilter<"TicketSetting">
     Ticket?: TicketListRelationFilter
   }
 
@@ -9225,7 +9407,11 @@ export namespace Prisma {
     active?: SortOrder
     logMode?: SortOrder
     logChannels?: SortOrder
-    appliedTags?: SortOrder
+    createTags?: SortOrder
+    claimTags?: SortOrder
+    closeTags?: SortOrder
+    tagClaimer?: SortOrder
+    transcriptChannels?: SortOrder
     archiveCategory?: SortOrderInput | SortOrder
     archiveDuration?: SortOrder
     type?: SortOrder
@@ -9233,6 +9419,8 @@ export namespace Prisma {
     category?: SortOrderInput | SortOrder
     sendMessagePrefixes?: SortOrder
     allowCreatorClose?: SortOrder
+    staffThreads?: SortOrder
+    staffThreadsChannel?: SortOrderInput | SortOrder
     mentionRoles?: SortOrder
     mentionUsers?: SortOrder
     staffRoles?: SortOrder
@@ -9247,26 +9435,32 @@ export namespace Prisma {
     AND?: TicketSettingWhereInput | TicketSettingWhereInput[]
     OR?: TicketSettingWhereInput[]
     NOT?: TicketSettingWhereInput | TicketSettingWhereInput[]
-    guild?: StringFilter<'TicketSetting'> | string
-    active?: BoolFilter<'TicketSetting'> | boolean
-    logMode?: EnumTicketLogModeFilter<'TicketSetting'> | $Enums.TicketLogMode
-    logChannels?: StringNullableListFilter<'TicketSetting'>
-    appliedTags?: StringNullableListFilter<'TicketSetting'>
-    archiveCategory?: StringNullableFilter<'TicketSetting'> | string | null
-    archiveDuration?: DecimalFilter<'TicketSetting'> | Decimal | DecimalJsLike | number | string
-    type?: EnumTicketTypeFilter<'TicketSetting'> | $Enums.TicketType
-    channel?: StringNullableFilter<'TicketSetting'> | string | null
-    category?: StringNullableFilter<'TicketSetting'> | string | null
-    sendMessagePrefixes?: StringNullableListFilter<'TicketSetting'>
-    allowCreatorClose?: BoolFilter<'TicketSetting'> | boolean
-    mentionRoles?: StringNullableListFilter<'TicketSetting'>
-    mentionUsers?: StringNullableListFilter<'TicketSetting'>
-    staffRoles?: StringNullableListFilter<'TicketSetting'>
-    staffUsers?: StringNullableListFilter<'TicketSetting'>
-    denyUsers?: StringNullableListFilter<'TicketSetting'>
-    denyRoles?: StringNullableListFilter<'TicketSetting'>
+    guild?: StringFilter<"TicketSetting"> | string
+    active?: BoolFilter<"TicketSetting"> | boolean
+    logMode?: EnumTicketLogModeFilter<"TicketSetting"> | $Enums.TicketLogMode
+    logChannels?: StringNullableListFilter<"TicketSetting">
+    createTags?: StringNullableListFilter<"TicketSetting">
+    claimTags?: StringNullableListFilter<"TicketSetting">
+    closeTags?: StringNullableListFilter<"TicketSetting">
+    tagClaimer?: BoolFilter<"TicketSetting"> | boolean
+    transcriptChannels?: StringNullableListFilter<"TicketSetting">
+    archiveCategory?: StringNullableFilter<"TicketSetting"> | string | null
+    archiveDuration?: DecimalFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    type?: EnumTicketTypeFilter<"TicketSetting"> | $Enums.TicketType
+    channel?: StringNullableFilter<"TicketSetting"> | string | null
+    category?: StringNullableFilter<"TicketSetting"> | string | null
+    sendMessagePrefixes?: StringNullableListFilter<"TicketSetting">
+    allowCreatorClose?: BoolFilter<"TicketSetting"> | boolean
+    staffThreads?: BoolFilter<"TicketSetting"> | boolean
+    staffThreadsChannel?: StringNullableFilter<"TicketSetting"> | string | null
+    mentionRoles?: StringNullableListFilter<"TicketSetting">
+    mentionUsers?: StringNullableListFilter<"TicketSetting">
+    staffRoles?: StringNullableListFilter<"TicketSetting">
+    staffUsers?: StringNullableListFilter<"TicketSetting">
+    denyUsers?: StringNullableListFilter<"TicketSetting">
+    denyRoles?: StringNullableListFilter<"TicketSetting">
     Ticket?: TicketListRelationFilter
-  }, 'id'>
+  }, "id">
 
   export type TicketSettingOrderByWithAggregationInput = {
     id?: SortOrder
@@ -9274,7 +9468,11 @@ export namespace Prisma {
     active?: SortOrder
     logMode?: SortOrder
     logChannels?: SortOrder
-    appliedTags?: SortOrder
+    createTags?: SortOrder
+    claimTags?: SortOrder
+    closeTags?: SortOrder
+    tagClaimer?: SortOrder
+    transcriptChannels?: SortOrder
     archiveCategory?: SortOrderInput | SortOrder
     archiveDuration?: SortOrder
     type?: SortOrder
@@ -9282,6 +9480,8 @@ export namespace Prisma {
     category?: SortOrderInput | SortOrder
     sendMessagePrefixes?: SortOrder
     allowCreatorClose?: SortOrder
+    staffThreads?: SortOrder
+    staffThreadsChannel?: SortOrderInput | SortOrder
     mentionRoles?: SortOrder
     mentionUsers?: SortOrder
     staffRoles?: SortOrder
@@ -9299,38 +9499,44 @@ export namespace Prisma {
     AND?: TicketSettingScalarWhereWithAggregatesInput | TicketSettingScalarWhereWithAggregatesInput[]
     OR?: TicketSettingScalarWhereWithAggregatesInput[]
     NOT?: TicketSettingScalarWhereWithAggregatesInput | TicketSettingScalarWhereWithAggregatesInput[]
-    id?: DecimalWithAggregatesFilter<'TicketSetting'> | Decimal | DecimalJsLike | number | string
-    guild?: StringWithAggregatesFilter<'TicketSetting'> | string
-    active?: BoolWithAggregatesFilter<'TicketSetting'> | boolean
-    logMode?: EnumTicketLogModeWithAggregatesFilter<'TicketSetting'> | $Enums.TicketLogMode
-    logChannels?: StringNullableListFilter<'TicketSetting'>
-    appliedTags?: StringNullableListFilter<'TicketSetting'>
-    archiveCategory?: StringNullableWithAggregatesFilter<'TicketSetting'> | string | null
-    archiveDuration?: DecimalWithAggregatesFilter<'TicketSetting'> | Decimal | DecimalJsLike | number | string
-    type?: EnumTicketTypeWithAggregatesFilter<'TicketSetting'> | $Enums.TicketType
-    channel?: StringNullableWithAggregatesFilter<'TicketSetting'> | string | null
-    category?: StringNullableWithAggregatesFilter<'TicketSetting'> | string | null
-    sendMessagePrefixes?: StringNullableListFilter<'TicketSetting'>
-    allowCreatorClose?: BoolWithAggregatesFilter<'TicketSetting'> | boolean
-    mentionRoles?: StringNullableListFilter<'TicketSetting'>
-    mentionUsers?: StringNullableListFilter<'TicketSetting'>
-    staffRoles?: StringNullableListFilter<'TicketSetting'>
-    staffUsers?: StringNullableListFilter<'TicketSetting'>
-    denyUsers?: StringNullableListFilter<'TicketSetting'>
-    denyRoles?: StringNullableListFilter<'TicketSetting'>
+    id?: DecimalWithAggregatesFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    guild?: StringWithAggregatesFilter<"TicketSetting"> | string
+    active?: BoolWithAggregatesFilter<"TicketSetting"> | boolean
+    logMode?: EnumTicketLogModeWithAggregatesFilter<"TicketSetting"> | $Enums.TicketLogMode
+    logChannels?: StringNullableListFilter<"TicketSetting">
+    createTags?: StringNullableListFilter<"TicketSetting">
+    claimTags?: StringNullableListFilter<"TicketSetting">
+    closeTags?: StringNullableListFilter<"TicketSetting">
+    tagClaimer?: BoolWithAggregatesFilter<"TicketSetting"> | boolean
+    transcriptChannels?: StringNullableListFilter<"TicketSetting">
+    archiveCategory?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
+    archiveDuration?: DecimalWithAggregatesFilter<"TicketSetting"> | Decimal | DecimalJsLike | number | string
+    type?: EnumTicketTypeWithAggregatesFilter<"TicketSetting"> | $Enums.TicketType
+    channel?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
+    category?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
+    sendMessagePrefixes?: StringNullableListFilter<"TicketSetting">
+    allowCreatorClose?: BoolWithAggregatesFilter<"TicketSetting"> | boolean
+    staffThreads?: BoolWithAggregatesFilter<"TicketSetting"> | boolean
+    staffThreadsChannel?: StringNullableWithAggregatesFilter<"TicketSetting"> | string | null
+    mentionRoles?: StringNullableListFilter<"TicketSetting">
+    mentionUsers?: StringNullableListFilter<"TicketSetting">
+    staffRoles?: StringNullableListFilter<"TicketSetting">
+    staffUsers?: StringNullableListFilter<"TicketSetting">
+    denyUsers?: StringNullableListFilter<"TicketSetting">
+    denyRoles?: StringNullableListFilter<"TicketSetting">
   }
 
   export type TicketWhereInput = {
     AND?: TicketWhereInput | TicketWhereInput[]
     OR?: TicketWhereInput[]
     NOT?: TicketWhereInput | TicketWhereInput[]
-    id?: DecimalFilter<'Ticket'> | Decimal | DecimalJsLike | number | string
-    dm?: StringNullableFilter<'Ticket'> | string | null
-    starterDm?: StringNullableFilter<'Ticket'> | string | null
-    user?: StringFilter<'Ticket'> | string
-    channel?: StringFilter<'Ticket'> | string
-    settingsId?: DecimalFilter<'Ticket'> | Decimal | DecimalJsLike | number | string
-    state?: EnumTicketStateFilter<'Ticket'> | $Enums.TicketState
+    id?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    dm?: StringNullableFilter<"Ticket"> | string | null
+    starterDm?: StringNullableFilter<"Ticket"> | string | null
+    user?: StringFilter<"Ticket"> | string
+    channel?: StringFilter<"Ticket"> | string
+    settingsId?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateFilter<"Ticket"> | $Enums.TicketState
     settings?: XOR<TicketSettingScalarRelationFilter, TicketSettingWhereInput>
   }
 
@@ -9353,11 +9559,11 @@ export namespace Prisma {
     AND?: TicketWhereInput | TicketWhereInput[]
     OR?: TicketWhereInput[]
     NOT?: TicketWhereInput | TicketWhereInput[]
-    user?: StringFilter<'Ticket'> | string
-    settingsId?: DecimalFilter<'Ticket'> | Decimal | DecimalJsLike | number | string
-    state?: EnumTicketStateFilter<'Ticket'> | $Enums.TicketState
+    user?: StringFilter<"Ticket"> | string
+    settingsId?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateFilter<"Ticket"> | $Enums.TicketState
     settings?: XOR<TicketSettingScalarRelationFilter, TicketSettingWhereInput>
-  }, 'id' | 'dm' | 'starterDm' | 'channel'>
+  }, "id" | "dm" | "starterDm" | "channel">
 
   export type TicketOrderByWithAggregationInput = {
     id?: SortOrder
@@ -9378,34 +9584,34 @@ export namespace Prisma {
     AND?: TicketScalarWhereWithAggregatesInput | TicketScalarWhereWithAggregatesInput[]
     OR?: TicketScalarWhereWithAggregatesInput[]
     NOT?: TicketScalarWhereWithAggregatesInput | TicketScalarWhereWithAggregatesInput[]
-    id?: DecimalWithAggregatesFilter<'Ticket'> | Decimal | DecimalJsLike | number | string
-    dm?: StringNullableWithAggregatesFilter<'Ticket'> | string | null
-    starterDm?: StringNullableWithAggregatesFilter<'Ticket'> | string | null
-    user?: StringWithAggregatesFilter<'Ticket'> | string
-    channel?: StringWithAggregatesFilter<'Ticket'> | string
-    settingsId?: DecimalWithAggregatesFilter<'Ticket'> | Decimal | DecimalJsLike | number | string
-    state?: EnumTicketStateWithAggregatesFilter<'Ticket'> | $Enums.TicketState
+    id?: DecimalWithAggregatesFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    dm?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    starterDm?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
+    user?: StringWithAggregatesFilter<"Ticket"> | string
+    channel?: StringWithAggregatesFilter<"Ticket"> | string
+    settingsId?: DecimalWithAggregatesFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateWithAggregatesFilter<"Ticket"> | $Enums.TicketState
   }
 
   export type GuildSettingWhereInput = {
     AND?: GuildSettingWhereInput | GuildSettingWhereInput[]
     OR?: GuildSettingWhereInput[]
     NOT?: GuildSettingWhereInput | GuildSettingWhereInput[]
-    guildId?: StringFilter<'GuildSetting'> | string
-    prefix?: StringNullableFilter<'GuildSetting'> | string | null
-    interactionsMode?: BoolFilter<'GuildSetting'> | boolean
-    language?: StringFilter<'GuildSetting'> | string
-    errorChannel?: StringNullableFilter<'GuildSetting'> | string | null
-    rpEnabled?: BoolFilter<'GuildSetting'> | boolean
-    rpEnableRuns?: DecimalFilter<'GuildSetting'> | Decimal | DecimalJsLike | number | string
-    lastRpSyncRun?: DecimalNullableFilter<'GuildSetting'> | Decimal | DecimalJsLike | number | string | null
-    ptReminderEnabled?: BoolFilter<'GuildSetting'> | boolean
-    legacyRp?: BoolFilter<'GuildSetting'> | boolean
-    editRpCommands?: BoolFilter<'GuildSetting'> | boolean
-    enableInvitesAt?: DecimalNullableFilter<'GuildSetting'> | Decimal | DecimalJsLike | number | string | null
-    statusChannel?: StringNullableFilter<'GuildSetting'> | string | null
-    updatesChannel?: StringNullableFilter<'GuildSetting'> | string | null
-    notifyChannel?: StringNullableFilter<'GuildSetting'> | string | null
+    guildId?: StringFilter<"GuildSetting"> | string
+    prefix?: StringNullableFilter<"GuildSetting"> | string | null
+    interactionsMode?: BoolFilter<"GuildSetting"> | boolean
+    language?: StringFilter<"GuildSetting"> | string
+    errorChannel?: StringNullableFilter<"GuildSetting"> | string | null
+    rpEnabled?: BoolFilter<"GuildSetting"> | boolean
+    rpEnableRuns?: DecimalFilter<"GuildSetting"> | Decimal | DecimalJsLike | number | string
+    lastRpSyncRun?: DecimalNullableFilter<"GuildSetting"> | Decimal | DecimalJsLike | number | string | null
+    ptReminderEnabled?: BoolFilter<"GuildSetting"> | boolean
+    legacyRp?: BoolFilter<"GuildSetting"> | boolean
+    editRpCommands?: BoolFilter<"GuildSetting"> | boolean
+    enableInvitesAt?: DecimalNullableFilter<"GuildSetting"> | Decimal | DecimalJsLike | number | string | null
+    statusChannel?: StringNullableFilter<"GuildSetting"> | string | null
+    updatesChannel?: StringNullableFilter<"GuildSetting"> | string | null
+    notifyChannel?: StringNullableFilter<"GuildSetting"> | string | null
   }
 
   export type GuildSettingOrderByWithRelationInput = {
@@ -9431,21 +9637,21 @@ export namespace Prisma {
     AND?: GuildSettingWhereInput | GuildSettingWhereInput[]
     OR?: GuildSettingWhereInput[]
     NOT?: GuildSettingWhereInput | GuildSettingWhereInput[]
-    prefix?: StringNullableFilter<'GuildSetting'> | string | null
-    interactionsMode?: BoolFilter<'GuildSetting'> | boolean
-    language?: StringFilter<'GuildSetting'> | string
-    errorChannel?: StringNullableFilter<'GuildSetting'> | string | null
-    rpEnabled?: BoolFilter<'GuildSetting'> | boolean
-    rpEnableRuns?: DecimalFilter<'GuildSetting'> | Decimal | DecimalJsLike | number | string
-    lastRpSyncRun?: DecimalNullableFilter<'GuildSetting'> | Decimal | DecimalJsLike | number | string | null
-    ptReminderEnabled?: BoolFilter<'GuildSetting'> | boolean
-    legacyRp?: BoolFilter<'GuildSetting'> | boolean
-    editRpCommands?: BoolFilter<'GuildSetting'> | boolean
-    enableInvitesAt?: DecimalNullableFilter<'GuildSetting'> | Decimal | DecimalJsLike | number | string | null
-    statusChannel?: StringNullableFilter<'GuildSetting'> | string | null
-    updatesChannel?: StringNullableFilter<'GuildSetting'> | string | null
-    notifyChannel?: StringNullableFilter<'GuildSetting'> | string | null
-  }, 'guildId'>
+    prefix?: StringNullableFilter<"GuildSetting"> | string | null
+    interactionsMode?: BoolFilter<"GuildSetting"> | boolean
+    language?: StringFilter<"GuildSetting"> | string
+    errorChannel?: StringNullableFilter<"GuildSetting"> | string | null
+    rpEnabled?: BoolFilter<"GuildSetting"> | boolean
+    rpEnableRuns?: DecimalFilter<"GuildSetting"> | Decimal | DecimalJsLike | number | string
+    lastRpSyncRun?: DecimalNullableFilter<"GuildSetting"> | Decimal | DecimalJsLike | number | string | null
+    ptReminderEnabled?: BoolFilter<"GuildSetting"> | boolean
+    legacyRp?: BoolFilter<"GuildSetting"> | boolean
+    editRpCommands?: BoolFilter<"GuildSetting"> | boolean
+    enableInvitesAt?: DecimalNullableFilter<"GuildSetting"> | Decimal | DecimalJsLike | number | string | null
+    statusChannel?: StringNullableFilter<"GuildSetting"> | string | null
+    updatesChannel?: StringNullableFilter<"GuildSetting"> | string | null
+    notifyChannel?: StringNullableFilter<"GuildSetting"> | string | null
+  }, "guildId">
 
   export type GuildSettingOrderByWithAggregationInput = {
     guildId?: SortOrder
@@ -9474,83 +9680,69 @@ export namespace Prisma {
     AND?: GuildSettingScalarWhereWithAggregatesInput | GuildSettingScalarWhereWithAggregatesInput[]
     OR?: GuildSettingScalarWhereWithAggregatesInput[]
     NOT?: GuildSettingScalarWhereWithAggregatesInput | GuildSettingScalarWhereWithAggregatesInput[]
-    guildId?: StringWithAggregatesFilter<'GuildSetting'> | string
-    prefix?: StringNullableWithAggregatesFilter<'GuildSetting'> | string | null
-    interactionsMode?: BoolWithAggregatesFilter<'GuildSetting'> | boolean
-    language?: StringWithAggregatesFilter<'GuildSetting'> | string
-    errorChannel?: StringNullableWithAggregatesFilter<'GuildSetting'> | string | null
-    rpEnabled?: BoolWithAggregatesFilter<'GuildSetting'> | boolean
-    rpEnableRuns?: DecimalWithAggregatesFilter<'GuildSetting'> | Decimal | DecimalJsLike | number | string
-    lastRpSyncRun?: DecimalNullableWithAggregatesFilter<'GuildSetting'> | Decimal | DecimalJsLike | number | string | null
-    ptReminderEnabled?: BoolWithAggregatesFilter<'GuildSetting'> | boolean
-    legacyRp?: BoolWithAggregatesFilter<'GuildSetting'> | boolean
-    editRpCommands?: BoolWithAggregatesFilter<'GuildSetting'> | boolean
-    enableInvitesAt?: DecimalNullableWithAggregatesFilter<'GuildSetting'> | Decimal | DecimalJsLike | number | string | null
-    statusChannel?: StringNullableWithAggregatesFilter<'GuildSetting'> | string | null
-    updatesChannel?: StringNullableWithAggregatesFilter<'GuildSetting'> | string | null
-    notifyChannel?: StringNullableWithAggregatesFilter<'GuildSetting'> | string | null
+    guildId?: StringWithAggregatesFilter<"GuildSetting"> | string
+    prefix?: StringNullableWithAggregatesFilter<"GuildSetting"> | string | null
+    interactionsMode?: BoolWithAggregatesFilter<"GuildSetting"> | boolean
+    language?: StringWithAggregatesFilter<"GuildSetting"> | string
+    errorChannel?: StringNullableWithAggregatesFilter<"GuildSetting"> | string | null
+    rpEnabled?: BoolWithAggregatesFilter<"GuildSetting"> | boolean
+    rpEnableRuns?: DecimalWithAggregatesFilter<"GuildSetting"> | Decimal | DecimalJsLike | number | string
+    lastRpSyncRun?: DecimalNullableWithAggregatesFilter<"GuildSetting"> | Decimal | DecimalJsLike | number | string | null
+    ptReminderEnabled?: BoolWithAggregatesFilter<"GuildSetting"> | boolean
+    legacyRp?: BoolWithAggregatesFilter<"GuildSetting"> | boolean
+    editRpCommands?: BoolWithAggregatesFilter<"GuildSetting"> | boolean
+    enableInvitesAt?: DecimalNullableWithAggregatesFilter<"GuildSetting"> | Decimal | DecimalJsLike | number | string | null
+    statusChannel?: StringNullableWithAggregatesFilter<"GuildSetting"> | string | null
+    updatesChannel?: StringNullableWithAggregatesFilter<"GuildSetting"> | string | null
+    notifyChannel?: StringNullableWithAggregatesFilter<"GuildSetting"> | string | null
   }
 
-  export type CustomClientWhereInput = {
-    AND?: CustomClientWhereInput | CustomClientWhereInput[]
-    OR?: CustomClientWhereInput[]
-    NOT?: CustomClientWhereInput | CustomClientWhereInput[]
-    guildId?: StringFilter<'CustomClient'> | string
-    appId?: StringNullableFilter<'CustomClient'> | string | null
-    token?: StringNullableFilter<'CustomClient'> | string | null
-    publicKey?: StringNullableFilter<'CustomClient'> | string | null
-    secret?: StringNullableFilter<'CustomClient'> | string | null
+  export type FilteredWordWhereInput = {
+    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    OR?: FilteredWordWhereInput[]
+    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    keyword?: StringFilter<"FilteredWord"> | string
+    filterType?: EnumFilterTypeFilter<"FilteredWord"> | $Enums.FilterType
   }
 
-  export type CustomClientOrderByWithRelationInput = {
-    guildId?: SortOrder
-    appId?: SortOrderInput | SortOrder
-    token?: SortOrderInput | SortOrder
-    publicKey?: SortOrderInput | SortOrder
-    secret?: SortOrderInput | SortOrder
+  export type FilteredWordOrderByWithRelationInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
   }
 
-  export type CustomClientWhereUniqueInput = Prisma.AtLeast<{
-    guildId?: string
-    AND?: CustomClientWhereInput | CustomClientWhereInput[]
-    OR?: CustomClientWhereInput[]
-    NOT?: CustomClientWhereInput | CustomClientWhereInput[]
-    appId?: StringNullableFilter<'CustomClient'> | string | null
-    token?: StringNullableFilter<'CustomClient'> | string | null
-    publicKey?: StringNullableFilter<'CustomClient'> | string | null
-    secret?: StringNullableFilter<'CustomClient'> | string | null
-  }, 'guildId'>
+  export type FilteredWordWhereUniqueInput = Prisma.AtLeast<{
+    keyword_filterType?: FilteredWordKeywordFilterTypeCompoundUniqueInput
+    AND?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    OR?: FilteredWordWhereInput[]
+    NOT?: FilteredWordWhereInput | FilteredWordWhereInput[]
+    keyword?: StringFilter<"FilteredWord"> | string
+    filterType?: EnumFilterTypeFilter<"FilteredWord"> | $Enums.FilterType
+  }, "keyword_filterType">
 
-  export type CustomClientOrderByWithAggregationInput = {
-    guildId?: SortOrder
-    appId?: SortOrderInput | SortOrder
-    token?: SortOrderInput | SortOrder
-    publicKey?: SortOrderInput | SortOrder
-    secret?: SortOrderInput | SortOrder
-    _count?: CustomClientCountOrderByAggregateInput
-    _max?: CustomClientMaxOrderByAggregateInput
-    _min?: CustomClientMinOrderByAggregateInput
+  export type FilteredWordOrderByWithAggregationInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+    _count?: FilteredWordCountOrderByAggregateInput
+    _max?: FilteredWordMaxOrderByAggregateInput
+    _min?: FilteredWordMinOrderByAggregateInput
   }
 
-  export type CustomClientScalarWhereWithAggregatesInput = {
-    AND?: CustomClientScalarWhereWithAggregatesInput | CustomClientScalarWhereWithAggregatesInput[]
-    OR?: CustomClientScalarWhereWithAggregatesInput[]
-    NOT?: CustomClientScalarWhereWithAggregatesInput | CustomClientScalarWhereWithAggregatesInput[]
-    guildId?: StringWithAggregatesFilter<'CustomClient'> | string
-    appId?: StringNullableWithAggregatesFilter<'CustomClient'> | string | null
-    token?: StringNullableWithAggregatesFilter<'CustomClient'> | string | null
-    publicKey?: StringNullableWithAggregatesFilter<'CustomClient'> | string | null
-    secret?: StringNullableWithAggregatesFilter<'CustomClient'> | string | null
+  export type FilteredWordScalarWhereWithAggregatesInput = {
+    AND?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
+    OR?: FilteredWordScalarWhereWithAggregatesInput[]
+    NOT?: FilteredWordScalarWhereWithAggregatesInput | FilteredWordScalarWhereWithAggregatesInput[]
+    keyword?: StringWithAggregatesFilter<"FilteredWord"> | string
+    filterType?: EnumFilterTypeWithAggregatesFilter<"FilteredWord"> | $Enums.FilterType
   }
 
   export type AfkStateWhereInput = {
     AND?: AfkStateWhereInput | AfkStateWhereInput[]
     OR?: AfkStateWhereInput[]
     NOT?: AfkStateWhereInput | AfkStateWhereInput[]
-    userId?: StringFilter<'AfkState'> | string
-    reason?: StringNullableFilter<'AfkState'> | string | null
-    since?: DecimalFilter<'AfkState'> | Decimal | DecimalJsLike | number | string
-    guildId?: StringFilter<'AfkState'> | string
+    userId?: StringFilter<"AfkState"> | string
+    reason?: StringNullableFilter<"AfkState"> | string | null
+    since?: DecimalFilter<"AfkState"> | Decimal | DecimalJsLike | number | string
+    guildId?: StringFilter<"AfkState"> | string
   }
 
   export type AfkStateOrderByWithRelationInput = {
@@ -9565,11 +9757,11 @@ export namespace Prisma {
     AND?: AfkStateWhereInput | AfkStateWhereInput[]
     OR?: AfkStateWhereInput[]
     NOT?: AfkStateWhereInput | AfkStateWhereInput[]
-    userId?: StringFilter<'AfkState'> | string
-    reason?: StringNullableFilter<'AfkState'> | string | null
-    since?: DecimalFilter<'AfkState'> | Decimal | DecimalJsLike | number | string
-    guildId?: StringFilter<'AfkState'> | string
-  }, 'userId_guildId'>
+    userId?: StringFilter<"AfkState"> | string
+    reason?: StringNullableFilter<"AfkState"> | string | null
+    since?: DecimalFilter<"AfkState"> | Decimal | DecimalJsLike | number | string
+    guildId?: StringFilter<"AfkState"> | string
+  }, "userId_guildId">
 
   export type AfkStateOrderByWithAggregationInput = {
     userId?: SortOrder
@@ -9587,18 +9779,18 @@ export namespace Prisma {
     AND?: AfkStateScalarWhereWithAggregatesInput | AfkStateScalarWhereWithAggregatesInput[]
     OR?: AfkStateScalarWhereWithAggregatesInput[]
     NOT?: AfkStateScalarWhereWithAggregatesInput | AfkStateScalarWhereWithAggregatesInput[]
-    userId?: StringWithAggregatesFilter<'AfkState'> | string
-    reason?: StringNullableWithAggregatesFilter<'AfkState'> | string | null
-    since?: DecimalWithAggregatesFilter<'AfkState'> | Decimal | DecimalJsLike | number | string
-    guildId?: StringWithAggregatesFilter<'AfkState'> | string
+    userId?: StringWithAggregatesFilter<"AfkState"> | string
+    reason?: StringNullableWithAggregatesFilter<"AfkState"> | string | null
+    since?: DecimalWithAggregatesFilter<"AfkState"> | Decimal | DecimalJsLike | number | string
+    guildId?: StringWithAggregatesFilter<"AfkState"> | string
   }
 
   export type AfkSettingWhereInput = {
     AND?: AfkSettingWhereInput | AfkSettingWhereInput[]
     OR?: AfkSettingWhereInput[]
     NOT?: AfkSettingWhereInput | AfkSettingWhereInput[]
-    guildId?: StringFilter<'AfkSetting'> | string
-    maxLetters?: IntFilter<'AfkSetting'> | number
+    guildId?: StringFilter<"AfkSetting"> | string
+    maxLetters?: IntFilter<"AfkSetting"> | number
   }
 
   export type AfkSettingOrderByWithRelationInput = {
@@ -9611,8 +9803,8 @@ export namespace Prisma {
     AND?: AfkSettingWhereInput | AfkSettingWhereInput[]
     OR?: AfkSettingWhereInput[]
     NOT?: AfkSettingWhereInput | AfkSettingWhereInput[]
-    maxLetters?: IntFilter<'AfkSetting'> | number
-  }, 'guildId'>
+    maxLetters?: IntFilter<"AfkSetting"> | number
+  }, "guildId">
 
   export type AfkSettingOrderByWithAggregationInput = {
     guildId?: SortOrder
@@ -9628,43 +9820,60 @@ export namespace Prisma {
     AND?: AfkSettingScalarWhereWithAggregatesInput | AfkSettingScalarWhereWithAggregatesInput[]
     OR?: AfkSettingScalarWhereWithAggregatesInput[]
     NOT?: AfkSettingScalarWhereWithAggregatesInput | AfkSettingScalarWhereWithAggregatesInput[]
-    guildId?: StringWithAggregatesFilter<'AfkSetting'> | string
-    maxLetters?: IntWithAggregatesFilter<'AfkSetting'> | number
+    guildId?: StringWithAggregatesFilter<"AfkSetting"> | string
+    maxLetters?: IntWithAggregatesFilter<"AfkSetting"> | number
   }
 
-  export type FilteredWordCreateInput = {
-    keyword: string
-    filterType: $Enums.FilterType
+  export type CustomClientWhereInput = {
+    AND?: CustomClientWhereInput | CustomClientWhereInput[]
+    OR?: CustomClientWhereInput[]
+    NOT?: CustomClientWhereInput | CustomClientWhereInput[]
+    guildId?: StringFilter<"CustomClient"> | string
+    appId?: StringNullableFilter<"CustomClient"> | string | null
+    token?: StringNullableFilter<"CustomClient"> | string | null
+    publicKey?: StringNullableFilter<"CustomClient"> | string | null
+    secret?: StringNullableFilter<"CustomClient"> | string | null
   }
 
-  export type FilteredWordUncheckedCreateInput = {
-    keyword: string
-    filterType: $Enums.FilterType
+  export type CustomClientOrderByWithRelationInput = {
+    guildId?: SortOrder
+    appId?: SortOrderInput | SortOrder
+    token?: SortOrderInput | SortOrder
+    publicKey?: SortOrderInput | SortOrder
+    secret?: SortOrderInput | SortOrder
   }
 
-  export type FilteredWordUpdateInput = {
-    keyword?: StringFieldUpdateOperationsInput | string
-    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
+  export type CustomClientWhereUniqueInput = Prisma.AtLeast<{
+    guildId?: string
+    AND?: CustomClientWhereInput | CustomClientWhereInput[]
+    OR?: CustomClientWhereInput[]
+    NOT?: CustomClientWhereInput | CustomClientWhereInput[]
+    appId?: StringNullableFilter<"CustomClient"> | string | null
+    token?: StringNullableFilter<"CustomClient"> | string | null
+    publicKey?: StringNullableFilter<"CustomClient"> | string | null
+    secret?: StringNullableFilter<"CustomClient"> | string | null
+  }, "guildId">
+
+  export type CustomClientOrderByWithAggregationInput = {
+    guildId?: SortOrder
+    appId?: SortOrderInput | SortOrder
+    token?: SortOrderInput | SortOrder
+    publicKey?: SortOrderInput | SortOrder
+    secret?: SortOrderInput | SortOrder
+    _count?: CustomClientCountOrderByAggregateInput
+    _max?: CustomClientMaxOrderByAggregateInput
+    _min?: CustomClientMinOrderByAggregateInput
   }
 
-  export type FilteredWordUncheckedUpdateInput = {
-    keyword?: StringFieldUpdateOperationsInput | string
-    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
-  }
-
-  export type FilteredWordCreateManyInput = {
-    keyword: string
-    filterType: $Enums.FilterType
-  }
-
-  export type FilteredWordUpdateManyMutationInput = {
-    keyword?: StringFieldUpdateOperationsInput | string
-    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
-  }
-
-  export type FilteredWordUncheckedUpdateManyInput = {
-    keyword?: StringFieldUpdateOperationsInput | string
-    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
+  export type CustomClientScalarWhereWithAggregatesInput = {
+    AND?: CustomClientScalarWhereWithAggregatesInput | CustomClientScalarWhereWithAggregatesInput[]
+    OR?: CustomClientScalarWhereWithAggregatesInput[]
+    NOT?: CustomClientScalarWhereWithAggregatesInput | CustomClientScalarWhereWithAggregatesInput[]
+    guildId?: StringWithAggregatesFilter<"CustomClient"> | string
+    appId?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
+    token?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
+    publicKey?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
+    secret?: StringNullableWithAggregatesFilter<"CustomClient"> | string | null
   }
 
   export type TicketSettingCreateInput = {
@@ -9673,7 +9882,11 @@ export namespace Prisma {
     active?: boolean
     logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
-    appliedTags?: TicketSettingCreateappliedTagsInput | string[]
+    createTags?: TicketSettingCreatecreateTagsInput | string[]
+    claimTags?: TicketSettingCreateclaimTagsInput | string[]
+    closeTags?: TicketSettingCreatecloseTagsInput | string[]
+    tagClaimer?: boolean
+    transcriptChannels?: TicketSettingCreatetranscriptChannelsInput | string[]
     archiveCategory?: string | null
     archiveDuration?: Decimal | DecimalJsLike | number | string
     type?: $Enums.TicketType
@@ -9681,6 +9894,8 @@ export namespace Prisma {
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
     allowCreatorClose?: boolean
+    staffThreads?: boolean
+    staffThreadsChannel?: string | null
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     staffRoles?: TicketSettingCreatestaffRolesInput | string[]
@@ -9696,7 +9911,11 @@ export namespace Prisma {
     active?: boolean
     logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
-    appliedTags?: TicketSettingCreateappliedTagsInput | string[]
+    createTags?: TicketSettingCreatecreateTagsInput | string[]
+    claimTags?: TicketSettingCreateclaimTagsInput | string[]
+    closeTags?: TicketSettingCreatecloseTagsInput | string[]
+    tagClaimer?: boolean
+    transcriptChannels?: TicketSettingCreatetranscriptChannelsInput | string[]
     archiveCategory?: string | null
     archiveDuration?: Decimal | DecimalJsLike | number | string
     type?: $Enums.TicketType
@@ -9704,6 +9923,8 @@ export namespace Prisma {
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
     allowCreatorClose?: boolean
+    staffThreads?: boolean
+    staffThreadsChannel?: string | null
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     staffRoles?: TicketSettingCreatestaffRolesInput | string[]
@@ -9719,7 +9940,11 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
-    appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
+    createTags?: TicketSettingUpdatecreateTagsInput | string[]
+    claimTags?: TicketSettingUpdateclaimTagsInput | string[]
+    closeTags?: TicketSettingUpdatecloseTagsInput | string[]
+    tagClaimer?: BoolFieldUpdateOperationsInput | boolean
+    transcriptChannels?: TicketSettingUpdatetranscriptChannelsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
     archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
@@ -9727,6 +9952,8 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
     allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
+    staffThreads?: BoolFieldUpdateOperationsInput | boolean
+    staffThreadsChannel?: NullableStringFieldUpdateOperationsInput | string | null
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     staffRoles?: TicketSettingUpdatestaffRolesInput | string[]
@@ -9742,7 +9969,11 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
-    appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
+    createTags?: TicketSettingUpdatecreateTagsInput | string[]
+    claimTags?: TicketSettingUpdateclaimTagsInput | string[]
+    closeTags?: TicketSettingUpdatecloseTagsInput | string[]
+    tagClaimer?: BoolFieldUpdateOperationsInput | boolean
+    transcriptChannels?: TicketSettingUpdatetranscriptChannelsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
     archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
@@ -9750,6 +9981,8 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
     allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
+    staffThreads?: BoolFieldUpdateOperationsInput | boolean
+    staffThreadsChannel?: NullableStringFieldUpdateOperationsInput | string | null
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     staffRoles?: TicketSettingUpdatestaffRolesInput | string[]
@@ -9765,7 +9998,11 @@ export namespace Prisma {
     active?: boolean
     logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
-    appliedTags?: TicketSettingCreateappliedTagsInput | string[]
+    createTags?: TicketSettingCreatecreateTagsInput | string[]
+    claimTags?: TicketSettingCreateclaimTagsInput | string[]
+    closeTags?: TicketSettingCreatecloseTagsInput | string[]
+    tagClaimer?: boolean
+    transcriptChannels?: TicketSettingCreatetranscriptChannelsInput | string[]
     archiveCategory?: string | null
     archiveDuration?: Decimal | DecimalJsLike | number | string
     type?: $Enums.TicketType
@@ -9773,6 +10010,8 @@ export namespace Prisma {
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
     allowCreatorClose?: boolean
+    staffThreads?: boolean
+    staffThreadsChannel?: string | null
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     staffRoles?: TicketSettingCreatestaffRolesInput | string[]
@@ -9787,7 +10026,11 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
-    appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
+    createTags?: TicketSettingUpdatecreateTagsInput | string[]
+    claimTags?: TicketSettingUpdateclaimTagsInput | string[]
+    closeTags?: TicketSettingUpdatecloseTagsInput | string[]
+    tagClaimer?: BoolFieldUpdateOperationsInput | boolean
+    transcriptChannels?: TicketSettingUpdatetranscriptChannelsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
     archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
@@ -9795,6 +10038,8 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
     allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
+    staffThreads?: BoolFieldUpdateOperationsInput | boolean
+    staffThreadsChannel?: NullableStringFieldUpdateOperationsInput | string | null
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     staffRoles?: TicketSettingUpdatestaffRolesInput | string[]
@@ -9809,7 +10054,11 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
-    appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
+    createTags?: TicketSettingUpdatecreateTagsInput | string[]
+    claimTags?: TicketSettingUpdateclaimTagsInput | string[]
+    closeTags?: TicketSettingUpdatecloseTagsInput | string[]
+    tagClaimer?: BoolFieldUpdateOperationsInput | boolean
+    transcriptChannels?: TicketSettingUpdatetranscriptChannelsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
     archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
@@ -9817,6 +10066,8 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
     allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
+    staffThreads?: BoolFieldUpdateOperationsInput | boolean
+    staffThreadsChannel?: NullableStringFieldUpdateOperationsInput | string | null
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     staffRoles?: TicketSettingUpdatestaffRolesInput | string[]
@@ -10020,60 +10271,39 @@ export namespace Prisma {
     notifyChannel?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type CustomClientCreateInput = {
-    guildId: string
-    appId?: string | null
-    token?: string | null
-    publicKey?: string | null
-    secret?: string | null
+  export type FilteredWordCreateInput = {
+    keyword: string
+    filterType: $Enums.FilterType
   }
 
-  export type CustomClientUncheckedCreateInput = {
-    guildId: string
-    appId?: string | null
-    token?: string | null
-    publicKey?: string | null
-    secret?: string | null
+  export type FilteredWordUncheckedCreateInput = {
+    keyword: string
+    filterType: $Enums.FilterType
   }
 
-  export type CustomClientUpdateInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    appId?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
-    secret?: NullableStringFieldUpdateOperationsInput | string | null
+  export type FilteredWordUpdateInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
   }
 
-  export type CustomClientUncheckedUpdateInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    appId?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
-    secret?: NullableStringFieldUpdateOperationsInput | string | null
+  export type FilteredWordUncheckedUpdateInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
   }
 
-  export type CustomClientCreateManyInput = {
-    guildId: string
-    appId?: string | null
-    token?: string | null
-    publicKey?: string | null
-    secret?: string | null
+  export type FilteredWordCreateManyInput = {
+    keyword: string
+    filterType: $Enums.FilterType
   }
 
-  export type CustomClientUpdateManyMutationInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    appId?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
-    secret?: NullableStringFieldUpdateOperationsInput | string | null
+  export type FilteredWordUpdateManyMutationInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
   }
 
-  export type CustomClientUncheckedUpdateManyInput = {
-    guildId?: StringFieldUpdateOperationsInput | string
-    appId?: NullableStringFieldUpdateOperationsInput | string | null
-    token?: NullableStringFieldUpdateOperationsInput | string | null
-    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
-    secret?: NullableStringFieldUpdateOperationsInput | string | null
+  export type FilteredWordUncheckedUpdateManyInput = {
+    keyword?: StringFieldUpdateOperationsInput | string
+    filterType?: EnumFilterTypeFieldUpdateOperationsInput | $Enums.FilterType
   }
 
   export type AfkStateCreateInput = {
@@ -10160,6 +10390,73 @@ export namespace Prisma {
     maxLetters?: IntFieldUpdateOperationsInput | number
   }
 
+  export type CustomClientCreateInput = {
+    guildId: string
+    appId?: string | null
+    token?: string | null
+    publicKey?: string | null
+    secret?: string | null
+  }
+
+  export type CustomClientUncheckedCreateInput = {
+    guildId: string
+    appId?: string | null
+    token?: string | null
+    publicKey?: string | null
+    secret?: string | null
+  }
+
+  export type CustomClientUpdateInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
+    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
+    secret?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CustomClientUncheckedUpdateInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
+    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
+    secret?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CustomClientCreateManyInput = {
+    guildId: string
+    appId?: string | null
+    token?: string | null
+    publicKey?: string | null
+    secret?: string | null
+  }
+
+  export type CustomClientUpdateManyMutationInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
+    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
+    secret?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CustomClientUncheckedUpdateManyInput = {
+    guildId?: StringFieldUpdateOperationsInput | string
+    appId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
+    publicKey?: NullableStringFieldUpdateOperationsInput | string | null
+    secret?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -10173,72 +10470,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
-  }
-
-  export type EnumFilterTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFilterTypeFilter<$PrismaModel> | $Enums.FilterType
-  }
-
-  export type FilteredWordKeywordFilterTypeCompoundUniqueInput = {
-    keyword: string
-    filterType: $Enums.FilterType
-  }
-
-  export type FilteredWordCountOrderByAggregateInput = {
-    keyword?: SortOrder
-    filterType?: SortOrder
-  }
-
-  export type FilteredWordMaxOrderByAggregateInput = {
-    keyword?: SortOrder
-    filterType?: SortOrder
-  }
-
-  export type FilteredWordMinOrderByAggregateInput = {
-    keyword?: SortOrder
-    filterType?: SortOrder
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type EnumFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.FilterType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumFilterTypeFilter<$PrismaModel>
-    _max?: NestedEnumFilterTypeFilter<$PrismaModel>
-  }
-
-  export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -10304,7 +10535,11 @@ export namespace Prisma {
     active?: SortOrder
     logMode?: SortOrder
     logChannels?: SortOrder
-    appliedTags?: SortOrder
+    createTags?: SortOrder
+    claimTags?: SortOrder
+    closeTags?: SortOrder
+    tagClaimer?: SortOrder
+    transcriptChannels?: SortOrder
     archiveCategory?: SortOrder
     archiveDuration?: SortOrder
     type?: SortOrder
@@ -10312,6 +10547,8 @@ export namespace Prisma {
     category?: SortOrder
     sendMessagePrefixes?: SortOrder
     allowCreatorClose?: SortOrder
+    staffThreads?: SortOrder
+    staffThreadsChannel?: SortOrder
     mentionRoles?: SortOrder
     mentionUsers?: SortOrder
     staffRoles?: SortOrder
@@ -10330,12 +10567,15 @@ export namespace Prisma {
     guild?: SortOrder
     active?: SortOrder
     logMode?: SortOrder
+    tagClaimer?: SortOrder
     archiveCategory?: SortOrder
     archiveDuration?: SortOrder
     type?: SortOrder
     channel?: SortOrder
     category?: SortOrder
     allowCreatorClose?: SortOrder
+    staffThreads?: SortOrder
+    staffThreadsChannel?: SortOrder
   }
 
   export type TicketSettingMinOrderByAggregateInput = {
@@ -10343,12 +10583,15 @@ export namespace Prisma {
     guild?: SortOrder
     active?: SortOrder
     logMode?: SortOrder
+    tagClaimer?: SortOrder
     archiveCategory?: SortOrder
     archiveDuration?: SortOrder
     type?: SortOrder
     channel?: SortOrder
     category?: SortOrder
     allowCreatorClose?: SortOrder
+    staffThreads?: SortOrder
+    staffThreadsChannel?: SortOrder
   }
 
   export type TicketSettingSumOrderByAggregateInput = {
@@ -10370,6 +10613,24 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -10573,28 +10834,41 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
-  export type CustomClientCountOrderByAggregateInput = {
-    guildId?: SortOrder
-    appId?: SortOrder
-    token?: SortOrder
-    publicKey?: SortOrder
-    secret?: SortOrder
+  export type EnumFilterTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeFilter<$PrismaModel> | $Enums.FilterType
   }
 
-  export type CustomClientMaxOrderByAggregateInput = {
-    guildId?: SortOrder
-    appId?: SortOrder
-    token?: SortOrder
-    publicKey?: SortOrder
-    secret?: SortOrder
+  export type FilteredWordKeywordFilterTypeCompoundUniqueInput = {
+    keyword: string
+    filterType: $Enums.FilterType
   }
 
-  export type CustomClientMinOrderByAggregateInput = {
-    guildId?: SortOrder
-    appId?: SortOrder
-    token?: SortOrder
-    publicKey?: SortOrder
-    secret?: SortOrder
+  export type FilteredWordCountOrderByAggregateInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+  }
+
+  export type FilteredWordMaxOrderByAggregateInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+  }
+
+  export type FilteredWordMinOrderByAggregateInput = {
+    keyword?: SortOrder
+    filterType?: SortOrder
+  }
+
+  export type EnumFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.FilterType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFilterTypeFilter<$PrismaModel>
+    _max?: NestedEnumFilterTypeFilter<$PrismaModel>
   }
 
   export type AfkStateUserIdGuildIdCompoundUniqueInput = {
@@ -10681,19 +10955,47 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
+  export type CustomClientCountOrderByAggregateInput = {
+    guildId?: SortOrder
+    appId?: SortOrder
+    token?: SortOrder
+    publicKey?: SortOrder
+    secret?: SortOrder
   }
 
-  export type EnumFilterTypeFieldUpdateOperationsInput = {
-    set?: $Enums.FilterType
+  export type CustomClientMaxOrderByAggregateInput = {
+    guildId?: SortOrder
+    appId?: SortOrder
+    token?: SortOrder
+    publicKey?: SortOrder
+    secret?: SortOrder
+  }
+
+  export type CustomClientMinOrderByAggregateInput = {
+    guildId?: SortOrder
+    appId?: SortOrder
+    token?: SortOrder
+    publicKey?: SortOrder
+    secret?: SortOrder
   }
 
   export type TicketSettingCreatelogChannelsInput = {
     set: string[]
   }
 
-  export type TicketSettingCreateappliedTagsInput = {
+  export type TicketSettingCreatecreateTagsInput = {
+    set: string[]
+  }
+
+  export type TicketSettingCreateclaimTagsInput = {
+    set: string[]
+  }
+
+  export type TicketSettingCreatecloseTagsInput = {
+    set: string[]
+  }
+
+  export type TicketSettingCreatetranscriptChannelsInput = {
     set: string[]
   }
 
@@ -10747,6 +11049,10 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -10760,7 +11066,22 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type TicketSettingUpdateappliedTagsInput = {
+  export type TicketSettingUpdatecreateTagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TicketSettingUpdateclaimTagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TicketSettingUpdatecloseTagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type TicketSettingUpdatetranscriptChannelsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -10862,12 +11183,27 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type EnumFilterTypeFieldUpdateOperationsInput = {
+    set?: $Enums.FilterType
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -10882,62 +11218,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
-  }
-
-  export type NestedEnumFilterTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFilterTypeFilter<$PrismaModel> | $Enums.FilterType
-  }
-
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.FilterType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumFilterTypeFilter<$PrismaModel>
-    _max?: NestedEnumFilterTypeFilter<$PrismaModel>
-  }
-
-  export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -10987,6 +11267,34 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -11089,6 +11397,23 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumFilterTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeFilter<$PrismaModel> | $Enums.FilterType
+  }
+
+  export type NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.FilterType | EnumFilterTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.FilterType[] | ListEnumFilterTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumFilterTypeWithAggregatesFilter<$PrismaModel> | $Enums.FilterType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumFilterTypeFilter<$PrismaModel>
+    _max?: NestedEnumFilterTypeFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -11164,13 +11489,13 @@ export namespace Prisma {
     AND?: TicketScalarWhereInput | TicketScalarWhereInput[]
     OR?: TicketScalarWhereInput[]
     NOT?: TicketScalarWhereInput | TicketScalarWhereInput[]
-    id?: DecimalFilter<'Ticket'> | Decimal | DecimalJsLike | number | string
-    dm?: StringNullableFilter<'Ticket'> | string | null
-    starterDm?: StringNullableFilter<'Ticket'> | string | null
-    user?: StringFilter<'Ticket'> | string
-    channel?: StringFilter<'Ticket'> | string
-    settingsId?: DecimalFilter<'Ticket'> | Decimal | DecimalJsLike | number | string
-    state?: EnumTicketStateFilter<'Ticket'> | $Enums.TicketState
+    id?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    dm?: StringNullableFilter<"Ticket"> | string | null
+    starterDm?: StringNullableFilter<"Ticket"> | string | null
+    user?: StringFilter<"Ticket"> | string
+    channel?: StringFilter<"Ticket"> | string
+    settingsId?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
+    state?: EnumTicketStateFilter<"Ticket"> | $Enums.TicketState
   }
 
   export type TicketSettingCreateWithoutTicketInput = {
@@ -11179,7 +11504,11 @@ export namespace Prisma {
     active?: boolean
     logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
-    appliedTags?: TicketSettingCreateappliedTagsInput | string[]
+    createTags?: TicketSettingCreatecreateTagsInput | string[]
+    claimTags?: TicketSettingCreateclaimTagsInput | string[]
+    closeTags?: TicketSettingCreatecloseTagsInput | string[]
+    tagClaimer?: boolean
+    transcriptChannels?: TicketSettingCreatetranscriptChannelsInput | string[]
     archiveCategory?: string | null
     archiveDuration?: Decimal | DecimalJsLike | number | string
     type?: $Enums.TicketType
@@ -11187,6 +11516,8 @@ export namespace Prisma {
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
     allowCreatorClose?: boolean
+    staffThreads?: boolean
+    staffThreadsChannel?: string | null
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     staffRoles?: TicketSettingCreatestaffRolesInput | string[]
@@ -11201,7 +11532,11 @@ export namespace Prisma {
     active?: boolean
     logMode?: $Enums.TicketLogMode
     logChannels?: TicketSettingCreatelogChannelsInput | string[]
-    appliedTags?: TicketSettingCreateappliedTagsInput | string[]
+    createTags?: TicketSettingCreatecreateTagsInput | string[]
+    claimTags?: TicketSettingCreateclaimTagsInput | string[]
+    closeTags?: TicketSettingCreatecloseTagsInput | string[]
+    tagClaimer?: boolean
+    transcriptChannels?: TicketSettingCreatetranscriptChannelsInput | string[]
     archiveCategory?: string | null
     archiveDuration?: Decimal | DecimalJsLike | number | string
     type?: $Enums.TicketType
@@ -11209,6 +11544,8 @@ export namespace Prisma {
     category?: string | null
     sendMessagePrefixes?: TicketSettingCreatesendMessagePrefixesInput | string[]
     allowCreatorClose?: boolean
+    staffThreads?: boolean
+    staffThreadsChannel?: string | null
     mentionRoles?: TicketSettingCreatementionRolesInput | string[]
     mentionUsers?: TicketSettingCreatementionUsersInput | string[]
     staffRoles?: TicketSettingCreatestaffRolesInput | string[]
@@ -11239,7 +11576,11 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
-    appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
+    createTags?: TicketSettingUpdatecreateTagsInput | string[]
+    claimTags?: TicketSettingUpdateclaimTagsInput | string[]
+    closeTags?: TicketSettingUpdatecloseTagsInput | string[]
+    tagClaimer?: BoolFieldUpdateOperationsInput | boolean
+    transcriptChannels?: TicketSettingUpdatetranscriptChannelsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
     archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
@@ -11247,6 +11588,8 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
     allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
+    staffThreads?: BoolFieldUpdateOperationsInput | boolean
+    staffThreadsChannel?: NullableStringFieldUpdateOperationsInput | string | null
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     staffRoles?: TicketSettingUpdatestaffRolesInput | string[]
@@ -11261,7 +11604,11 @@ export namespace Prisma {
     active?: BoolFieldUpdateOperationsInput | boolean
     logMode?: EnumTicketLogModeFieldUpdateOperationsInput | $Enums.TicketLogMode
     logChannels?: TicketSettingUpdatelogChannelsInput | string[]
-    appliedTags?: TicketSettingUpdateappliedTagsInput | string[]
+    createTags?: TicketSettingUpdatecreateTagsInput | string[]
+    claimTags?: TicketSettingUpdateclaimTagsInput | string[]
+    closeTags?: TicketSettingUpdatecloseTagsInput | string[]
+    tagClaimer?: BoolFieldUpdateOperationsInput | boolean
+    transcriptChannels?: TicketSettingUpdatetranscriptChannelsInput | string[]
     archiveCategory?: NullableStringFieldUpdateOperationsInput | string | null
     archiveDuration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     type?: EnumTicketTypeFieldUpdateOperationsInput | $Enums.TicketType
@@ -11269,6 +11616,8 @@ export namespace Prisma {
     category?: NullableStringFieldUpdateOperationsInput | string | null
     sendMessagePrefixes?: TicketSettingUpdatesendMessagePrefixesInput | string[]
     allowCreatorClose?: BoolFieldUpdateOperationsInput | boolean
+    staffThreads?: BoolFieldUpdateOperationsInput | boolean
+    staffThreadsChannel?: NullableStringFieldUpdateOperationsInput | string | null
     mentionRoles?: TicketSettingUpdatementionRolesInput | string[]
     mentionUsers?: TicketSettingUpdatementionUsersInput | string[]
     staffRoles?: TicketSettingUpdatestaffRolesInput | string[]
@@ -11313,6 +11662,8 @@ export namespace Prisma {
     state?: EnumTicketStateFieldUpdateOperationsInput | $Enums.TicketState
   }
 
+
+
   /**
    * Batch Payload for updateMany & deleteMany & createMany
    */
@@ -11324,5 +11675,5 @@ export namespace Prisma {
   /**
    * DMMF
    */
-  export const dmmf: runtime.BaseDMMF;
+  export const dmmf: runtime.BaseDMMF
 }
