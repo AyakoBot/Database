@@ -145,7 +145,27 @@ exports.Prisma.TicketSettingScalarFieldEnum = {
   staffRoles: 'staffRoles',
   staffUsers: 'staffUsers',
   denyUsers: 'denyUsers',
-  denyRoles: 'denyRoles'
+  denyRoles: 'denyRoles',
+  dmEnabled: 'dmEnabled',
+  panelChannel: 'panelChannel',
+  panelMessage: 'panelMessage',
+  panelEmbed: 'panelEmbed',
+  panelButtonLabel: 'panelButtonLabel',
+  remindUnclaimedAfter: 'remindUnclaimedAfter',
+  remindUnclaimedEvery: 'remindUnclaimedEvery',
+  remindStaleAfter: 'remindStaleAfter',
+  remindStaleEvery: 'remindStaleEvery',
+  inactivityWarnAfter: 'inactivityWarnAfter',
+  inactivityCloseAfter: 'inactivityCloseAfter',
+  remindRoles: 'remindRoles',
+  remindUsers: 'remindUsers',
+  botToken: 'botToken',
+  placementMode: 'placementMode',
+  forumChannel: 'forumChannel',
+  allowTakeClaim: 'allowTakeClaim',
+  staffTierRoles: 'staffTierRoles',
+  ticketLimitTotal: 'ticketLimitTotal',
+  ticketLimitKind: 'ticketLimitKind'
 };
 
 exports.Prisma.TicketScalarFieldEnum = {
@@ -155,7 +175,49 @@ exports.Prisma.TicketScalarFieldEnum = {
   user: 'user',
   channel: 'channel',
   settingsId: 'settingsId',
-  state: 'state'
+  state: 'state',
+  surfaceMessage: 'surfaceMessage',
+  claimer: 'claimer',
+  claimedAt: 'claimedAt',
+  priority: 'priority',
+  lastMessageAt: 'lastMessageAt',
+  remindAt: 'remindAt',
+  tierId: 'tierId'
+};
+
+exports.Prisma.TicketPanelScalarFieldEnum = {
+  id: 'id',
+  guild: 'guild',
+  channel: 'channel',
+  message: 'message',
+  embed: 'embed',
+  kinds: 'kinds'
+};
+
+exports.Prisma.SnippetsScalarFieldEnum = {
+  id: 'id',
+  guild: 'guild',
+  name: 'name',
+  userText: 'userText',
+  staffText: 'staffText',
+  kinds: 'kinds'
+};
+
+exports.Prisma.TicketRoleMapScalarFieldEnum = {
+  guild: 'guild',
+  roleMapRoles: 'roleMapRoles',
+  roleMapLabels: 'roleMapLabels'
+};
+
+exports.Prisma.TicketTierScalarFieldEnum = {
+  id: 'id',
+  settingsId: 'settingsId',
+  name: 'name',
+  rank: 'rank',
+  claimRoles: 'claimRoles',
+  category: 'category',
+  channel: 'channel',
+  reminderSeconds: 'reminderSeconds'
 };
 
 exports.Prisma.GuildSettingScalarFieldEnum = {
@@ -181,6 +243,14 @@ exports.Prisma.FilteredWordScalarFieldEnum = {
   filterType: 'filterType'
 };
 
+exports.Prisma.CustomClientScalarFieldEnum = {
+  guildId: 'guildId',
+  appId: 'appId',
+  token: 'token',
+  publicKey: 'publicKey',
+  secret: 'secret'
+};
+
 exports.Prisma.AfkStateScalarFieldEnum = {
   userId: 'userId',
   reason: 'reason',
@@ -193,22 +263,25 @@ exports.Prisma.AfkSettingScalarFieldEnum = {
   maxLetters: 'maxLetters'
 };
 
-exports.Prisma.CustomClientScalarFieldEnum = {
-  guildId: 'guildId',
-  appId: 'appId',
-  token: 'token',
-  publicKey: 'publicKey',
-  secret: 'secret'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 
 exports.Prisma.NullsOrder = {
@@ -227,12 +300,25 @@ exports.TicketType = exports.$Enums.TicketType = {
   Channel: 'Channel'
 };
 
+exports.TicketPlacementMode = exports.$Enums.TicketPlacementMode = {
+  SeparateSpaces: 'SeparateSpaces',
+  UnifiedForum: 'UnifiedForum'
+};
+
 exports.TicketState = exports.$Enums.TicketState = {
   opened: 'opened',
   closed: 'closed',
   claimed: 'claimed',
   prepared: 'prepared',
   deleted: 'deleted'
+};
+
+exports.TicketPriority = exports.$Enums.TicketPriority = {
+  None: 'None',
+  Low: 'Low',
+  Medium: 'Medium',
+  High: 'High',
+  Urgent: 'Urgent'
 };
 
 exports.FilterType = exports.$Enums.FilterType = {
@@ -244,11 +330,15 @@ exports.FilterType = exports.$Enums.FilterType = {
 exports.Prisma.ModelName = {
   TicketSetting: 'TicketSetting',
   Ticket: 'Ticket',
+  TicketPanel: 'TicketPanel',
+  Snippets: 'Snippets',
+  TicketRoleMap: 'TicketRoleMap',
+  TicketTier: 'TicketTier',
   GuildSetting: 'GuildSetting',
   FilteredWord: 'FilteredWord',
+  CustomClient: 'CustomClient',
   AfkState: 'AfkState',
-  AfkSetting: 'AfkSetting',
-  CustomClient: 'CustomClient'
+  AfkSetting: 'AfkSetting'
 };
 
 /**
