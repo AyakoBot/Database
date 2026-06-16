@@ -8,9 +8,20 @@ const dynContent = (await Promise.all(paths.map((path) => fs.readFile(path, 'utf
  .map((content) => content.split('//#endregion')[1].trim())
  .join('\n\n');
 
-const [baseContent] = (await fs.readFile('./prisma/schema.prisma', 'utf-8')).split(
- '//#region Models',
-);
+const baseContent = `generator client {
+  provider = "prisma-client-js"
+  output   = "../src"
+
+  engineType             = "binaries"
+  runtime                = "nodejs"
+  moduleFormat           = "esm"
+  generatedFileExtension = "ts"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}`;
 
 const finishedContent = `${baseContent.trim()}
 
